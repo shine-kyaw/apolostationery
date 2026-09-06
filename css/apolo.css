@@ -1,0 +1,569 @@
+/* ==========================================================================
+   APOLO — "The page that fills itself"
+   Hero film + category handoff.
+
+   Colour discipline for the whole piece: paper, graphite, white and the
+   products' own colours carry fifty seconds of film. APOLO magenta appears in
+   exactly three places — the Burmese eyebrow, the word "make", and the brand
+   resolve at the end. That restraint is what makes the last frame land.
+   ========================================================================== */
+
+:root{
+  /* --- Apolo identity, sampled from the live site --- */
+  --magenta:#EC008C;          /* primary, 349 computed-style hits on apolostationey.com */
+  --magenta-deep:#B00069;
+  --yellow:#FFC72C;           /* sale-flash accent */
+
+  /* --- the paper the film is shot on --- */
+  --desk:#EDE6D9;             /* the surface the sheet lies on */
+  --paper:#F3EEE4;            /* the sheet, seen close */
+  --page:#FCFAF5;             /* the notebook page: the brightest thing on screen */
+  --ink:#16151A;
+  --ink-soft:#6C665F;
+  --graphite:#3B3A42;         /* what a 2B pencil actually looks like on paper */
+  --print:#A9A49C;            /* the same line once it has become printed rule */
+  --rule:#B7C4DC;             /* exercise-book ruling blue */
+  --rule-margin:#E08196;      /* exercise-book margin red */
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--desk); color:var(--ink);
+  font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.55;
+  overflow-x:hidden;
+}
+:lang(my),.my{font-family:Padauk,Poppins,sans-serif}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--magenta);outline-offset:3px;border-radius:3px}
+
+.skip{
+  position:fixed; left:1rem; top:-4rem; z-index:99;
+  background:var(--ink); color:#fff; text-decoration:none;
+  padding:.7rem 1.1rem; border-radius:6px; font-size:.8rem;
+  transition:top .2s var(--ease-out);
+}
+.skip:focus{top:1rem}
+
+/* ==========================================================================
+   1 · THE FILM
+   .film is the scroll track. .stage is sticky and holds every layer.
+   Both are measured in svh so the timeline does not lurch when a mobile
+   browser slides its chrome away; the track shares the stage's background so
+   the few pixels that can peek below a sticky svh stage are invisible.
+   ========================================================================== */
+
+.film{position:relative;height:560svh;background:var(--desk)}
+
+.stage{
+  position:sticky; top:0; height:100svh;
+  overflow:hidden; background:var(--desk);
+  /* The camera. Every world layer below shares these two values. */
+  --cam:1; --cam-y:0vmin;
+  contain:paint;
+}
+
+/* Everything the camera sees. In the film it simply fills the stage; with
+   motion reduced it becomes a fixed-ratio plate with the copy below it. */
+.world{position:absolute;inset:0;overflow:hidden}
+
+/* ---- 1.1 the desk sheet ----------------------------------------------------
+   Starts larger than the frame — the opening shot is *inside* a sheet of
+   paper — and becomes an object lying on a desk as the camera pulls back. */
+.paper{
+  position:absolute; left:50%; top:50%;
+  width:128%; height:128%;
+  background:var(--paper);
+  border-radius:var(--paper-r,0px);
+  box-shadow:var(--paper-shadow,none);
+  transform:translate3d(-50%,calc(-50% + var(--cam-y)),0) scale(var(--cam));
+  will-change:transform;
+}
+/* Paper fibre is NOT on the sheet — see .grain below. Putting it here means
+   the sheet is grained and the product tiles lying on it are not, and every
+   catalogue tile reads as a faint pale rectangle. */
+
+/* ---- 1.2 the notebook page -------------------------------------------------
+   A real element rather than an SVG rectangle, so the notebook can have
+   thickness: two offset leaves behind it, a shadow that grows as it settles,
+   and its own grain a shade brighter than the desk sheet. Its box is written
+   in pixels by hero.js from the BOOK keyshape, so it lands exactly under the
+   drawn outline. */
+.sheet{
+  position:absolute; opacity:var(--page-o,0);
+  transform:translate3d(0,var(--cam-y),0) scale(var(--cam));
+  transform-origin:50% 50%; will-change:transform,opacity; pointer-events:none;
+}
+.sheet::after{
+  content:""; position:absolute; inset:0; border-radius:2px 3px 3px 2px;
+  /* the page is paper, not a white box: its own fibre, under its own light */
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 width=%27180%27 height=%27180%27><filter id=%27n%27><feTurbulence type=%27fractalNoise%27 baseFrequency=%27.9%27 numOctaves=%272%27/><feColorMatrix type=%27saturate%27 values=%270%27/></filter><rect width=%27180%27 height=%27180%27 filter=%27url(%23n)%27 opacity=%27.22%27/></svg>"),
+    linear-gradient(158deg,#FFFDF9 0%,var(--page) 46%,#F6F1E7 100%);
+  transform:scale(var(--page-s,1));
+  box-shadow:
+    0 calc(var(--page-lift,0) * .9vmin) calc(var(--page-lift,0) * 3.2vmin) rgba(72,52,38,calc(var(--page-lift,0) * .20)),
+    0 calc(var(--page-lift,0) * .12vmin) calc(var(--page-lift,0) * .5vmin) rgba(72,52,38,calc(var(--page-lift,0) * .16)),
+    inset 0 0 6vmin rgba(120,96,70,.05);
+}
+/* two leaves under the top sheet — the notebook has pages in it */
+.sheet i{
+  position:absolute; inset:0; border-radius:3px; background:#F2ECE0;
+  transform:translate(.35%,.5%) rotate(.35deg); z-index:-1;
+}
+.sheet i:last-child{transform:translate(.75%,1.05%) rotate(.8deg);background:#E9E2D4}
+
+/* ---- 1.3 the drawing -------------------------------------------------------
+   One SVG for the stroke, the door and the ruling.
+   NOTE — do not add `vector-effect:non-scaling-stroke` here. Chrome measures
+   dash patterns in device space when it is set, which silently breaks every
+   stroke-dashoffset reveal in this file (the tail of the path stays visible
+   from the very first frame). Stroke widths scale with the camera instead,
+   which is also what a real pencil line would do. */
+.draw{
+  position:absolute; inset:0; width:100%; height:100%;
+  transform:translate3d(0,var(--cam-y),0) scale(var(--cam));
+  overflow:visible; pointer-events:none;
+}
+.draw .stroke{
+  fill:none; stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:100;
+  /* graphite while it is being drawn, printed rule once the page is printed */
+  stroke:color-mix(in srgb, var(--print) calc(var(--ink-mix,0) * 100%), var(--graphite));
+}
+.draw .rule{
+  fill:none; stroke:var(--rule); stroke-width:1.3; opacity:0;
+  stroke-dasharray:100; stroke-dashoffset:100; stroke-linecap:round;
+}
+.draw .rule--margin{stroke:var(--rule-margin);stroke-width:1.5}
+
+/* ---- 1.4 the pencil --------------------------------------------------------
+   `--tx`/`--ty` are where the graphite point sits inside the cropped image.
+   hero.js translates the element by minus that, *after* the rotation, with
+   transform-origin at 0 0 — which puts the pivot exactly on the point. Setting
+   transform-origin to the tip instead looks equivalent and is not: the origin
+   applies to the whole transform list, so the trailing translate then drags
+   the tip off the line by half the pencil's width. */
+.pencil{
+  position:absolute; left:0; top:0; transform-origin:0 0;
+  width:var(--w,3.3vmin);
+  aspect-ratio:calc(var(--cx1) - var(--cx0)) / calc(var(--cy1) - var(--cy0));
+  opacity:var(--pen-o,0);
+  will-change:transform,opacity; z-index:6;
+  --fs:calc(var(--w) / (var(--cx1) - var(--cx0)));
+}
+/* The crop window is a child, not the element itself: the shadow has to fall
+   OUTSIDE the cropped rectangle, and `overflow:hidden` on the transformed
+   element clips it into a hard-edged slab. */
+.pencil__c{
+  position:absolute; inset:0; overflow:hidden;
+  /* the window carries the paper colour and the photo multiplies onto it.
+     Blending the window itself would be tidier, but .lay owns the camera
+     transform and therefore isolates its own blending group — an element set
+     to multiply there has nothing to multiply with and renders opaque. */
+  background:var(--paper);
+}
+.pencil img{
+  position:absolute; width:var(--fs); max-width:none;
+  left:calc(-1 * var(--cx0) * var(--fs));
+  top:calc(-1 * var(--cy0) * var(--fs));
+  mix-blend-mode:multiply;
+  /* lighter hand than the product tiles: the pencil has no watermark across it
+     and over-lifting turns its sharpened wood cone into a blank white point */
+  filter:brightness(1.01) contrast(1.10) saturate(1.06);
+}
+/* Height off the page, read as a shadow: tight and dark on contact,
+   large and soft while the pencil is still in the air. */
+.pencil__shadow{
+  position:absolute; left:calc(6% + var(--pen-lift,0) * 26%); top:calc(1% + var(--pen-lift,0) * 2%);
+  width:118%; height:99%; z-index:-1;
+  background:linear-gradient(178deg,rgba(70,50,38,.30),rgba(70,50,38,.06));
+  border-radius:44%;
+  filter:blur(calc(3px + var(--pen-lift,0) * 11px));
+  opacity:calc(.85 - var(--pen-lift,0) * .35);
+}
+
+/* ---- 1.5 the flat-lay ------------------------------------------------------ */
+.lay{
+  position:absolute; inset:0; pointer-events:none;
+  transform:translate3d(0,var(--cam-y),0) scale(var(--cam));
+}
+.obj{
+  position:absolute; top:50%; left:50%; opacity:0;
+  width:var(--w);
+  aspect-ratio:calc(var(--cx1) - var(--cx0)) / calc(var(--cy1) - var(--cy0));
+  --fs:calc(var(--w) / (var(--cx1) - var(--cx0)));
+  will-change:transform,opacity;
+}
+/* The crop window is a child so the contact shadow can fall outside it.
+   Putting `overflow:hidden` on .obj itself clips ::before into a hard
+   rectangle — which reads as a faint pale box around every product. */
+.obj__c{position:absolute; inset:0; overflow:hidden}
+.obj img{
+  position:absolute; width:var(--fs); height:auto; max-width:none;
+  left:calc(-1 * var(--cx0) * var(--fs));
+  top:calc(-1 * var(--cy0) * var(--fs));
+  opacity:0; transition:opacity .5s var(--ease-out);
+}
+.obj.is-ready img{opacity:1}
+/* Contact shadow: a gradient ellipse, not drop-shadow() — no filter cost on
+   fourteen simultaneously animating elements. It grows and softens with
+   `--lift`, so an object arriving still reads as being above the page. */
+.obj::before{
+  content:""; position:absolute; left:50%; top:52%;
+  width:calc(122% + var(--lift,0) * 34%); height:calc(112% + var(--lift,0) * 30%);
+  transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at 50% 50%,rgba(74,52,38,.22),rgba(74,52,38,0) 66%);
+  filter:blur(calc(5px + var(--lift,0) * 9px));
+  opacity:calc(1 - var(--lift,0) * .45);
+  z-index:-1; pointer-events:none;
+}
+
+/* Tier B — supplier catalogue sheets.
+   The crop drops the corner logo and spec badge; brightness+contrast lifts the
+   mint "DECOLAND" watermark to pure white; multiplying the whole tile (not the
+   image against a coloured box) means the remaining white simply disappears
+   into whatever it is lying on, at any camera distance. */
+.obj--sheet .obj__c{background:var(--paper)}
+.obj--sheet img{
+  mix-blend-mode:multiply;
+  filter:brightness(1.07) contrast(1.13) saturate(1.03);
+}
+/* No grain on the tile. The tile is opaque paper-coloured, and any fibre
+   drawn inside it renders at the object's own scale rather than the sheet's —
+   the density mismatch is what makes a faint rectangle appear around every
+   catalogue product. The sheet's own fibre is kept light enough that a flat
+   tile sitting on it has no visible edge. */
+
+/* ---- 1.6 the light ---------------------------------------------------------
+   Above every object, so paper, drawing and products receive one raking light. */
+.light{
+  position:absolute; inset:-10%; pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 22% 6%, rgba(255,252,244,.72), rgba(255,252,244,0) 55%),
+    radial-gradient(130% 120% at 80% 106%, rgba(96,70,54,.26), rgba(96,70,54,0) 60%);
+  mix-blend-mode:soft-light;
+}
+/* ---- 1.6b the fibre --------------------------------------------------------
+   One turbulence tile over the whole shot, above the products and below the
+   light. Everything in frame is on paper, so everything in frame gets the
+   same fibre — which also means an opaque product tile can never differ in
+   texture from the sheet it is lying on. */
+.grain{
+  position:absolute; inset:0; pointer-events:none; mix-blend-mode:multiply;
+  opacity:.3;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 width=%27180%27 height=%27180%27><filter id=%27n%27><feTurbulence type=%27fractalNoise%27 baseFrequency=%27.85%27 numOctaves=%273%27/><feColorMatrix type=%27saturate%27 values=%270%27/></filter><rect width=%27180%27 height=%27180%27 filter=%27url(%23n)%27 opacity=%27.4%27/></svg>");
+}
+
+.vignette{
+  position:absolute; inset:0; pointer-events:none;
+  box-shadow:inset 0 0 22vmin rgba(70,50,36,.16);
+}
+
+/* ---- 1.7 the resolve veil (scene 06) ---------------------------------------
+   Not a magenta flood — a warm lift centred on the notebook, so the logo has
+   contrast to sit on while the flat-lay stays exactly where it landed. */
+.settle{
+  position:absolute; inset:0; pointer-events:none; opacity:var(--veil,0);
+  /* Tuned to the notebook, not the frame. Wide enough to mute the ruling
+     behind the logo, tight enough that the flat-lay keeps its colour — the
+     products are the payoff and must not be washed out to make room for it. */
+  background:radial-gradient(17% 25% at 50% 46%,
+    rgba(255,253,248,.93) 0%, rgba(255,253,248,.52) 58%, rgba(255,253,248,0) 100%);
+}
+
+/* ==========================================================================
+   2 · TYPE
+   The opening is laid out on the page, not centred in the viewport: an
+   eyebrow, a headline set to a real measure on the left, a caption under it,
+   and a slate in the top-right the way a shot is labelled on set.
+   ========================================================================== */
+
+.type{
+  position:absolute; inset:0; display:grid;
+  padding:clamp(1.6rem,5vmin,4.5rem);
+  pointer-events:none; z-index:7;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:minmax(0,1fr);
+}
+.type > *{grid-area:1/1}
+
+/* --- the opening --- */
+.ask{
+  align-self:end; justify-self:start; max-width:min(52ch,58vw);
+  opacity:var(--ask,1);
+  transform:translate3d(0,var(--ask-y,0),0);
+  filter:blur(var(--ask-b,0px));
+  padding-bottom:clamp(1rem,7vmin,5rem);
+}
+.ask .eyebrow{
+  font-size:clamp(.62rem,1.25vmin,.76rem); letter-spacing:.32em; text-transform:uppercase;
+  color:var(--ink-soft); margin:0 0 clamp(1rem,2.6vmin,2rem);
+  display:flex; gap:1.2em; align-items:baseline;
+}
+.ask .eyebrow .my{letter-spacing:0;text-transform:none;color:var(--magenta);font-size:1.7em}
+.ask h1{
+  margin:0; font-weight:800;
+  font-size:clamp(2.6rem,10.4vmin,8.4rem); line-height:.86;
+  letter-spacing:-.045em;
+}
+.ask h1 em{font-style:normal;color:var(--magenta)}
+.ask .sub{
+  margin:clamp(1.1rem,2.8vmin,2.2rem) 0 0;
+  font-size:clamp(.8rem,1.6vmin,1.02rem); line-height:1.6;
+  color:var(--ink-soft); max-width:34ch;
+}
+
+/* --- the slate: a shot label, not a headline --- */
+.slate{
+  align-self:start; justify-self:end; margin:0; text-align:right;
+  font-size:clamp(.56rem,1.05vmin,.68rem); letter-spacing:.24em; text-transform:uppercase;
+  color:var(--ink-soft); opacity:var(--slate,0);
+  transition:opacity .32s linear;
+}
+.slate span{color:var(--magenta);font-weight:600;margin-right:.5em}
+.slate i{font-style:normal;opacity:.6;letter-spacing:.18em}
+
+/* --- the brand resolve: it lands on the notebook page, dead centre --- */
+.brand{
+  align-self:center; justify-self:center; text-align:center;
+  display:grid; justify-items:center; gap:clamp(.7rem,1.9vmin,1.5rem);
+  width:min(46vmin,420px);
+  opacity:var(--brand,0);
+  transform:translate3d(0,var(--brand-y,0),0) scale(var(--brand-s,.965));
+  pointer-events:none;
+}
+.brand.is-live{pointer-events:auto}
+.brand:focus-within{opacity:1}
+.brand .mark{width:clamp(150px,23vmin,300px);height:auto}
+.brand__rule{
+  width:min(64%,220px); height:auto; overflow:visible; margin-top:.4vmin;
+}
+.brand__rule path{
+  fill:none; stroke:var(--magenta); stroke-width:2.6; stroke-linecap:round;
+  stroke-dasharray:100; stroke-dashoffset:calc(100 - var(--underline,0) * 100);
+}
+.brand .line{
+  font-size:clamp(.84rem,1.7vmin,1.06rem); font-weight:400; line-height:1.6;
+  margin:.8vmin 0 0; color:#4A443D; max-width:28ch;
+}
+.cta{
+  margin-top:1.2vmin;
+  display:inline-flex; align-items:center; gap:.85em;
+  padding:1.05em 2em; border-radius:100px; border:0;
+  background:var(--magenta); color:#fff;
+  font:inherit; font-weight:600; font-size:clamp(.72rem,1.4vmin,.88rem);
+  letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
+  cursor:pointer; position:relative; overflow:hidden; isolation:isolate;
+  box-shadow:0 .35vmin 1.6vmin rgba(176,0,105,.26);
+  transition:transform .55s var(--ease-out), box-shadow .55s var(--ease-out);
+}
+.cta::before{                       /* the fill wipes across, like an ink stroke */
+  content:""; position:absolute; inset:0; z-index:-1; background:var(--magenta-deep);
+  transform:scaleX(0); transform-origin:0 50%;
+  transition:transform .6s var(--ease-out);
+}
+.cta .arrow{transition:transform .55s var(--ease-out)}
+.cta:hover,.cta:focus-visible{
+  transform:translateY(-2px); box-shadow:0 1vmin 3vmin rgba(176,0,105,.34);
+}
+.cta:hover::before,.cta:focus-visible::before{transform:scaleX(1)}
+.cta:hover .arrow{transform:translateX(6px)}
+.cta:active{transform:translateY(0)}
+
+/* ---- chrome ---- */
+.scrollcue{
+  position:absolute; left:50%; bottom:clamp(1.2rem,3.6vmin,2.6rem);
+  transform:translateX(-50%); z-index:8;
+  display:grid; justify-items:center; gap:1.1vmin;
+  font-size:.58rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--ink-soft); pointer-events:none;
+  opacity:0; transition:opacity .8s var(--ease-out);
+}
+.is-armed .scrollcue{opacity:var(--cue,0)}
+.scrollcue i{
+  display:block;width:1px;height:4.6vmin;background:currentColor;
+  transform-origin:50% 0;animation:cue 2.3s var(--ease-out) infinite;
+}
+@keyframes cue{
+  0%{transform:scaleY(0)}
+  55%{transform:scaleY(1);transform-origin:50% 0}
+  56%{transform-origin:50% 100%}
+  100%{transform:scaleY(0);transform-origin:50% 100%}
+}
+
+.sound{
+  position:absolute; right:clamp(1rem,3vmin,2.4rem); bottom:clamp(1rem,3.2vmin,2.4rem);
+  z-index:9;
+  display:inline-flex; align-items:center; gap:.7em;
+  padding:.7em 1.1em; border-radius:100px; cursor:pointer;
+  border:1px solid rgba(22,21,26,.15); background:rgba(255,255,255,.5);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  font:inherit; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink-soft); transition:color .3s,border-color .3s,background .3s;
+}
+.sound:hover{color:var(--ink);border-color:rgba(22,21,26,.4);background:rgba(255,255,255,.75)}
+.sound b{display:flex;gap:2px;align-items:flex-end;height:.9em}
+.sound b i{display:block;width:2px;height:30%;background:currentColor;border-radius:1px;
+  transition:height .3s var(--ease-out)}
+.sound[aria-pressed="true"]{color:var(--magenta);border-color:rgba(236,0,140,.35)}
+.sound[aria-pressed="true"] b i:nth-child(1){height:55%}
+.sound[aria-pressed="true"] b i:nth-child(2){height:100%}
+.sound[aria-pressed="true"] b i:nth-child(3){height:72%}
+
+/* ==========================================================================
+   3 · THE HANDOFF — the hero creates the feeling, this creates the usability
+   ========================================================================== */
+
+.explore{position:relative;background:var(--paper);padding:min(15vmin,140px) 6vw min(10vmin,90px)}
+.explore__head{max-width:1240px;margin:0 auto min(8vmin,70px);display:grid;gap:2.4vmin}
+.explore h2{
+  margin:0;font-weight:800;font-size:clamp(1.9rem,6vmin,4.2rem);
+  line-height:.95;letter-spacing:-.035em;max-width:17ch;
+}
+.explore h2 em{font-style:normal;color:var(--magenta)}
+.explore__head p{margin:0;color:var(--ink-soft);max-width:48ch}
+
+.cats{
+  max-width:1240px;margin:0 auto;display:grid;gap:1px;
+  grid-template-columns:repeat(auto-fit,minmax(196px,1fr));
+  background:rgba(22,21,26,.13);border:1px solid rgba(22,21,26,.13);
+}
+.cat{
+  position:relative;background:var(--paper);
+  padding:min(5vmin,40px) min(4vmin,30px) min(5.5vmin,46px);
+  display:grid;align-content:start;text-decoration:none;overflow:hidden;
+  transition:background .5s var(--ease-out),color .5s var(--ease-out);
+}
+.cat__i{font-size:.64rem;letter-spacing:.24em;color:var(--ink-soft);transition:color .5s}
+.cat h3{margin:.5em 0 0;font-size:clamp(1.3rem,3vmin,1.95rem);font-weight:800;letter-spacing:-.02em}
+.cat .my{font-size:.92rem;color:var(--magenta);transition:color .5s;margin-top:.15em}
+.cat p{margin:.75em 0 0;font-size:.84rem;color:var(--ink-soft);transition:color .5s}
+.cat__go{
+  margin-top:2.6em;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+  display:flex;align-items:center;gap:.6em;
+}
+.cat__go i{width:1.6em;height:1px;background:currentColor;transition:width .5s var(--ease-out)}
+.cat:hover,.cat:focus-visible{background:var(--magenta);color:#fff}
+.cat:hover .cat__i,.cat:hover p,.cat:hover .my,
+.cat:focus-visible .cat__i,.cat:focus-visible p,.cat:focus-visible .my{color:rgba(255,255,255,.88)}
+.cat:hover .cat__go i,.cat:focus-visible .cat__go i{width:3.2em}
+
+.foot{
+  max-width:1240px;margin:min(9vmin,80px) auto 0;padding-top:3vmin;
+  border-top:1px solid rgba(22,21,26,.14);
+  display:flex;flex-wrap:wrap;gap:1.4em 2.5em;align-items:center;justify-content:space-between;
+  font-size:.76rem;color:var(--ink-soft);
+}
+.foot a{color:var(--magenta);text-decoration:none;font-weight:600}
+.foot a:hover{text-decoration:underline}
+
+/* ==========================================================================
+   4 · RESPONSIVE — a different composition, not a smaller one
+   ========================================================================== */
+
+/* Tablet: the headline still sits low-left, but the measure tightens. */
+@media (max-width:1080px){
+  .ask{max-width:min(46ch,74vw)}
+  .ask .sub{max-width:30ch}
+}
+
+@media (max-width:820px){
+  /* Shorter track: a thumb covers a phone screen in far fewer pixels, and the
+     desktop length turns the film into work. */
+  .film{height:420svh}
+  .ask{max-width:none;padding-bottom:clamp(3rem,14vmin,7rem)}
+  .ask h1{font-size:clamp(2.5rem,13vmin,4.6rem);line-height:.9}
+  .ask .eyebrow{letter-spacing:.22em;gap:.9em}
+  .ask .sub{font-size:.86rem;max-width:26ch}
+  .ask .sub br{display:none}
+  .slate{display:none}                 /* a shot slate needs room to be quiet */
+  .brand{width:min(72vw,320px);gap:.9rem}
+  .brand .mark{width:min(44vw,190px)}
+  .brand .line{font-size:.84rem}
+  .brand .line br{display:none}
+  .cta{padding:1em 1.7em;font-size:.7rem}
+  .sound{right:1rem;bottom:1rem;padding:.6em .9em}
+  .obj::before{filter:blur(4px)}       /* cheaper blur on mobile GPUs */
+  .light{background:radial-gradient(120% 90% at 26% 4%,rgba(255,252,244,.85),rgba(255,252,244,0) 58%)}
+  .vignette{box-shadow:inset 0 0 14vmin rgba(70,50,36,.13)}
+  .settle{background:radial-gradient(38% 22% at 50% 46%,
+    rgba(255,253,248,.94) 0%, rgba(255,253,248,.6) 58%, rgba(255,253,248,0) 100%)}
+}
+
+/* Small phones: the notebook is the composition; keep the type off it. */
+@media (max-width:400px){
+  .film{height:400svh}
+  .ask h1{font-size:clamp(2.2rem,12.5vmin,3.4rem)}
+  .ask .sub{font-size:.8rem}
+  .brand{gap:.8rem}
+}
+
+/* Short landscape phones — the film has nowhere to breathe vertically. */
+@media (max-height:520px) and (orientation:landscape){
+  .ask{align-self:center}
+  .ask h1{font-size:clamp(2rem,9vh,3rem)}
+  .ask .sub{display:none}
+  .scrollcue{display:none}
+}
+
+/* ==========================================================================
+   5 · REDUCED MOTION — the film, stopped on its best frame
+   Not "animation removed". hero.js renders one frame from p ≈ 0.985 — drawing
+   finished, products landed, brand resolved — and this section lays that out
+   as a static editorial composition with the opening copy restored above it.
+   ========================================================================== */
+.is-still .film{height:auto;background:var(--paper)}
+.is-still .stage{
+  position:relative; height:auto; overflow:visible; contain:none;
+  background:var(--paper);
+  padding:clamp(1.5rem,5vw,4rem) clamp(1.5rem,6vw,5rem) clamp(3rem,9vmin,6rem);
+  display:grid; gap:clamp(2.5rem,7vmin,5rem); justify-items:center;
+}
+
+/* The world becomes a plate: the film's last frame, held. It is the whole
+   concept in one still — a drawn page that filled itself with APOLO. */
+.is-still .world{
+  position:relative; inset:auto;
+  width:min(100%,1100px); aspect-ratio:16/10;
+  border-radius:8px; box-shadow:0 1.4vmin 5vmin rgba(72,52,38,.16);
+}
+.is-still .pencil{display:none}         /* nothing is being drawn any more */
+.is-still .settle{display:none}         /* no veil: the logo is set below, not on it */
+.is-still .scrollcue,.is-still .sound{display:none}
+
+.is-still .type{
+  position:relative; inset:auto; padding:0; z-index:1;
+  width:min(100%,1100px);
+  display:grid; gap:clamp(2rem,6vmin,4rem);
+  grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  align-items:end;
+}
+.is-still .type > *{grid-area:auto}
+.is-still .ask{
+  opacity:1!important; transform:none!important; filter:none!important;
+  max-width:none; padding-bottom:0; align-self:end;
+}
+.is-still .slate{display:none}
+.is-still .brand{
+  opacity:1!important; transform:none!important; pointer-events:auto;
+  width:auto; justify-items:start; text-align:left; align-self:end;
+}
+.is-still .brand__rule{width:min(70%,220px)}
+.is-still .brand__rule path{stroke-dashoffset:0}
+
+@media (prefers-reduced-motion:reduce){
+  .cta,.cta .arrow,.cat,.cat__go i,.skip,.sound,.obj img,.scrollcue{transition:none!important}
+  .cta:hover{transform:none}
+  .cta::before{display:none}
+  .scrollcue i{animation:none}
+}
+
+@media (max-width:820px){
+  .is-still .world{aspect-ratio:4/5}
+  .is-still .type{grid-template-columns:minmax(0,1fr)}
+}

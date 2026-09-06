@@ -1,0 +1,28 @@
+<!doctype html><meta charset=utf-8>
+<style>
+ body{margin:0;background:#EFE9DC;font:11px system-ui;color:#333}
+ .row{display:flex;gap:8px;padding:8px 14px;align-items:flex-start}
+ .win{width:150px;height:200px;overflow:hidden;position:relative}
+ .win img{position:absolute;mix-blend-mode:multiply;width:312.5px;left:-81.25px;top:-28.1px}
+ h3{padding:12px 14px 0;margin:0;font:600 12px system-ui}
+ .lab{width:150px;text-align:center}
+</style>
+<div id=out></div>
+<script>
+const B='https://cdn.shopify.com/s/files/1/0580/6443/7401/';
+const items=['products/Pencil-A221C.jpg','products/Sharpener210A-1.jpg','products/Color-Pencil-36Pcs.jpg','products/Scissor1.jpg','products/Oil-Pastel-12Pcs-Front.jpg'];
+const filters={
+ 'none':'none',
+ 'b1.06 c1.10':'brightness(1.06) contrast(1.10)',
+ 'b1.10 c1.18':'brightness(1.10) contrast(1.18)',
+ 'b1.14 c1.25':'brightness(1.14) contrast(1.25)',
+ 'b1.10 c1.18 sat1.1':'brightness(1.10) contrast(1.18) saturate(1.1)'
+};
+let h='';
+for(const [name,f] of Object.entries(filters)){
+  h+=`<h3>${name}</h3><div class=row>`;
+  items.forEach(s=>h+=`<div><div class=win><img style="filter:${f}" crossorigin=anonymous src="${B+s}"></div><div class=lab>${s.split('/').pop().slice(0,16)}</div></div>`);
+  h+='</div>';
+}
+document.getElementById('out').innerHTML=h;
+</script>

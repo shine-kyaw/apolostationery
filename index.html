@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>APOLO — What will you make?</title>
+<meta name="description" content="Every idea starts on a blank page. APOLO stationery for everyday creativity — books, writing instruments, desk accessories and paper.">
+<meta name="theme-color" content="#EC008C">
+
+<link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" fetchpriority="high"
+      href="https://cdn.shopify.com/s/files/1/0580/6443/7401/products/Pencil-A221C.jpg?width=520">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&family=Padauk:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/apolo.css">
+</head>
+<body>
+
+<a class="skip" href="#explore">Skip the intro &mdash; go to products</a>
+
+<!-- ==========================================================================
+     THE FILM — scroll drives the timeline. One long track, one sticky stage.
+     Every layer inside .stage is decorative and aria-hidden; the copy in
+     .type is the real document and is readable with the film stopped.
+     ========================================================================== -->
+<main>
+<section class="film" id="film" aria-label="APOLO introduction">
+  <div class="stage" id="stage">
+
+    <!-- Everything the camera can see. Kept in its own box so that, with
+         motion reduced, the whole world collapses into a fixed-ratio plate
+         and the copy can flow underneath it instead of on top of it. -->
+    <div class="world" id="world">
+
+    <!-- the desk sheet: the world at the start, an object on a desk by the end -->
+    <div class="paper" id="paper" aria-hidden="true"></div>
+
+    <!-- the notebook page the drawing turns into -->
+    <div class="sheet" id="sheet" aria-hidden="true"><i></i><i></i></div>
+
+    <!-- the drawing: one morphing stroke, plus the ruling it becomes -->
+    <svg class="draw" id="draw" viewBox="0 0 1000 620"
+         preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+      <g id="ruling"></g>
+      <path id="door"   class="stroke" pathLength="100"></path>
+      <path id="stroke" class="stroke" pathLength="100"></path>
+    </svg>
+
+    <!-- the flat-lay: real APOLO products, built from js/assets.js -->
+    <div class="lay" id="lay" aria-hidden="true"></div>
+
+    <!-- one paper fibre over the whole shot, so sheet and products match -->
+    <div class="grain" aria-hidden="true"></div>
+    <!-- lighting sits above the objects so everything shares one light -->
+    <div class="light" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <!-- the warm veil that clears the middle of the page for the brand -->
+    <div class="settle" id="settle" aria-hidden="true"></div>
+
+    </div><!-- /.world -->
+
+    <!-- ---------------------------------------------------------------- -->
+    <div class="type">
+
+      <div class="ask" id="ask">
+        <p class="eyebrow">
+          <span class="my" lang="my">ဆွဲမယ်</span>
+          <span>Start with a blank page</span>
+        </p>
+        <h1>What will<br>you <em>make</em>?</h1>
+        <p class="sub">Every idea in a Myanmar classroom or office begins the same way &mdash;
+           one mark on an empty page.</p>
+      </div>
+
+      <!-- a shot slate; hero.js changes it as the film moves through its scenes -->
+      <p class="slate" id="slate" aria-hidden="true">
+        <span>01</span> The blank page &mdash; <i>APOLO A-221C, 2B</i>
+      </p>
+
+      <div class="brand" id="brand">
+        <img class="mark" id="mark" alt="APOLO"
+             src="https://apolostationey.com/cdn/shop/files/Apolo_Logo_1_1.png"
+             width="200" height="105" decoding="async">
+        <!-- the last mark of the film, drawn like every other one -->
+        <svg class="brand__rule" viewBox="0 0 300 12" aria-hidden="true" focusable="false">
+          <path pathLength="100" d="M4 8 C60 3, 110 10, 158 6 S250 3, 296 7"></path>
+        </svg>
+        <p class="line">Stationery isn&rsquo;t the finished thing. <br>It&rsquo;s what lets you make one.</p>
+        <a class="cta" id="cta" href="https://apolostationey.com/collections/all">
+          <span>Explore APOLO</span> <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+
+    </div>
+
+    <p class="scrollcue" id="cue" aria-hidden="true"><span>Scroll</span><i></i></p>
+
+    <button class="sound" id="sound" type="button" aria-pressed="false">
+      <b aria-hidden="true"><i></i><i></i><i></i></b>
+      <span id="soundLabel">Sound off</span>
+    </button>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     THE HANDOFF — emotion above, usability here.
+     ========================================================================== -->
+<section class="explore" id="explore" tabindex="-1">
+  <div class="explore__head">
+    <h2>Explore what <em>you can create</em></h2>
+    <p>147 products made for Myanmar classrooms, desks and offices &mdash; books, pens,
+       pencils, and the paper to put them on.</p>
+  </div>
+
+  <nav class="cats" id="cats" aria-label="Product categories"></nav>
+
+  <div class="foot">
+    <span>APOLO Stationery Myanmar &middot; <span class="my" lang="my">အပိုလိုစာရေးကိရိယာ</span></span>
+    <span>Door-to-door delivery &middot; Cash on delivery &middot;
+          <a href="tel:+959777271999">+95 9 777 271 999</a></span>
+  </div>
+</section>
+</main>
+
+<script type="module" src="js/hero.js"></script>
+</body>
+</html>

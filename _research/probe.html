@@ -1,0 +1,25 @@
+<!doctype html><meta charset=utf-8>
+<style>
+ body{margin:0;background:#f2ede4;font:12px system-ui;color:#333}
+ .row{display:flex;flex-wrap:wrap;gap:10px;padding:14px}
+ figure{margin:0;width:190px;text-align:center}
+ .win{width:190px;height:250px;overflow:hidden;position:relative;background:#f7f3ea;border:1px solid #ddd}
+ .win img{position:absolute;mix-blend-mode:multiply;
+   /* crop: show x 26%-74%, y 9%-88% of a 1500x1500 source */
+   width:calc(190px / 0.48); left:calc(-0.26 * (190px/0.48));
+   top:calc(-0.09 * (190px/0.48) * 1); }
+ .raw .win img{mix-blend-mode:normal}
+ h3{padding:14px 14px 0;margin:0}
+</style>
+<h3>A. white-bg catalog JPG · cropped + multiply on paper</h3>
+<div class=row id=a></div>
+<h3>B. transparent PNG cutouts · as-is</h3>
+<div class="row raw" id=b></div>
+<script>
+const B='https://cdn.shopify.com/s/files/1/0580/6443/7401/';
+const A=['products/Pencil-A221C.jpg','products/Pencil-A221G.jpg','products/Color-Pencil-36Pcs.jpg','products/Oil-Pastel-12Pcs-Front.jpg','products/Scissor1.jpg','products/GlueStick.jpg','products/Sharpener210A-1.jpg','products/A229S1.jpg','products/RulerSet.jpg','products/Drawing-Book.jpg'];
+const P=['products/MachanicalPencilOldDesign.png','products/HighPink.png','products/HighYellow.png','products/Eraser.png','files/CruizerPenBlue.png','products/GelPenRed.png','files/MB-Copy.png','products/48bde6c585bd78e00f54bfefb0a39e02.png'];
+const mk=(list,el)=>list.forEach(s=>{el.insertAdjacentHTML('beforeend',
+ `<figure><div class=win><img crossorigin=anonymous src="${B+s}"></div><figcaption>${s.split('/').pop()}</figcaption></figure>`)});
+mk(A,document.getElementById('a')); mk(P,document.getElementById('b'));
+</script>
