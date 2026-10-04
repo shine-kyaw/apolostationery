@@ -3,5 +3,65 @@
   "framework": null,
   "installCommand": "echo 'No dependencies'",
   "buildCommand": "echo 'Static site, no build step'",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/search",
+      "destination": "/shop"
+    },
+    {
+      "source": "/collections",
+      "destination": "/shop"
+    },
+    {
+      "source": "/collections/:handle",
+      "destination": "/shop"
+    },
+    {
+      "source": "/products/:handle",
+      "destination": "/product"
+    },
+    {
+      "source": "/pages/contact",
+      "destination": "/contact"
+    },
+    {
+      "source": "/pages/terms-conditions",
+      "destination": "/terms"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/collections/all",
+      "destination": "/shop",
+      "permanent": true
+    },
+    {
+      "source": "/collections/vendors",
+      "destination": "/shop",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=300, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(css|js|img)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800"
+        }
+      ]
+    }
+  ]
 }

@@ -27,7 +27,7 @@ import {
   createClock, createPointer
 } from './engine.js';
 import {
-  OBJECTS, MOBILE_KEEP, MOBILE_LAYOUT, CATEGORIES, PENCIL, LOGO, SHOP, url
+  OBJECTS, MOBILE_KEEP, MOBILE_LAYOUT, PENCIL, LOGO, url
 } from './assets.js';
 import { createAudio } from './audio.js';
 
@@ -35,18 +35,9 @@ const $ = s => document.querySelector(s);
 const reduced  = matchMedia('(prefers-reduced-motion: reduce)');
 const mqMobile = matchMedia('(max-width: 820px)');
 
-/* --------------------------------------------------------------------------
-   0 · the handoff grid — always built, on every code path. It is real
-   navigation, not decoration, so it must exist even if the film never runs.
-   -------------------------------------------------------------------------- */
-$('#cats').innerHTML = CATEGORIES.map((c, i) => `
-  <a class="cat" href="${SHOP}/collections/${c.handle}">
-    <span class="cat__i">${String(i + 1).padStart(2, '0')}</span>
-    <h3>${c.title}</h3>
-    <span class="my" lang="my">${c.my}</span>
-    <p>${c.blurb}</p>
-    <span class="cat__go"><i></i>${c.n} products</span>
-  </a>`).join('');
+/* The category grid and everything else below the film is the store, built
+   by js/pages/home.js from the catalogue. It does not depend on this file, so
+   it still works if the film never runs. */
 
 boot();
 /* A change of motion preference restructures the whole stage; rebuilding it

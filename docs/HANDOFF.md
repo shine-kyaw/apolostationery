@@ -1,5 +1,9 @@
 # APOLO Hero Film — Handoff / Continuation Notes
 
+> **Update 2026-10-04:** the film is now the top of a full store — categories,
+> product pages, search, cart and checkout. How that part works is in
+> [STORE.md](STORE.md). This file still describes the film itself.
+
 Last updated: **2026-09-05** (session 2, "creative-dev + QA pass").
 Written so this project can be resumed on a different machine with zero prior
 context beyond this file plus [ASSET-INVENTORY.md](ASSET-INVENTORY.md).

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>APOLO — What will you make?</title>
+<title>APOLO Stationery Myanmar — What will you make?</title>
 <meta name="description" content="Every idea starts on a blank page. APOLO stationery for everyday creativity — books, writing instruments, desk accessories and paper.">
 <meta name="theme-color" content="#EC008C">
 
@@ -12,12 +12,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" fetchpriority="high"
       href="https://cdn.shopify.com/s/files/1/0580/6443/7401/products/Pencil-A221C.jpg?width=520">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&family=Padauk:wght@400;700&display=swap">
-<link rel="stylesheet" href="css/apolo.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Padauk:wght@400;700&display=swap">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/apolo.css">
+<link rel="icon" href="/img/apolo-logo.png">
 </head>
 <body>
 
 <a class="skip" href="#explore">Skip the intro &mdash; go to products</a>
+<header id="hdr"></header>
 
 <!-- ==========================================================================
      THE FILM — scroll drives the timeline. One long track, one sticky stage.
@@ -80,14 +84,14 @@
 
       <div class="brand" id="brand">
         <img class="mark" id="mark" alt="APOLO"
-             src="https://apolostationey.com/cdn/shop/files/Apolo_Logo_1_1.png"
+             src="/img/apolo-logo.png"
              width="200" height="105" decoding="async">
         <!-- the last mark of the film, drawn like every other one -->
         <svg class="brand__rule" viewBox="0 0 300 12" aria-hidden="true" focusable="false">
           <path pathLength="100" d="M4 8 C60 3, 110 10, 158 6 S250 3, 296 7"></path>
         </svg>
         <p class="line">Stationery isn&rsquo;t the finished thing. <br>It&rsquo;s what lets you make one.</p>
-        <a class="cta" id="cta" href="https://apolostationey.com/collections/all">
+        <a class="cta" id="cta" href="/shop">
           <span>Explore APOLO</span> <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
       </div>
@@ -105,25 +109,76 @@
 </section>
 
 <!-- ==========================================================================
-     THE HANDOFF — emotion above, usability here.
+     THE HANDOFF — the film creates the feeling; everything below is the store.
+     Section numbers continue the film's slate (01–05), so the page reads as
+     one continuous piece rather than a film with a shop bolted underneath.
      ========================================================================== -->
-<section class="explore" id="explore" tabindex="-1">
-  <div class="explore__head">
-    <h2>Explore what <em>you can create</em></h2>
-    <p>147 products made for Myanmar classrooms, desks and offices &mdash; books, pens,
-       pencils, and the paper to put them on.</p>
+<section class="explore" id="explore" tabindex="-1" aria-labelledby="exploreT">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow"><span>06</span> The catalogue</p>
+      <h2 id="exploreT">Explore what <em>you can create</em></h2>
+      <p class="sec-head__sub">Exercise books, pens, pencils, files and the paper to put it all on &mdash;
+        made for Myanmar classrooms, desks and offices.</p>
+    </div>
+    <nav class="cats" id="cats" aria-label="Product categories"></nav>
   </div>
+</section>
 
-  <nav class="cats" id="cats" aria-label="Product categories"></nav>
+<section class="shelf" data-shelf="writing-instruments" data-n="07"></section>
 
-  <div class="foot">
-    <span>APOLO Stationery Myanmar &middot; <span class="my" lang="my">အပိုလိုစာရေးကိရိယာ</span></span>
-    <span>Door-to-door delivery &middot; Cash on delivery &middot;
-          <a href="tel:+959777271999">+95 9 777 271 999</a></span>
+<section class="camp" aria-labelledby="campT">
+  <div class="wrap">
+    <div class="sec-head sec-head--row">
+      <div>
+        <p class="eyebrow"><span>08</span> From APOLO</p>
+        <h2 id="campT">This season&rsquo;s pages</h2>
+      </div>
+      <div class="rail-ctl" data-for="campRail">
+        <button type="button" class="tool tool--line" data-dir="-1" aria-label="Previous campaign"></button>
+        <button type="button" class="tool tool--line" data-dir="1" aria-label="Next campaign"></button>
+      </div>
+    </div>
+  </div>
+  <div class="rail camp__rail" id="campRail" tabindex="0" aria-label="Campaigns, scroll sideways"></div>
+</section>
+
+<section class="shelf" data-shelf="books" data-n="09"></section>
+<section class="shelf" data-shelf="desk-accessories" data-n="10"></section>
+<section class="shelf" data-shelf="copy-paper" data-n="11"></section>
+
+<section class="visit" aria-labelledby="visitT">
+  <div class="wrap visit__in">
+    <div class="visit__copy">
+      <p class="eyebrow"><span>12</span> Made in Yangon</p>
+      <h2 id="visitT">Visit the showroom, <em>or just call.</em></h2>
+      <p>APOLO books, pens and supplies are made at our factory in Hlaing Thar Yar, and the showroom is in
+         the same building. Order online, by phone, or come and see them in person.</p>
+      <div class="visit__cta">
+        <a class="btn btn--brand" href="tel:+959777271999">Call 09 777 271 999</a>
+        <a class="btn btn--ghost" href="/pages/contact">All contact details</a>
+      </div>
+    </div>
+    <div class="note" aria-label="Showroom details">
+      <div class="note__page">
+        <p class="note__h">Showroom &amp; factory</p>
+        <address>No. 3-C, Ward (9), U Tun Nyo Street,<br>Hlaing Thar Yar Industrial Zone (6),<br>
+                 Hlaing Thar Yar Township, Yangon</address>
+        <p class="note__h">Phone</p>
+        <p><a href="tel:+959777271999">09 777 271 999</a><br><a href="tel:+959777271888">09 777 271 888</a></p>
+        <p class="note__h">Customer service</p>
+        <p>9 AM &ndash; 5 PM, by phone or on Facebook</p>
+        <a class="note__map" href="https://www.google.com/maps/search/?api=1&amp;query=U%20Tun%20Nyo%20Street%2C%20Hlaing%20Thar%20Yar%20Industrial%20Zone%206%2C%20Yangon"
+           target="_blank" rel="noopener">Open in Google Maps &rarr;</a>
+      </div>
+    </div>
   </div>
 </section>
 </main>
 
-<script type="module" src="js/hero.js"></script>
+<footer id="ftr"></footer>
+
+<script type="module" src="/js/hero.js"></script>
+<script type="module" src="/js/pages/home.js"></script>
 </body>
 </html>

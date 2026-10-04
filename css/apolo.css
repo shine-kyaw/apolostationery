@@ -1,6 +1,6 @@
 /* ==========================================================================
    APOLO — "The page that fills itself"
-   Hero film + category handoff.
+   Hero film only. Loaded after base.css and site.css on the home page.
 
    Colour discipline for the whole piece: paper, graphite, white and the
    products' own colours carry fifty seconds of film. APOLO magenta appears in
@@ -8,46 +8,7 @@
    resolve at the end. That restraint is what makes the last frame land.
    ========================================================================== */
 
-:root{
-  /* --- Apolo identity, sampled from the live site --- */
-  --magenta:#EC008C;          /* primary, 349 computed-style hits on apolostationey.com */
-  --magenta-deep:#B00069;
-  --yellow:#FFC72C;           /* sale-flash accent */
-
-  /* --- the paper the film is shot on --- */
-  --desk:#EDE6D9;             /* the surface the sheet lies on */
-  --paper:#F3EEE4;            /* the sheet, seen close */
-  --page:#FCFAF5;             /* the notebook page: the brightest thing on screen */
-  --ink:#16151A;
-  --ink-soft:#6C665F;
-  --graphite:#3B3A42;         /* what a 2B pencil actually looks like on paper */
-  --print:#A9A49C;            /* the same line once it has become printed rule */
-  --rule:#B7C4DC;             /* exercise-book ruling blue */
-  --rule-margin:#E08196;      /* exercise-book margin red */
-
-  --ease-out:cubic-bezier(.16,1,.3,1);
-}
-
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{
-  margin:0; background:var(--desk); color:var(--ink);
-  font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;
-  font-size:16px; line-height:1.55;
-  overflow-x:hidden;
-}
-:lang(my),.my{font-family:Padauk,Poppins,sans-serif}
-img{max-width:100%;display:block}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--magenta);outline-offset:3px;border-radius:3px}
-
-.skip{
-  position:fixed; left:1rem; top:-4rem; z-index:99;
-  background:var(--ink); color:#fff; text-decoration:none;
-  padding:.7rem 1.1rem; border-radius:6px; font-size:.8rem;
-  transition:top .2s var(--ease-out);
-}
-.skip:focus{top:1rem}
+/* Tokens, reset and the skip link live in base.css. */
 
 /* ==========================================================================
    1 · THE FILM
@@ -415,52 +376,8 @@ a{color:inherit}
 .sound[aria-pressed="true"] b i:nth-child(2){height:100%}
 .sound[aria-pressed="true"] b i:nth-child(3){height:72%}
 
-/* ==========================================================================
-   3 · THE HANDOFF — the hero creates the feeling, this creates the usability
-   ========================================================================== */
-
-.explore{position:relative;background:var(--paper);padding:min(15vmin,140px) 6vw min(10vmin,90px)}
-.explore__head{max-width:1240px;margin:0 auto min(8vmin,70px);display:grid;gap:2.4vmin}
-.explore h2{
-  margin:0;font-weight:800;font-size:clamp(1.9rem,6vmin,4.2rem);
-  line-height:.95;letter-spacing:-.035em;max-width:17ch;
-}
-.explore h2 em{font-style:normal;color:var(--magenta)}
-.explore__head p{margin:0;color:var(--ink-soft);max-width:48ch}
-
-.cats{
-  max-width:1240px;margin:0 auto;display:grid;gap:1px;
-  grid-template-columns:repeat(auto-fit,minmax(196px,1fr));
-  background:rgba(22,21,26,.13);border:1px solid rgba(22,21,26,.13);
-}
-.cat{
-  position:relative;background:var(--paper);
-  padding:min(5vmin,40px) min(4vmin,30px) min(5.5vmin,46px);
-  display:grid;align-content:start;text-decoration:none;overflow:hidden;
-  transition:background .5s var(--ease-out),color .5s var(--ease-out);
-}
-.cat__i{font-size:.64rem;letter-spacing:.24em;color:var(--ink-soft);transition:color .5s}
-.cat h3{margin:.5em 0 0;font-size:clamp(1.3rem,3vmin,1.95rem);font-weight:800;letter-spacing:-.02em}
-.cat .my{font-size:.92rem;color:var(--magenta);transition:color .5s;margin-top:.15em}
-.cat p{margin:.75em 0 0;font-size:.84rem;color:var(--ink-soft);transition:color .5s}
-.cat__go{
-  margin-top:2.6em;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
-  display:flex;align-items:center;gap:.6em;
-}
-.cat__go i{width:1.6em;height:1px;background:currentColor;transition:width .5s var(--ease-out)}
-.cat:hover,.cat:focus-visible{background:var(--magenta);color:#fff}
-.cat:hover .cat__i,.cat:hover p,.cat:hover .my,
-.cat:focus-visible .cat__i,.cat:focus-visible p,.cat:focus-visible .my{color:rgba(255,255,255,.88)}
-.cat:hover .cat__go i,.cat:focus-visible .cat__go i{width:3.2em}
-
-.foot{
-  max-width:1240px;margin:min(9vmin,80px) auto 0;padding-top:3vmin;
-  border-top:1px solid rgba(22,21,26,.14);
-  display:flex;flex-wrap:wrap;gap:1.4em 2.5em;align-items:center;justify-content:space-between;
-  font-size:.76rem;color:var(--ink-soft);
-}
-.foot a{color:var(--magenta);text-decoration:none;font-weight:600}
-.foot a:hover{text-decoration:underline}
+/* The handoff below the film (categories, shelves, footer) is store UI and
+   lives in site.css with the rest of it. */
 
 /* ==========================================================================
    4 · RESPONSIVE — a different composition, not a smaller one
@@ -557,7 +474,7 @@ a{color:inherit}
 .is-still .brand__rule path{stroke-dashoffset:0}
 
 @media (prefers-reduced-motion:reduce){
-  .cta,.cta .arrow,.cat,.cat__go i,.skip,.sound,.obj img,.scrollcue{transition:none!important}
+  .cta,.cta .arrow,.sound,.obj img,.scrollcue{transition:none!important}
   .cta:hover{transform:none}
   .cta::before{display:none}
   .scrollcue i{animation:none}

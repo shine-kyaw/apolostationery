@@ -36,8 +36,8 @@ export function url(path, width = WIDTH) {
   return ROOT.cdn + path + '?width=' + width;
 }
 
-export const LOGO = 'https://apolostationey.com/cdn/shop/files/Apolo_Logo_1_1.png';
-export const SHOP = 'https://apolostationey.com';
+/* Served from this site, not hotlinked: it is the one image the film cannot lose. */
+export const LOGO = '/img/apolo-logo.png';
 
 /* --------------------------------------------------------------------------
    THE HERO PENCIL — APOLO A-221C 2B, the object that draws the film.
@@ -172,16 +172,5 @@ export const MOBILE_LAYOUT = {
   'drawing-book'  : { x:  27, y:  80, len: 52, r:  8, delay:.82, from:[ 18,  30] }
 };
 
-/* Real Shopify collection handles, verified against /collections.json */
-export const CATEGORIES = [
-  { title:'Books',    my:'စာအုပ်',       handle:'books',               n:29,
-    blurb:'Exercise, drawing and note books' },
-  { title:'Writing',  my:'ရေးသားရန်',     handle:'writing-instruments', n:32,
-    blurb:'Pens, pencils, markers, pastels' },
-  { title:'Desk',     my:'စားပွဲသုံး',     handle:'desk-accessories',    n:21,
-    blurb:'Staplers, clips, glue, cutters' },
-  { title:'Supplies', my:'ကိရိယာများ',    handle:'stationery-supplies', n:9,
-    blurb:'Rulers, sharpeners, film' },
-  { title:'Paper',    my:'စက္ကူ',         handle:'copy-paper',          n:12,
-    blurb:'Copy and colour paper' }
-];
+/* Categories are no longer declared here: the store reads them, with their
+   Burmese names, from data/catalog.json (see tools/sync-catalog.mjs). */

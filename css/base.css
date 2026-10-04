@@ -1,0 +1,67 @@
+/* ==========================================================================
+   APOLO — base
+   Tokens, reset and type shared by every page. The film (apolo.css) and the
+   store (site.css) both build on these, so a colour or a font changes once.
+   ========================================================================== */
+
+:root{
+  /* --- Apolo identity, sampled from the live site --- */
+  --magenta:#EC008C;          /* primary, 349 computed-style hits on apolostationey.com */
+  --magenta-deep:#B00069;
+  --magenta-wash:#FDE7F3;
+  --yellow:#FFC72C;           /* sale-flash accent */
+
+  /* --- the paper the film is shot on, and the store is printed on --- */
+  --desk:#EDE6D9;             /* the surface the sheet lies on */
+  --paper:#F3EEE4;            /* the sheet, seen close */
+  --page:#FCFAF5;             /* the notebook page: the brightest thing on screen */
+  --ink:#16151A;
+  --ink-soft:#6C665F;
+  --ink-faint:#9A938A;
+  --graphite:#3B3A42;         /* what a 2B pencil actually looks like on paper */
+  --print:#A9A49C;            /* the same line once it has become printed rule */
+  --rule:#B7C4DC;             /* exercise-book ruling blue */
+  --rule-margin:#E08196;      /* exercise-book margin red */
+  --line:rgba(22,21,26,.13);  /* hairlines between things */
+
+  --ok:#1F7A4D;
+
+  /* --- shape & depth: paper lies flat, products sit on it --- */
+  --r-sm:4px; --r:8px; --r-lg:14px;
+  --shadow-rest:0 1px 2px rgba(72,52,38,.08), 0 2px 8px rgba(72,52,38,.06);
+  --shadow-lift:0 2px 4px rgba(72,52,38,.08), 0 14px 32px rgba(72,52,38,.16);
+
+  /* --- layout --- */
+  --wrap:1240px;
+  --gutter:clamp(16px,4.5vw,56px);
+  --hdr:68px;
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--desk); color:var(--ink);
+  font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.55;
+  overflow-x:hidden;
+}
+:lang(my),.my{font-family:Padauk,Poppins,sans-serif}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--magenta);outline-offset:3px;border-radius:3px}
+
+.skip{
+  position:fixed; left:1rem; top:-4rem; z-index:999;
+  background:var(--ink); color:#fff; text-decoration:none;
+  padding:.7rem 1.1rem; border-radius:6px; font-size:.8rem;
+  transition:top .2s var(--ease-out);
+}
+.skip:focus{top:1rem}
+
+.sr-only{
+  position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
