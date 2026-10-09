@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" fetchpriority="high"
       href="https://cdn.shopify.com/s/files/1/0580/6443/7401/products/Pencil-A221C.jpg?width=520">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Padauk:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Padauk:wght@400;700&family=Kalam:wght@400;700&display=swap">
 <link rel="stylesheet" href="/css/base.css">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/apolo.css">
@@ -120,47 +120,75 @@
 </section>
 
 <!-- ==========================================================================
-     THE HANDOFF — the film creates the feeling; everything below is the store.
-     Section numbers continue the film's slate (01–05), so the page reads as
-     one continuous piece rather than a film with a shop bolted underneath.
+     THE STORE — the film holds magenta back for fifty seconds and lands it on
+     the logo; the page below finally floods with it. Everything after that is
+     built from the thing APOLO actually makes: the exercise book.
      ========================================================================== -->
-<section class="explore" id="explore" tabindex="-1" aria-labelledby="exploreT">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow"><span>06</span> The catalogue</p>
-      <h2 id="exploreT">Explore what <em>you can create</em></h2>
-      <p class="sec-head__sub">Exercise books, pens, pencils, files and the paper to put it all on &mdash;
-        made for Myanmar classrooms, desks and offices.</p>
+<section class="flood" id="explore" tabindex="-1" aria-labelledby="floodT">
+  <div class="wrap flood__in">
+    <p class="flood__my my" lang="my" aria-hidden="true">ဆွဲမယ်</p>
+    <h2 class="flood__h" id="floodT">Fill the page.</h2>
+    <p class="flood__sub">Exercise books, pens, pencils and paper from APOLO &mdash; made in Yangon,
+      delivered to your door, paid for when it arrives.</p>
+    <ul class="flood__facts">
+      <li><b data-count-products>154</b> products</li>
+      <li><b>Door-to-door</b> delivery</li>
+      <li><b>Cash</b> on delivery</li>
+    </ul>
+    <div class="flood__cta">
+      <a class="btn btn--paper" href="/shop">Shop everything</a>
+      <a class="btn btn--line" href="tel:+959777271999">Call 09 777 271 999</a>
     </div>
-    <nav class="cats" id="cats" aria-label="Product categories"></nav>
   </div>
 </section>
 
-<section class="shelf" data-shelf="writing-instruments" data-n="07"></section>
+<!-- the categories, as a fan of APOLO exercise books -->
+<section class="books" aria-labelledby="booksT">
+  <h2 class="sr-only" id="booksT">Shop by category</h2>
+  <div class="books__row" id="books"></div>
+  <div class="wrap">
+    <ol class="index" id="index" aria-label="More categories"></ol>
+  </div>
+</section>
+
+<!-- the school list: tick a line and it goes in the cart -->
+<section class="list" aria-labelledby="listT">
+  <div class="wrap list__in">
+    <div class="list__intro">
+      <p class="kicker my" lang="my">စာရင်း</p>
+      <h2 id="listT">The school list</h2>
+      <p>The things a classroom runs on. Tick a line and it goes straight into your cart &mdash;
+         or add the whole list at once.</p>
+    </div>
+    <div class="list__page">
+      <ul class="list__rows" id="listRows"></ul>
+      <div class="list__foot" id="listFoot"></div>
+    </div>
+  </div>
+</section>
+
+<section class="shelf" data-shelf="writing-instruments" data-kicker="ရေးသားရန်" data-title="Pens, pencils &amp; colour"></section>
 
 <section class="camp" aria-labelledby="campT">
   <div class="wrap">
     <div class="sec-head sec-head--row">
       <div>
-        <p class="eyebrow"><span>08</span> From APOLO</p>
-        <h2 id="campT">This season&rsquo;s pages</h2>
+        <p class="kicker">From APOLO</p>
+        <h2 id="campT">This season&rsquo;s posters</h2>
       </div>
       <div class="rail-ctl" data-for="campRail">
-        <button type="button" class="tool tool--line" data-dir="-1" aria-label="Previous campaign"></button>
-        <button type="button" class="tool tool--line" data-dir="1" aria-label="Next campaign"></button>
+        <button type="button" class="tool tool--line" data-dir="-1" aria-label="Previous poster"></button>
+        <button type="button" class="tool tool--line" data-dir="1" aria-label="Next poster"></button>
       </div>
     </div>
   </div>
-  <div class="rail camp__rail" id="campRail" tabindex="0" aria-label="Campaigns, scroll sideways"></div>
+  <div class="rail camp__rail" id="campRail" tabindex="0" aria-label="Posters, scroll sideways"></div>
 </section>
-
-<section class="shelf" data-shelf="books" data-n="09"></section>
-<section class="shelf" data-shelf="copy-paper" data-n="10"></section>
 
 <section class="visit" aria-labelledby="visitT">
   <div class="wrap visit__in">
     <div class="visit__copy">
-      <p class="eyebrow"><span>11</span> Made in Yangon</p>
+      <p class="kicker">Made in Yangon</p>
       <h2 id="visitT">Visit the showroom, <em>or just call.</em></h2>
       <p>APOLO books, pens and supplies are made at our factory in Hlaing Thar Yar, and the showroom is in
          the same building. Order online, by phone, or come and see them in person.</p>

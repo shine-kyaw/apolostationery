@@ -47,15 +47,14 @@ catalog().then(c => {
     base = col.items; title = col.title; crumb = col.title;
     document.title = `${col.title} — APOLO Stationery Myanmar`;
     setMeta(`${col.blurb}. ${col.items.length} APOLO products with door-to-door delivery and cash on delivery across Myanmar.`);
-    head(`<p class="eyebrow"><span>${String(c.collections.indexOf(col) + 1).padStart(2, '0')}</span>
-             <span class="my" lang="my">${col.my}</span></p>
+    head(`<p class="kicker my" lang="my">${col.my}</p>
           <h1 class="page-h1">${esc(col.title)}</h1>
           <p class="shop__sub">${esc(col.blurb)}.</p>`);
   } else if (mode === 'search') {
     base = state.q ? search(c, state.q) : [];
     title = 'Search'; crumb = 'Search';
     document.title = (state.q ? `“${state.q}” — ` : '') + 'Search — APOLO Stationery Myanmar';
-    head(`<p class="eyebrow"><span>${ICON.search}</span> Search</p>
+    head(`<p class="kicker">Search</p>
           <h1 class="page-h1">${state.q ? `Results for <em>“${esc(state.q)}”</em>` : 'Search the catalogue'}</h1>
           <form class="search-form" action="/search" role="search">
             <label class="sr-only" for="q2">Search products</label>
@@ -66,7 +65,7 @@ catalog().then(c => {
     SORTS.featured.label = 'Best match';
   } else {
     base = c.featured; title = 'Shop'; crumb = 'Shop all';
-    head(`<p class="eyebrow"><span>06</span> The catalogue</p>
+    head(`<p class="kicker">The catalogue</p>
           <h1 class="page-h1">Every APOLO <em>product</em></h1>
           <p class="shop__sub">${c.products.length} products across ${c.collections.length} categories &mdash; exercise books and
              pens to files, ledgers and copy paper by the ream.</p>`);
@@ -171,7 +170,7 @@ function setMeta(text) { document.querySelector('meta[name=description]').setAtt
 
 function notFound(c) {
   document.title = 'Category not found — APOLO Stationery Myanmar';
-  head(`<p class="eyebrow"><span>404</span> Not found</p><h1 class="page-h1">That category doesn’t exist</h1>
+  head(`<p class="kicker">Not found</p><h1 class="page-h1">That category doesn’t exist</h1>
         <p class="shop__sub">It may have been renamed. Every category is below.</p>`);
   $('#crumbs').insertAdjacentHTML('beforeend', '<li><a href="/shop">Shop</a></li>');
   $('#tabs').innerHTML = c.collections.map(x => `<a href="/collections/${x.handle}">${esc(x.title)} <small>${x.items.length}</small></a>`).join('');

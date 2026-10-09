@@ -103,6 +103,22 @@ js/hero.js, engine.js, assets.js, audio.js — the film (unchanged in behaviour)
 The film and the store never import each other. If the film fails, the store
 still renders; if the catalogue fails, the film still plays.
 
+### Home page, below the film
+The film holds APOLO magenta back and lands it on the logo; the page below
+floods with it ("Fill the page."). Then the store is built from the thing
+APOLO makes — the exercise book:
+
+- **Categories are exercise-book covers** (`COVERS` in js/pages/home.js): the
+  pastel cover colours APOLO prints, the logo, an illustration panel with one
+  real product, and the cover label every Myanmar school book has, filled in
+  by hand. The four smaller categories are a ruled index underneath.
+- **The school list** (`LIST`): single-variant essentials on a ruled page. A
+  tick adds that item to the cart; "Add the whole list" adds the rest.
+- One product shelf, the store's own posters, the showroom.
+
+Handwriting (Kalam, ballpoint blue `--biro`) is used only where a person
+would really write by hand: the cover labels, the ticks, counts.
+
 ### Home page header
 Over the film the header has no bar, so the page reads as one sheet of paper;
 it turns solid once the film has scrolled past.

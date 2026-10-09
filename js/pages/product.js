@@ -208,7 +208,7 @@ catalog().then(c => {
     sec.hidden = false;
     sec.innerHTML = `
       <div class="wrap"><div class="sec-head sec-head--row">
-        <div><p class="eyebrow"><span>+</span> ${col ? `More in ${esc(col.title)}` : 'You may also need'}</p>
+        <div><p class="kicker">${col ? `More in ${esc(col.title)}` : 'You may also need'}</p>
              <h2>On the same desk</h2></div>
         <div class="sec-head__end">
           ${col ? `<a class="link-arrow" href="/collections/${col.handle}">See all ${col.items.length} ${ICON.arrow}</a>` : ''}

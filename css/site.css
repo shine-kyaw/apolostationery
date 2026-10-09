@@ -441,126 +441,219 @@ img.ph.ph--c{
 .rail-ctl{display:flex;gap:.5rem}
 @media (max-width:700px){.rail-ctl{display:none}}
 
-.shelf{padding:clamp(3rem,7vw,5.5rem) 0 clamp(1rem,2vw,1.5rem)}
-.shelf .sec-head{margin-bottom:1rem}
-
 /* ==========================================================================
    HOME — below the film
+   The film holds magenta back and lands it on the logo; the page below
+   floods with it. Then the store is made of exercise books: categories are
+   covers with a hand-filled label, the essentials are a ruled list.
+   Handwriting (Kalam, in ballpoint blue) is used only for what a person would
+   actually write by hand — a cover label, a tick.
    ========================================================================== */
-.explore{position:relative;background:var(--paper);padding:clamp(4rem,10vw,8rem) 0 clamp(1rem,3vw,2rem);outline:none}
-.explore .sec-head h2{max-width:15ch;font-size:clamp(2.2rem,6vw,4.4rem)}
+:root{ --biro:#2747A8; }
 
-/* categories: the desk the film ended on, continued as an index.
-   Five sheets of paper, each with one real product lying on it; the product
-   lifts and turns a little when you reach for it. */
-.desk{
-  display:grid; gap:clamp(12px,1.4vw,18px);
-  grid-template-columns:repeat(6,minmax(0,1fr));
-  grid-template-areas:"b b b w w w" "d d s s p p";
-}
-.tile{
-  --ph-bg:var(--page);
-  position:relative; display:grid; align-content:space-between; overflow:hidden; isolation:isolate;
-  min-height:clamp(250px,24vw,330px); padding:clamp(1.1rem,2vw,1.6rem);
-  background:var(--page); border-radius:var(--r-lg); text-decoration:none;
-  box-shadow:var(--shadow-rest);
-  transition:box-shadow .6s var(--ease-out);
-}
-.tile--books{grid-area:b;min-height:clamp(300px,30vw,400px)}
-.tile--writing-instruments{grid-area:w;min-height:clamp(300px,30vw,400px)}
-.tile--desk-accessories{grid-area:d}
-.tile--stationery-supplies{grid-area:s}
-.tile--copy-paper{grid-area:p}
-/* the faintest exercise-book ruling on every sheet */
-.tile::before{
-  content:""; position:absolute; inset:0; z-index:-1; opacity:.5;
-  background:repeating-linear-gradient(180deg,transparent 0 31px,rgba(183,196,220,.45) 31px 32px);
-}
-.tile__txt{position:relative;z-index:2;display:grid;max-width:62%}
-.tile__i{font-size:.64rem;letter-spacing:.2em;color:var(--magenta);font-weight:600}
-.tile__t{margin-top:.5rem;font-size:clamp(1.25rem,2.1vw,1.85rem);font-weight:800;letter-spacing:-.03em;line-height:1.05}
-.tile--books .tile__t,.tile--writing-instruments .tile__t{font-size:clamp(1.5rem,2.8vw,2.5rem)}
-.tile__my{font-size:.95rem;color:var(--magenta);margin-top:.2rem}
-.tile__b{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin-top:.55rem;max-width:26ch}
-.tile__go{
-  position:relative; z-index:2; justify-self:start;
-  display:inline-flex; align-items:center; gap:.5em; padding:.55rem .95rem; border-radius:100px;
-  background:rgba(252,250,245,.9); border:1px solid var(--line);
-  font-size:.64rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
-  transition:background .3s, color .3s, border-color .3s;
-}
-.tile__go svg{width:14px;height:14px;transition:transform .45s var(--ease-out)}
+.kicker{margin:0 0 .7rem;font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--magenta)}
+.kicker.my{font-size:1.2rem;font-weight:700;letter-spacing:0;text-transform:none}
 
-/* the object: a framed product photo multiplied onto the sheet, with a
-   contact shadow that softens as it lifts */
-.tile__obj{
-  position:absolute; z-index:1; right:-4%; bottom:-6%;
-  width:min(62%,330px); aspect-ratio:1;
-  transform:rotate(var(--r)); transition:transform .8s var(--ease-out);
-}
-.tile--books .tile__obj,.tile--writing-instruments .tile__obj{width:min(58%,400px);right:-2%;bottom:-8%}
-.tile__obj::before{
-  content:""; position:absolute; left:14%; right:6%; top:18%; bottom:4%; z-index:-1;
-  background:radial-gradient(ellipse at 50% 55%,rgba(74,52,38,.26),rgba(74,52,38,0) 68%);
-  filter:blur(8px); transition:transform .8s var(--ease-out), opacity .8s var(--ease-out);
-}
-.tile__ph{position:absolute;inset:0;overflow:hidden;background:var(--page);isolation:isolate}
-.tile__ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
-  mix-blend-mode:multiply;filter:brightness(1.06) contrast(1.1)}
-.tile:hover,.tile:focus-visible{box-shadow:var(--shadow-lift)}
-.tile:hover .tile__obj,.tile:focus-visible .tile__obj{transform:translate(-2%,-5%) rotate(calc(var(--r) * .55)) scale(1.03)}
-.tile:hover .tile__obj::before,.tile:focus-visible .tile__obj::before{transform:translate(5%,9%) scale(1.06);opacity:.75}
-.tile:hover .tile__go,.tile:focus-visible .tile__go{background:var(--magenta);border-color:var(--magenta);color:#fff}
-.tile:hover .tile__go svg{transform:translateX(4px)}
+/* --- buttons that sit on magenta --- */
+.btn--paper{background:var(--page);color:var(--magenta-deep);box-shadow:0 6px 18px rgba(80,0,45,.25)}
+.btn--paper:hover{background:#fff;color:var(--ink);transform:translateY(-2px)}
+.btn--line{border-color:rgba(255,255,255,.6);color:#fff;background:transparent}
+.btn--line:hover{border-color:#fff;background:rgba(255,255,255,.12)}
 
-/* the smaller categories: a ruled notebook index */
-.index{
-  list-style:none; margin:clamp(12px,1.4vw,18px) 0 0; padding:.4rem 0;
-  display:grid; grid-template-columns:1fr 1fr; column-gap:clamp(1.5rem,4vw,3.5rem);
+/* ---- the flood ------------------------------------------------------------ */
+.flood{
+  position:relative; overflow:hidden; outline:none;
+  background:var(--magenta); color:#fff;
+  padding:clamp(4.5rem,11vw,9rem) 0 clamp(11rem,19vw,15rem);
+}
+/* the film's last mark was a magenta line; the band opens with its colour
+   and keeps the faintest exercise-book ruling in it */
+.flood::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.16;
+  background:repeating-linear-gradient(180deg,transparent 0 47px,rgba(255,255,255,.7) 47px 48px);
+}
+.flood__in{position:relative}
+.flood__my{
+  position:absolute; right:calc(var(--gutter) - .1em); top:-.62em; margin:0; pointer-events:none;
+  font-size:clamp(7rem,21vw,19rem); font-weight:700; line-height:1; color:rgba(255,255,255,.14);
+}
+.flood__h{
+  position:relative; margin:0; font-weight:800; letter-spacing:-.05em; line-height:.9;
+  font-size:clamp(3.4rem,10.5vw,9.5rem);
+}
+.flood__sub{position:relative;margin:clamp(1.2rem,2.4vw,2rem) 0 0;max-width:40ch;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.55;color:rgba(255,255,255,.9)}
+.flood__facts{
+  position:relative; list-style:none; margin:clamp(1.8rem,3vw,2.6rem) 0 0; padding:0;
+  display:flex; flex-wrap:wrap; gap:.6rem 0;
+}
+.flood__facts li{font-size:.84rem;color:rgba(255,255,255,.85);padding-right:1.4rem;margin-right:1.4rem;border-right:1px solid rgba(255,255,255,.35)}
+.flood__facts li:last-child{border:0;margin:0;padding:0}
+.flood__facts b{color:#fff;font-weight:700}
+.flood__cta{position:relative;display:flex;flex-wrap:wrap;gap:.7rem;margin-top:clamp(1.6rem,3vw,2.4rem)}
+
+/* ---- the exercise books ----------------------------------------------------
+   A fan of five covers straddling the edge of the magenta band. */
+/* flow-root keeps the row's negative margin inside this section, so the
+   books rise into the magenta instead of dragging the paper up over it */
+.books{position:relative;display:flow-root;background:var(--paper);padding-bottom:clamp(3rem,7vw,5.5rem)}
+.books__row{
+  display:flex; justify-content:center; align-items:flex-end;
+  margin-top:calc(-1 * clamp(9rem,16vw,12.5rem));
+  padding:0 var(--gutter) clamp(2.2rem,4vw,3.4rem);
+}
+.book{
+  --w:clamp(170px,17.5vw,238px);
+  --tilt:calc((var(--i) - 2) * 2.6deg);
+  position:relative; flex:none; width:var(--w); aspect-ratio:.72;
+  margin:0 calc(var(--w) * -.04);
+  text-decoration:none; color:var(--cink);
+  transform:translateY(calc(var(--d) * 10px)) rotate(var(--tilt));
+  transform-origin:50% 100%;
+  transition:transform .6s var(--ease-out);
+  z-index:calc(10 - var(--d));
+}
+/* the block of pages under the cover */
+.book__pages{
+  position:absolute; inset:6px -7px -7px 6px; border-radius:3px 8px 8px 3px;
+  background:repeating-linear-gradient(90deg,#FFFDF8 0 2px,#E9E2D3 2px 3px);
+  box-shadow:0 18px 32px rgba(72,40,30,.22), 0 3px 6px rgba(72,40,30,.12);
+}
+.book__face{
+  position:absolute; inset:0; display:grid; grid-template-rows:auto 1fr auto; gap:9%;
+  padding:9% 9% 10% 17%; border-radius:4px 10px 10px 4px; overflow:hidden;
   background:
-    linear-gradient(90deg,transparent 3.2rem,var(--rule-margin) 3.2rem,var(--rule-margin) calc(3.2rem + 1.5px),transparent calc(3.2rem + 1.5px)),
-    var(--page);
-  border-radius:var(--r-lg); box-shadow:var(--shadow-rest);
+    linear-gradient(115deg,rgba(255,255,255,.28),rgba(255,255,255,0) 38%),
+    var(--cover);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);
 }
-.index li{border-bottom:1px solid rgba(183,196,220,.7)}
+.book__spine{
+  position:absolute; left:0; top:0; bottom:0; width:10%;
+  background:
+    radial-gradient(circle,rgba(255,255,255,.75) 1.3px,transparent 1.8px) 50% 0 / 100% 12px repeat-y,
+    color-mix(in srgb,var(--cover) 78%,#000);
+}
+.book__top{display:flex;align-items:center;justify-content:space-between;gap:.4rem}
+.book__top img{width:46%;height:auto}
+.book__series{font-size:.78rem;font-weight:700;opacity:.8;white-space:nowrap}
+.book__art{
+  position:relative; align-self:center; justify-self:center; width:100%; aspect-ratio:1; max-height:100%;
+  background:#fff; border-radius:6px; overflow:hidden; isolation:isolate;
+  box-shadow:0 1px 0 rgba(0,0,0,.05);
+}
+.book__art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;filter:brightness(1.05) contrast(1.08)}
+/* the cover label every Myanmar school exercise book has, filled in by hand */
+.book__label{
+  display:grid; padding:.35rem .6rem .45rem; border-radius:6px; background:#fff;
+  border:1.5px solid color-mix(in srgb,var(--cink) 35%,transparent);
+}
+.book__row{display:flex;align-items:baseline;gap:.5rem;padding:.12rem 0;border-bottom:1px solid color-mix(in srgb,var(--cink) 22%,transparent)}
+.book__row:last-child{border-bottom:0}
+.book__row em{font-style:normal;font-size:.54rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.75;flex:none;min-width:6.4em}
+.book__row b{font-family:Kalam,"Comic Sans MS",cursive;font-weight:700;font-size:clamp(1rem,1.35vw,1.2rem);line-height:1.2;color:var(--biro);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.book:hover,.book:focus-visible{transform:translateY(-18px) rotate(0deg);z-index:20}
+.book:focus-visible{outline:none}
+.book:focus-visible .book__face{outline:3px solid var(--ink);outline-offset:4px}
+
+/* ---- the smaller categories: a ruled index -------------------------------- */
+.index{
+  list-style:none; margin:0; padding:.3rem 0;
+  display:grid; grid-template-columns:1fr 1fr; column-gap:clamp(1.5rem,4vw,3.5rem);
+  border-top:2px solid var(--ink); border-bottom:1px solid var(--line);
+}
+.index li{border-bottom:1px solid rgba(183,196,220,.8)}
 .index li:nth-last-child(-n+2){border-bottom:0}
 .index a{
-  display:grid; grid-template-columns:3.2rem auto auto 1fr auto auto; align-items:baseline; column-gap:.8rem;
-  padding:1.05rem 1.3rem 1.05rem 0; text-decoration:none; transition:background .25s;
+  display:grid; grid-template-columns:auto auto 1fr auto auto; align-items:baseline; column-gap:.8rem;
+  padding:1rem .2rem; text-decoration:none;
 }
-.index__i{font-size:.62rem;letter-spacing:.16em;color:var(--ink-faint);text-align:center}
-.index__t{font-weight:700;font-size:1.02rem;letter-spacing:-.01em;padding-left:.7rem}
-.index__my{font-size:.88rem;color:var(--magenta)}
-.index__b{font-size:.78rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.index__n{font-size:.74rem;color:var(--ink-faint)}
+.index__t{font-weight:700;font-size:1.02rem;letter-spacing:-.01em}
+.index__my{font-size:.9rem;color:var(--magenta)}
+.index__b{font-size:.8rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.index__n{font-family:Kalam,cursive;font-weight:700;font-size:1.05rem;color:var(--biro)}
 .index a svg{width:16px;height:16px;align-self:center;transition:transform .4s var(--ease-out)}
 .index a:hover .index__t{color:var(--magenta)}
 .index a:hover svg{transform:translateX(4px);color:var(--magenta)}
 
-@media (max-width:980px){
-  .desk{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"b b" "w w" "d s" "p p"}
-  .index{grid-template-columns:1fr}
-  .index li:nth-last-child(2){border-bottom:1px solid rgba(183,196,220,.7)}
-  .index__b{display:none}
-  .index a{grid-template-columns:3.2rem auto 1fr auto auto}
+/* ---- the school list ------------------------------------------------------ */
+.list{background:var(--desk);padding:clamp(4.5rem,9vw,7.5rem) 0}
+.list__in{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(2rem,6vw,5.5rem);align-items:start}
+.list__intro{position:sticky;top:calc(var(--hdr) + 2rem)}
+.list__intro h2{margin:0;font-weight:800;letter-spacing:-.04em;line-height:.95;font-size:clamp(2.4rem,5.4vw,4.4rem)}
+.list__intro > p:last-child{margin:1.2rem 0 0;color:var(--ink-soft);max-width:36ch;line-height:1.6}
+.list__page{
+  --m:clamp(3.4rem,6vw,4.4rem);
+  position:relative; background:var(--page); border-radius:3px 6px 6px 3px;
+  padding:clamp(2.2rem,4vw,3rem) clamp(1rem,2.4vw,1.8rem) clamp(1.4rem,3vw,2rem) 0;
+  box-shadow:6px 6px 0 -1px #F1EBE0, 12px 12px 0 -2px #E5DCCB, 0 24px 50px rgba(72,52,38,.16);
 }
-@media (max-width:560px){
-  .tile{min-height:236px}
-  .tile--books,.tile--writing-instruments,.tile--copy-paper{min-height:230px}
-  .tile__txt{max-width:56%}
-  .tile__b{display:none}
-  .tile--books .tile__obj,.tile--writing-instruments .tile__obj,.tile--copy-paper .tile__obj{width:56%;right:-3%;bottom:-6%}
-  .tile--desk-accessories .tile__txt,.tile--stationery-supplies .tile__txt{max-width:100%}
-  .tile--desk-accessories .tile__obj,.tile--stationery-supplies .tile__obj{width:82%;right:-10%;bottom:-2%}
-  .tile__go{padding:.45rem .75rem}
-  .index a{grid-template-columns:2.6rem auto 1fr auto auto;column-gap:.5rem}
-  .index{background:linear-gradient(90deg,transparent 2.6rem,var(--rule-margin) 2.6rem,var(--rule-margin) calc(2.6rem + 1.5px),transparent calc(2.6rem + 1.5px)),var(--page)}
+/* the red margin runs the full height of the page */
+.list__page::before{content:"";position:absolute;top:0;bottom:0;left:var(--m);width:1.5px;background:var(--rule-margin)}
+.list__rows{list-style:none;margin:0;padding:0}
+.row{
+  display:grid; grid-template-columns:var(--m) 52px minmax(0,1fr) auto; align-items:center; column-gap:1rem;
+  min-height:68px; border-bottom:1px solid var(--rule);
+}
+.row:first-child{border-top:1px solid var(--rule)}
+.row__tick{
+  justify-self:center; width:28px; height:28px; padding:0; cursor:pointer;
+  border:2px solid rgba(22,21,26,.55); border-radius:6px 5px 7px 5px; background:transparent; color:var(--biro);
+  display:grid; place-items:center; transition:border-color .2s, transform .3s var(--ease-out);
+}
+.row__tick:hover{border-color:var(--biro);transform:rotate(-4deg)}
+.row__tick svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  overflow:visible;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .35s var(--ease-out)}
+.row.is-ticked .row__tick svg{stroke-dashoffset:0}
+.row__img{position:relative;display:block;width:52px;aspect-ratio:1;border-radius:6px;overflow:hidden;background:#fff;isolation:isolate;
+  box-shadow:var(--shadow-rest)}
+.row__img img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.row__t{font-size:.95rem;font-weight:500;text-decoration:none;line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.row__t:hover{color:var(--magenta)}
+.row.is-ticked .row__t{font-weight:600}
+.row__p{font-weight:700;font-size:.95rem;white-space:nowrap}
+.row__p small{font-family:Kalam,cursive;color:var(--biro);font-size:1rem}
+.list__foot{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem 1.2rem;padding:1.6rem 0 0 calc(var(--m) + 1rem)}
+.list__note{font-size:.82rem;color:var(--ink-soft)}
+.list__done{font-family:Kalam,cursive;font-weight:700;font-size:1.15rem;color:var(--biro)}
+
+/* ---- the one shelf ---- */
+.shelf{padding:clamp(4rem,8vw,6.5rem) 0 clamp(1.5rem,3vw,2.5rem)}
+.shelf .sec-head{margin-bottom:1rem}
+
+@media (max-width:980px){
+  .index{grid-template-columns:1fr}
+  .index li:nth-last-child(2){border-bottom:1px solid rgba(183,196,220,.8)}
+  .list__in{grid-template-columns:1fr}
+  .list__intro{position:static}
+}
+@media (max-width:760px){
+  .flood{padding-bottom:clamp(10rem,48vw,13rem)}
+  .flood__my{top:auto;bottom:-.25em;right:-.05em;font-size:clamp(7rem,40vw,11rem)}
+  .flood__facts li{padding-right:.9rem;margin-right:.9rem;font-size:.8rem}
+  /* the fan becomes a shelf you can thumb through */
+  .books__row{
+    justify-content:flex-start; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none;
+    margin-top:calc(-1 * clamp(8.5rem,42vw,11rem)); padding-top:22px; gap:14px;
+    scroll-padding-inline:var(--gutter);
+  }
+  .books__row::-webkit-scrollbar{display:none}
+  .book{--w:58vw;margin:0;transform:rotate(calc(var(--tilt) * .4));scroll-snap-align:start}
+  .book:hover,.book:focus-visible{transform:translateY(-10px)}
+  .index__b{display:none}
+  .index a{grid-template-columns:auto 1fr auto auto}
+  .row{grid-template-columns:var(--m) 44px minmax(0,1fr) auto;column-gap:.7rem}
+  .row__img{width:44px}
+  .row__t{font-size:.86rem}
+  .list__foot{padding-left:calc(var(--m) + .7rem)}
+  .list__foot .btn{padding-inline:1.1rem;font-size:.72rem}
 }
 
 /* campaigns: the store's own homepage artwork */
 .camp{padding:clamp(3.5rem,8vw,6rem) 0 clamp(1rem,2vw,1.5rem);background:var(--desk)}
 .camp .sec-head{margin-bottom:1rem}
-.camp__rail{grid-auto-columns:min(760px,86vw)}
+.camp__rail{grid-auto-columns:min(640px,82vw)}
 .camp__slide{display:block;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-rest);
   transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out);background:#f6d5e6}
 .camp__slide img{width:100%;height:auto;aspect-ratio:870/494;object-fit:cover}
@@ -570,7 +663,7 @@ img.ph.ph--c{
 .visit{padding:clamp(4.5rem,10vw,8rem) 0;background:var(--paper)}
 .visit__in{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:center}
 .visit h2{margin:0;font-weight:800;letter-spacing:-.035em;line-height:1;font-size:clamp(2rem,4.6vw,3.5rem);max-width:14ch}
-.visit__copy > p:not(.eyebrow){color:var(--ink-soft);max-width:46ch;margin:1.2rem 0 1.8rem}
+.visit__copy > p:not(.eyebrow):not(.kicker){color:var(--ink-soft);max-width:46ch;margin:1.2rem 0 1.8rem}
 .visit__cta{display:flex;flex-wrap:wrap;gap:.7rem}
 .note{transform:rotate(1.2deg)}
 .note__page{

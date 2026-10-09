@@ -200,6 +200,9 @@ export function openDialog(name) {
   const d = document.getElementById(DIALOGS[name]);
   if (!d || d.open) return;
   for (const id of Object.values(DIALOGS)) { const o = document.getElementById(id); if (o.open) close(o); }
+  /* a toast saying "View cart (1)" is stale the moment the cart opens */
+  const t = document.getElementById('toast');
+  if (t && !t.hidden) { clearTimeout(toastT); t.classList.remove('is-on'); t.hidden = true; }
   d.showModal();
   document.documentElement.classList.add('is-locked');
   d.dispatchEvent(new Event('opened'));
