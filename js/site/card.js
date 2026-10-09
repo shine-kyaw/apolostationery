@@ -6,9 +6,11 @@
    is how wrong orders happen.
    ========================================================================== */
 
-import { img, srcset, esc, money, priceLabel, shortTitle, catalog } from '../store/catalog.js';
+import { photo, esc, money, priceLabel, shortTitle, catalog } from '../store/catalog.js';
 import { cart } from '../store/cart.js';
 import { ICON, toast, openDialog } from './chrome.js';
+
+const SIZES = '(max-width:600px) 46vw, (max-width:1100px) 30vw, 280px';
 
 export function card(p, { eager = false } = {}) {
   const a = p.images[0], b = p.images[1];
@@ -22,9 +24,8 @@ export function card(p, { eager = false } = {}) {
   <article class="card${p.available ? '' : ' is-out'}">
     <a class="card__link" href="/products/${p.handle}">
       <span class="card__img">
-        ${a ? `<img src="${img(a.src, 450)}" srcset="${srcset(a.src)}" sizes="(max-width:600px) 46vw, (max-width:1100px) 30vw, 280px"
-                  alt="${esc(p.title)}" width="450" height="450" ${eager ? '' : 'loading="lazy"'} decoding="async">` : ''}
-        ${b ? `<img class="card__alt" src="${img(b.src, 450)}" alt="" width="450" height="450" loading="lazy" decoding="async">` : ''}
+        ${photo(a, { w: 300, sizes: SIZES, alt: p.title, lazy: !eager })}
+        ${b ? photo(b, { w: 300, sizes: SIZES, cls: 'card__alt' }) : ''}
         ${sale ? '<span class="tag tag--sale">Sale</span>' : ''}
         ${p.available ? '' : '<span class="tag">Sold out</span>'}
       </span>

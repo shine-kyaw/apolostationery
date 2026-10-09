@@ -44,6 +44,30 @@ are placed by type or title keyword (`BY_TYPE`, `BY_WORD`) so none go missing.
 Product images are loaded from Shopify's CDN at the size each slot needs
 (`&width=`), never the 1500px masters.
 
+### Product framing
+
+APOLO's photos are supplier sheets: the product small in the middle of a
+1500px square, with a corner logo, a spec badge and a pale watermark.
+`tools/measure-images.mjs` opens every photo in a headless browser, finds where
+the product actually is (ignoring the chrome and the watermark) and stores a
+square crop in `data/crops.json`. Cards, search, cart and the product page then
+show the product large and consistently framed; full-bleed artwork (the magenta
+exercise-book tiles) is left uncropped. After a sync brings in new products:
+
+```bash
+npm i --no-save --no-package-lock puppeteer-core
+node tools/measure-images.mjs
+```
+
+It only measures photos it hasn't seen. Uses Edge or Chrome (`CHROME_PATH` to
+point at another). New photos simply show uncropped until it is run.
+
+### Shop order
+
+"Featured" on /shop opens with a hand-picked list of APOLO's strongest products
+(`FEATURED` in `js/store/catalog.js`), then deals the rest out one category at a
+time. Category pages keep the order set in Shopify.
+
 ## Cart and checkout
 
 The cart is kept in the visitor's browser (`localStorage`, key
@@ -80,10 +104,14 @@ The film and the store never import each other. If the film fails, the store
 still renders; if the catalogue fails, the film still plays.
 
 ### Home page header
-Over the film the header has no logo and no bar — the film ends with the logo
-resolving on the page it drew, and a second logo pinned above it the whole way
-would spend that moment in advance. Once the film has scrolled past, the header
-turns solid and the logo appears in it.
+Over the film the header has no bar, so the page reads as one sheet of paper;
+it turns solid once the film has scrolled past.
+
+### CSS gotcha
+The film's CSS uses generic class names (`.line`, `.eyebrow`, `.brand`, `.cta`)
+and its drawing is an `aria-hidden` SVG. Store icons are styled through
+`svg.i` only — a broad `svg[aria-hidden]` rule once shrank the whole drawing to
+20px and the film played as a pencil over a blank page.
 
 ## Run it locally
 

@@ -89,6 +89,7 @@ const BOOK  = waver(resampleSegments([
 /* The door: a second, shorter stroke. Drawn while the walls are still fresh. */
 const DOOR = waver(resample([[452,472],[452,368],[548,368],[548,472]], 40), 1.6, 5);
 doorEl.setAttribute('d', toPath(DOOR));
+const DOOR_CUM = arcLengths(DOOR);
 
 /* Working buffers reused every frame — the morph never allocates. */
 let PTS = HOUSE.map(p => p.slice());
@@ -164,6 +165,12 @@ const pencilImg = pencil.querySelector("img");
    off the part of the page that has not been drawn yet. */
 const TILT = -28;
 
+/* Where the pencil lies before anyone scrolls: point up-left, body running
+   down to the right, on the empty side of the page. Fractions of the stage;
+   rot is the artwork's rotation (it is drawn tip-up). On a phone the
+   headline fills the bottom of the screen, so it lies across the top. */
+const REST = mobile ? { x: 0.24, y: 0.27, rot: -62 } : { x: 0.575, y: 0.33, rot: -58 };
+
 /* --------------------------------------------------------------------------
    5 · the flat-lay
    -------------------------------------------------------------------------- */
@@ -207,7 +214,8 @@ if (pencilImg.complete) queueLoad(); else {
   pencilImg.addEventListener('error', queueLoad, { once: true });
 }
 function queueLoad() {
-  stage.classList.add('is-armed');            // reveals the scroll cue
+  stage.classList.add('is-armed');
+  pencil.classList.add('is-ready');            // reveals the scroll cue
   (window.requestIdleCallback || (f => setTimeout(f, 200)))(loadProducts, { timeout: 1500 });
 }
 setTimeout(queueLoad, 2500);                  // never let a stalled CDN hide the cue
@@ -315,7 +323,7 @@ const CAM = mobile ? [
 ];
 
 const pointer = createPointer();
-let prevDrawn = 0, bookLanded = false, brandLive = false;
+let prevDrawn = 0, prevDoor = 0, bookLanded = false, brandLive = false;
 
 function frame(p) {
   const pt = pointer.update();
@@ -340,15 +348,17 @@ function frame(p) {
     : `0 ${(pull*2.6).toFixed(2)}vmin ${(pull*8).toFixed(2)}vmin rgba(72,52,38,${(pull*0.17).toFixed(3)})`);
 
   /* ---- 00 · the blank page ---------------------------------------------- */
-  const askOut = ease.inOut(range(p, 0.075, 0.150));
+  /* The headline clears the page before the pencil reaches it: it lifts and
+     goes, cleanly — no blur, nothing smeared underneath a moving object. */
+  const askOut = ease.inOut(range(p, 0.018, 0.078));
   ask.style.setProperty('--ask', (1 - askOut).toFixed(3));
-  ask.style.setProperty('--ask-y', (askOut * -5 + py * 0.45).toFixed(2) + 'vmin');
-  ask.style.setProperty('--ask-b', (askOut * 5).toFixed(2) + 'px');
+  ask.style.setProperty('--ask-y', (askOut * -7 + py * 0.45).toFixed(2) + 'vmin');
+  ask.style.setProperty('--ask-b', '0px');
   cue.style.setProperty('--cue', (1 - range(p, 0.015, 0.055)).toFixed(3));
   setSlate(p);
 
   /* ---- 03–04 · the line -------------------------------------------------- */
-  const shape = ease.inOut(range(p, 0.440, 0.585));      // house → notebook
+  const shape = ease.inOut(range(p, 0.455, 0.595));      // house → notebook
   if (Math.abs(shape - lastShape) > 0.0015 || (shape === 0) !== (lastShape === 0)
       || (shape === 1) !== (lastShape === 1)) {
     PTS = shape === 0 ? HOUSE : shape === 1 ? BOOK : morph(HOUSE, BOOK, shape);
@@ -357,20 +367,26 @@ function frame(p) {
     lastShape = shape;
   }
 
-  const drawn = warp(range(p, 0.115, 0.400));
+  /* Outline first, then — after a small hop — the door, with the same pencil.
+     A zero-length dash still paints a round cap, so a line that has not
+     started yet is hidden outright rather than left as a stray dot. */
+  const drawn = warp(range(p, 0.115, 0.360));
   strokeEl.style.strokeDashoffset = (100 * (1 - drawn)).toFixed(3);
+  strokeEl.style.visibility = drawn > 0.002 ? 'visible' : 'hidden';
 
   /* Graphite while a pencil is making it; once it has become a printed
      notebook the line settles to a light rule. It is never magenta — the
      brand colour is saved for the last eight percent of the film. */
-  const printed = ease.inOut(range(p, 0.480, 0.650));
+  const printed = ease.inOut(range(p, 0.490, 0.650));
   strokeEl.style.setProperty('--ink-mix', printed.toFixed(3));
   strokeEl.style.strokeWidth = lerp(3.4, 1.9, printed).toFixed(2);
   strokeEl.style.opacity = (1 - range(p, 0.86, 0.99) * 0.45).toFixed(3);
 
-  const doorDrawn = ease.out(range(p, 0.320, 0.395));
+  const hop = ease.inOut(range(p, 0.360, 0.380));          // lift, move to the door
+  const doorDrawn = ease.inOut(range(p, 0.380, 0.420));
   doorEl.style.strokeDashoffset = (100 * (1 - doorDrawn)).toFixed(2);
-  doorEl.style.opacity = (doorDrawn * (1 - ease.inOut(range(p, 0.450, 0.530)))).toFixed(3);
+  doorEl.style.visibility = doorDrawn > 0.004 ? 'visible' : 'hidden';
+  doorEl.style.opacity = (1 - ease.inOut(range(p, 0.462, 0.530))).toFixed(3);
 
   /* ---- the page appears underneath the outline --------------------------- */
   const pageIn = ease.out(range(p, 0.560, 0.648));
@@ -394,14 +410,26 @@ function frame(p) {
      the pencil rather than timed alongside it. Everything else — the hover
      before it lands, the wrist rotation, the wobble, the lift-off — is layered
      on top of that one honest anchor. */
-  const arrive = ease.out(range(p, 0.045, 0.128));
-  const land   = ease.settle(range(p, 0.100, 0.150));    // hover → paper contact
-  const leave  = ease.inOut(range(p, 0.400, 0.470));
-  const penOn  = Math.min(arrive * 1.35, 1) * (1 - leave);
+  /* The film opens with the pencil already lying on the page, opposite the
+     headline — the first frame has an object, a colour and a promise in it,
+     not an empty sheet. Scrolling picks it up: it rises off the paper (its
+     shadow softens and drifts), turns from lying flat into a writing grip,
+     travels in an arc to the first corner and touches down. When the house is
+     done it is lifted out of frame at full opacity — a hand taking it away,
+     not a pencil dissolving into a ghost over the drawing. */
+  const pick  = ease.inOut(range(p, 0.022, 0.104));     // rest → carried
+  const land  = ease.settle(range(p, 0.092, 0.132));    // hover → paper contact
+  const leave = ease.in2(range(p, 0.424, 0.488));       // lifted away, accelerating
+  const penOn = 1 - range(p, 0.474, 0.490);             // only once it is out of shot
 
   if (penOn > 0.002) {
     const s   = CUM[CUM.length - 1] * clamp(drawn, 0.0004, 1);
-    const a   = pointAt(PTS, CUM, s);
+    /* where the point is: on the outline, hopping across, or on the door */
+    let a = pointAt(PTS, CUM, s);
+    if (hop > 0) {
+      const d = pointAt(DOOR, DOOR_CUM, DOOR_CUM[DOOR_CUM.length - 1] * clamp(doorDrawn, 0.0004, 1));
+      a = hop < 1 ? { x: lerp(a.x, d.x, hop), y: lerp(a.y, d.y, hop), angle: lerp(a.angle, d.angle, hop) } : d;
+    }
     const tip = toStage(a.x, a.y);
 
     /* Nobody's hand is a plotter. A slow wobble along the run, perpendicular
@@ -411,34 +439,43 @@ function frame(p) {
     tip.x += -Math.sin(rad) * wob;
     tip.y +=  Math.cos(rad) * wob;
 
-    /* in from off-frame bottom-right, out to the top-right */
-    const from = { x: M.w * 1.05, y: M.h * 1.30 };
-    const to   = { x: tip.x + M.w * 0.34, y: tip.y - M.h * 0.52 };
-    const x = lerp(lerp(from.x, tip.x, arrive), to.x, leave);
-    /* the hover: still a few millimetres off the page until `land` completes */
-    const hover = (1 - land) * M.h * 0.045;
-    const y = lerp(lerp(from.y, tip.y, arrive), to.y, leave) - hover;
+    /* Where it lies at rest, in stage pixels, nudged a little by the pointer. */
+    const rest = {
+      x: M.w * REST.x + px * M.vmin * 0.8,
+      y: M.h * REST.y + py * M.vmin * 0.5
+    };
+    const away = { x: M.w * 1.10, y: -M.h * 0.30 };
+
+    /* the carry is an arc, not a slide: it rises as it travels */
+    const arc   = Math.sin(pick * Math.PI) * M.h * 0.07;
+    const hover = (1 - land) * M.h * 0.035 * pick + Math.sin(hop * Math.PI) * M.h * 0.03;
+    const x = lerp(lerp(rest.x, tip.x, pick), away.x, leave);
+    const y = lerp(lerp(rest.y, tip.y, pick), away.y, leave) - arc - hover;
 
     /* The wrist turns with the stroke, but only a little — the grip does not
        change just because the line does. */
-    const lean = Math.sin(rad) * 8 + noise(s * 0.011, 7) * 2.2;
-    const rot  = TILT + lean * (1 - leave) + leave * 34 + px * 1.4 * (1 - leave);
+    const lean = (Math.sin(rad) * 8 + noise(s * 0.011, 7) * 2.2) * land;
+    const grip = TILT + lean + px * 1.4;
+    const rot  = lerp(lerp(REST.rot, grip, pick), grip + 26, leave);
 
     pencil.style.transform =
       `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg)` +
       ` translate(calc(-1 * var(--tx)), calc(-1 * var(--ty)))`;
     pencil.style.setProperty('--pen-o', penOn.toFixed(3));
-    /* shadow reads the height off the page: tight on contact, soft in the air */
-    pencil.style.setProperty('--pen-lift', (Math.max(1 - land, leave)).toFixed(3));
+    /* Shadow reads the height off the page: tight while it lies flat and
+       while it draws, soft and offset while it is carried or lifted away. */
+    const lift = Math.max(Math.sin(pick * Math.PI) * 0.9, (1 - land) * pick, Math.sin(hop * Math.PI) * 0.6, leave);
+    pencil.style.setProperty('--pen-lift', clamp(lift).toFixed(3));
 
-    const speed = Math.abs(drawn - prevDrawn);
-    audio.scratch(drawn > 0.0005 && drawn < 0.9995 ? land * (1 - leave) : 0, speed);
+    const speed = Math.abs(drawn - prevDrawn) + Math.abs(doorDrawn - prevDoor) * 0.35;
+    const marking = (drawn > 0.0005 && drawn < 0.9995) || (doorDrawn > 0.0005 && doorDrawn < 0.9995);
+    audio.scratch(marking ? land * (1 - leave) * (1 - Math.sin(hop * Math.PI)) : 0, speed);
     if (land > 0.5 && !audio.tapped) { audio.tap(); audio.tapped = true; }
   } else {
     pencil.style.setProperty('--pen-o', '0');
     audio.scratch(0, 0);
   }
-  prevDrawn = drawn;
+  prevDrawn = drawn; prevDoor = doorDrawn;
 
   /* ---- 05 · the products -------------------------------------------------
      Each object has its own vector onto the page, its own moment, and one

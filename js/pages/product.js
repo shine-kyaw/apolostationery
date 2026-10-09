@@ -5,7 +5,7 @@
 import { mountChrome, ICON, CONTACT, stepper, openDialog } from '../site/chrome.js';
 import { card, wireQuickAdd } from '../site/card.js';
 import { wireRails } from '../site/rail.js';
-import { catalog, img, srcset, esc, money, shortTitle, related, variantImage } from '../store/catalog.js';
+import { catalog, photo, esc, money, shortTitle, related } from '../store/catalog.js';
 import { cart } from '../store/cart.js';
 
 mountChrome();
@@ -49,11 +49,11 @@ catalog().then(c => {
   <div class="pdp">
     <div class="gallery">
       <div class="stage-img is-in" id="stageImg" role="img" aria-label="${esc(p.title)}">
-        <img id="mainImg" alt="" width="900" height="900" fetchpriority="high">
+        <div class="stage-img__in" id="stageIn"></div>
       </div>
       ${p.images.length > 1 ? `<div class="thumbs" id="thumbs" aria-label="Product images">${p.images.map((im, i) => `
         <button type="button" data-i="${i}" aria-label="Show image ${i + 1} of ${p.images.length}">
-          <img src="${img(im.src, 160)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
+          ${photo(im, { w: 70 })}</button>`).join('')}</div>` : ''}
     </div>
 
     <div class="buy" id="buy" tabindex="-1">
@@ -110,19 +110,19 @@ catalog().then(c => {
   </div>`;
 
   /* ---- gallery ---- */
-  const stage = $('#stageImg'), main = $('#mainImg');
+  const stage = $('#stageImg'), stageIn = $('#stageIn');
   let shown = -1;
   const show = (i, instant = false) => {
     const im = p.images[i] || p.images[0];
     if (!im || i === shown) return;
     shown = i;
+    /* framed like the cards, but looser — the product page keeps some of
+       the photo around the product */
     const set = () => {
-      main.src = img(im.src, 900);
-      main.srcset = srcset(im.src, [600, 900, 1200, 1500]);
-      main.sizes = '(max-width:900px) 92vw, 600px';
+      stageIn.innerHTML = photo(im, { w: 620, sizes: '(max-width:900px) 92vw, 620px', air: 1.22, lazy: false, high: true });
       stage.classList.remove('is-swap');
     };
-    if (instant || !main.src) set();
+    if (instant || !stageIn.firstChild) set();
     else { stage.classList.add('is-swap'); setTimeout(set, 160); }
     document.querySelectorAll('#thumbs button').forEach(b => b.setAttribute('aria-current', String(+b.dataset.i === i)));
   };

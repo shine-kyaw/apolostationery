@@ -65,7 +65,7 @@ catalog().then(c => {
     /* relevance is the useful order for a search */
     SORTS.featured.label = 'Best match';
   } else {
-    base = c.products; title = 'Shop'; crumb = 'Shop all';
+    base = c.featured; title = 'Shop'; crumb = 'Shop all';
     head(`<p class="eyebrow"><span>06</span> The catalogue</p>
           <h1 class="page-h1">Every APOLO <em>product</em></h1>
           <p class="shop__sub">${c.products.length} products across ${c.collections.length} categories &mdash; exercise books and

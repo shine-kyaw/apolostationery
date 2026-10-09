@@ -30,8 +30,30 @@ function index(c) {
     col.items = col.products.map(h => c.byHandle.get(h)).filter(Boolean);
     for (const p of col.items) p.collections.push(col);
   }
+
+  /* "Featured" for the whole shop: APOLO's own strongest products first, then
+     the rest dealt out one category at a time, so the grid never opens on a
+     run of near-identical envelopes or reams of copy paper. */
+  const lead = FEATURED.map(h => c.byHandle.get(h)).filter(Boolean);
+  const seen = new Set(lead);
+  const queues = c.collections.map(col => col.items.filter(p => !seen.has(p)));
+  c.featured = lead.slice();
+  while (queues.some(q => q.length))
+    for (const q of queues) { const p = q.shift(); if (p && !seen.has(p)) { seen.add(p); c.featured.push(p); } }
+  for (const p of c.products) if (!seen.has(p)) c.featured.push(p);
   return c;
 }
+
+const FEATURED = [
+  'apolo-color-pencil-36-colors', 'apolo-exercise-book-55-gsm-80-pages-single-line',
+  'highlighter-bright-pen-a-187', 'apolo-oil-pastel-a-242-12-colors',
+  'copy-of-apolo-drawing-book-55-gsm-80-pages-12-pcs', 'gel-pen-a-101-blue-black-red',
+  'apolo-sticky-note', 'copy-of-office-stapler-a191b',
+  'apolo-note-book-soft-cover-a5', 'mechanical-pencil-0-5mm-a-194-pink-blue-purple-yellow',
+  'apolo-glue-stick-8g-15g-36g', 'copy-of-apolo-color-paper-70-gsm-a4-500-sheets',
+  'apolo-calculator', 'apolo-correction-tape-disposable-a-158',
+  'apolo-clear-file-a4-20-40-60-pockets', 'apolo-binder-clip'
+];
 
 const norm = s => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ');
 
@@ -55,6 +77,44 @@ export function img(src, width = 600) {
 
 export function srcset(src, widths = [300, 450, 600, 900]) {
   return widths.map(w => `${img(src, w)} ${w}w`).join(', ');
+}
+
+/** One product photo, framed. `im.c` is the square crop around the product
+    measured by tools/measure-images.mjs; with it the product fills the tile
+    instead of floating small in a supplier sheet. Because a crop zooms in, the
+    file asked for is proportionally larger so it stays sharp.
+    `air` loosens the crop (1 = as measured) for places that want context. */
+export function photo(im, { w = 450, sizes = '', alt = '', cls = '', lazy = true, air = 1, high = false } = {}) {
+  if (!im) return '';
+  let c = im.w === im.h && im.c ? im.c.slice() : null;
+  if (c && air !== 1) {
+    const s = Math.min(1, c[2] * air);
+    c = s >= 0.98 ? null : [
+      Math.min(Math.max(c[0] - (s - c[2]) / 2, 0), 1 - s),
+      Math.min(Math.max(c[1] - (s - c[2]) / 2, 0), 1 - s), s];
+  }
+  const z = c ? 1 / c[2] : 1;
+  const ws = [0.66, 1, 1.5, 2].map(k => Math.min(1500, Math.round(w * k * z / 50) * 50));
+  const set = [...new Set(ws)].map(x => `${img(im.src, x)} ${x}w`).join(', ');
+  const style = c ? ` style="--x:${c[0]};--y:${c[1]};--s:${c[2]}"` : '';
+  return `<img class="ph${c ? ' ph--c' : ''}${cls ? ' ' + cls : ''}"${style} src="${img(im.src, ws[1])}"
+    srcset="${set}"${sizes ? ` sizes="${sizes}"` : ''} alt="${esc(alt)}" width="${im.w || 450}" height="${im.h || 450}"
+    ${lazy ? 'loading="lazy"' : ''} ${high ? 'fetchpriority="high"' : ''} decoding="async">` + (c ? chrome(im.src, c, cls) : '');
+}
+
+/* Supplier sheets carry an APOLO logo top-right and a spec badge bottom-left.
+   A wide crop can catch a sliver of either at the tile's corners; paint those
+   zones out (the same zones the measurement ignored). Cutout PNGs have none. */
+const CHROME = [[0.80, 0, 1, 0.15], [0, 0.82, 0.30, 1]];
+function chrome(src, [x, y, s], cls) {
+  if (/\.png/i.test(src)) return '';
+  return CHROME.map(([a, b, c2, d]) => {
+    const l = (a - x) / s, t = (b - y) / s, r = (c2 - x) / s, btm = (d - y) / s;
+    if (r <= 0 || btm <= 0 || l >= 1 || t >= 1) return '';
+    const pct = v => (Math.min(Math.max(v, 0), 1) * 100).toFixed(1) + '%';
+    return `<i class="ph-mask${cls ? ' ' + cls : ''}" aria-hidden="true" style="left:${pct(l)};top:${pct(t)};` +
+           `right:${pct(1 - r)};bottom:${pct(1 - btm)}"></i>`;
+  }).join('');
 }
 
 /** The image a variant should show, falling back to the product's first. */

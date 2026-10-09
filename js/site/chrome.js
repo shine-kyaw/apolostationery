@@ -5,7 +5,7 @@
    call mountChrome(); the markup lives here once instead of six times.
    ========================================================================== */
 
-import { catalog, money, img, esc, search, shortTitle, priceLabel, variantImage } from '../store/catalog.js';
+import { catalog, money, photo, esc, search, shortTitle, priceLabel, variantImage } from '../store/catalog.js';
 import { cart } from '../store/cart.js';
 
 export const LOGO = '/img/apolo-logo.png';
@@ -23,22 +23,22 @@ export const CONTACT = {
 const $ = (s, r = document) => r.querySelector(s);
 
 export const ICON = {
-  search: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>',
-  bag:    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12.1a1 1 0 0 1-1 .9H7.2a1 1 0 0 1-1-.9z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>',
-  close:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
-  menu:   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h11"/></svg>',
-  chev:   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>',
-  arrow:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-6 6 6-6 6"/></svg>',
-  phone:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.4 4.2-2 1.4a12 12 0 0 0 6.3 6.3l1.4-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg>',
-  truck:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 9.5h4l3 3.5v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg>',
-  cash:   '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6.5 9.5v5M17.5 9.5v5"/></svg>',
-  shield: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5.5c0 4.3 3 7.8 7 9.5 4-1.7 7-5.2 7-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>',
-  pin:    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
-  mail:   '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="m3.5 6.5 8.5 7 8.5-7"/></svg>',
-  fb:     '<svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21z"/></svg>',
-  ig:     '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6" class="fill"/></svg>',
-  minus:  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg>',
-  plus:   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>'
+  search: '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>',
+  bag:    '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12.1a1 1 0 0 1-1 .9H7.2a1 1 0 0 1-1-.9z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>',
+  close:  '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  menu:   '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h11"/></svg>',
+  chev:   '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>',
+  arrow:  '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-6 6 6-6 6"/></svg>',
+  phone:  '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.4 4.2-2 1.4a12 12 0 0 0 6.3 6.3l1.4-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg>',
+  truck:  '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 9.5h4l3 3.5v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg>',
+  cash:   '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6.5 9.5v5M17.5 9.5v5"/></svg>',
+  shield: '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5.5c0 4.3 3 7.8 7 9.5 4-1.7 7-5.2 7-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>',
+  pin:    '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
+  mail:   '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="m3.5 6.5 8.5 7 8.5-7"/></svg>',
+  fb:     '<svg class="i fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21z"/></svg>',
+  ig:     '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6" class="fill"/></svg>',
+  minus:  '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12"/></svg>',
+  plus:   '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>'
 };
 
 /* ========================================================================== */
@@ -275,10 +275,8 @@ function fillCategories(c) {
 }
 
 /* ---------- the header over the film ----------
-   On the home page the header floats over the film with no logo: the film's
-   last frame is the logo resolving on the page it drew, and a second logo
-   pinned above it for fifty seconds would spend that payoff in advance. The
-   mark arrives in the header once the film has delivered it. */
+   On the home page the header floats over the film with no bar, so the page
+   reads as one sheet of paper; it turns solid once the film has scrolled by. */
 function wireFilmHeader(hdr) {
   const film = $('#film');
   if (!film) return;
@@ -321,7 +319,7 @@ function wireSearch() {
       <ul class="srch__list">${hits.slice(0, 7).map(p => {
         const im = variantImage(p);
         return `<li><a href="/products/${p.handle}">
-          <span class="srch__img">${im ? `<img src="${img(im.src, 120)}" alt="" loading="lazy">` : ''}</span>
+          <span class="srch__img">${photo(im, { w: 60 })}</span>
           <span class="srch__t">${esc(shortTitle(p))}<small>${esc(p.collections[0]?.title || p.vendor)}</small></span>
           <span class="srch__p">${priceLabel(p)}</span></a></li>`;
       }).join('')}</ul>
@@ -361,7 +359,7 @@ function wireCart() {
       const im = variantImage(l.product, l.variant);
       return `<li class="ci" data-id="${l.id}">
         <a class="ci__img" href="/products/${l.product.handle}${l.product.variants.length > 1 ? '?variant=' + l.id : ''}" tabindex="-1">
-          ${im ? `<img src="${img(im.src, 160)}" alt="" loading="lazy">` : ''}</a>
+          ${photo(im, { w: 80 })}</a>
         <div class="ci__info">
           <a class="ci__t" href="/products/${l.product.handle}${l.product.variants.length > 1 ? '?variant=' + l.id : ''}">${esc(shortTitle(l.product))}</a>
           ${l.variant.title ? `<span class="ci__v">${esc(l.variant.title)}</span>` : ''}

@@ -17,9 +17,9 @@ body{background:var(--paper)}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
 
 /* --- icons: one stroke weight everywhere --- */
-svg[aria-hidden]{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.6;
+svg.i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.6;
   stroke-linecap:round;stroke-linejoin:round;flex:none}
-svg .fill,svg.fill{fill:currentColor;stroke:none}
+svg.i .fill,svg.i.fill{fill:currentColor;stroke:none}
 
 /* ==========================================================================
    TYPE SYSTEM — three voices, from the film
@@ -165,11 +165,10 @@ svg .fill,svg.fill{fill:currentColor;stroke:none}
 }
 .mega__all:hover{color:var(--magenta)}
 
-/* --- over the film: no bar, no logo, until the film has delivered it --- */
+/* --- over the film: no bar, just the mark and the links on the paper --- */
 .hdr--film{position:fixed;left:0;right:0;background:transparent;border-color:transparent;
   -webkit-backdrop-filter:none;backdrop-filter:none;
   transition:background .5s var(--ease-out),border-color .5s,backdrop-filter .5s}
-.hdr--film:not(.is-solid) .hdr__logo{opacity:0;transform:translateY(-6px);visibility:hidden}
 .hdr--film.is-solid{
   background:rgba(243,238,228,.94); border-color:var(--line);
   -webkit-backdrop-filter:saturate(1.2) blur(10px); backdrop-filter:saturate(1.2) blur(10px);
@@ -233,7 +232,7 @@ svg .fill,svg.fill{fill:currentColor;stroke:none}
   padding:1.1rem 0; border-bottom:1px solid var(--line);
 }
 .ci:last-child{border-bottom:0}
-.ci__img{display:block;aspect-ratio:1;border-radius:var(--r-sm);background:#fff;overflow:hidden;isolation:isolate;
+.ci__img{position:relative;display:block;aspect-ratio:1;border-radius:var(--r-sm);background:#fff;overflow:hidden;isolation:isolate;
   box-shadow:var(--shadow-rest)}
 .ci__img img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 .ci__info{display:grid;gap:.15rem;min-width:0}
@@ -308,7 +307,7 @@ svg .fill,svg.fill{fill:currentColor;stroke:none}
   padding:.6rem .6rem; border-radius:var(--r); text-decoration:none;
 }
 .srch__list a:hover,.srch__list a:focus-visible{background:var(--paper)}
-.srch__img{aspect-ratio:1;background:#fff;border-radius:var(--r-sm);overflow:hidden;isolation:isolate}
+.srch__img{position:relative;display:block;aspect-ratio:1;background:#fff;border-radius:var(--r-sm);overflow:hidden;isolation:isolate}
 .srch__img img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 .srch__t{font-size:.9rem;font-weight:500;line-height:1.3}
 .srch__t small{display:block;font-size:.72rem;color:var(--ink-soft);font-weight:400}
@@ -371,7 +370,6 @@ svg .fill,svg.fill{fill:currentColor;stroke:none}
 }
 .card:hover .card__img img{transform:scale(1.03)}
 .card:hover .card__alt{opacity:1}
-.card:hover .card__alt ~ *{opacity:1}
 .card__link:focus-visible{outline:none}
 .card__link:focus-visible .card__img{outline:2px solid var(--magenta);outline-offset:3px}
 .card__meta{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
@@ -403,6 +401,20 @@ svg .fill,svg.fill{fill:currentColor;stroke:none}
 .tag{position:absolute;left:10px;top:10px;z-index:2;padding:.25rem .6rem;border-radius:100px;
   background:var(--ink);color:#fff;font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
 .tag--sale{background:var(--magenta)}
+
+/* --- a framed photo: the measured square around the product fills its box.
+   Every container it sits in is square, positioned and clips. --- */
+img.ph.ph--c{
+  position:absolute; inset:auto; max-width:none; object-fit:fill;
+  width:calc(100% / var(--s)); height:auto;
+  left:calc(var(--x) / var(--s) * -100%); top:calc(var(--y) / var(--s) * -100%);
+  /* scale about the product, not the corner of the original sheet */
+  transform-origin:calc((var(--x) + var(--s) / 2) * 100%) calc((var(--y) + var(--s) / 2) * 100%);
+}
+.ph-mask{position:absolute;background:var(--ph-bg,#fff);pointer-events:none;z-index:1}
+/* the hover image fades in over the first; its masks travel with it */
+.ph-mask{transition:opacity .45s var(--ease-out)}
+.card:hover .card__img:has(img.card__alt) .ph-mask:not(.card__alt){opacity:0}
 
 /* ==========================================================================
    SHELVES (rails)
@@ -438,36 +450,111 @@ svg .fill,svg.fill{fill:currentColor;stroke:none}
 .explore{position:relative;background:var(--paper);padding:clamp(4rem,10vw,8rem) 0 clamp(1rem,3vw,2rem);outline:none}
 .explore .sec-head h2{max-width:15ch;font-size:clamp(2.2rem,6vw,4.4rem)}
 
-/* categories: APOLO's own catalogue illustrations, as index cards */
-.cats{display:grid;gap:clamp(12px,1.6vw,20px);grid-template-columns:repeat(3,minmax(0,1fr))}
-.cat{
-  position:relative; display:grid; grid-template-columns:42% 1fr; min-height:180px;
-  background:var(--page); border-radius:var(--r-lg); overflow:hidden; text-decoration:none;
-  box-shadow:var(--shadow-rest); transition:transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+/* categories: the desk the film ended on, continued as an index.
+   Five sheets of paper, each with one real product lying on it; the product
+   lifts and turns a little when you reach for it. */
+.desk{
+  display:grid; gap:clamp(12px,1.4vw,18px);
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  grid-template-areas:"b b b w w w" "d d s s p p";
 }
-.cat__img{position:relative;overflow:hidden;background:#EEF2F8}
-.cat__img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;
-  transition:transform .8s var(--ease-out)}
-.cat__body{display:grid;align-content:start;padding:1.1rem 1.1rem 1.2rem;gap:.1rem}
-.cat__i{font-size:.62rem;letter-spacing:.2em;color:var(--magenta);font-weight:600}
-.cat__t{font-size:clamp(1.05rem,1.6vw,1.3rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-top:.35rem}
-.cat__my{font-size:.86rem;color:var(--magenta)}
-.cat__b{font-size:.78rem;color:var(--ink-soft);line-height:1.45;margin-top:.4rem}
-.cat__go{display:flex;align-items:center;gap:.4em;margin-top:.9rem;font-size:.64rem;font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;align-self:end}
-.cat__go svg{width:14px;height:14px;transition:transform .4s var(--ease-out)}
-.cat:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift)}
-.cat:hover .cat__img img{transform:scale(1.06)}
-.cat:hover .cat__go{color:var(--magenta)}
-.cat:hover .cat__go svg{transform:translateX(4px)}
-@media (max-width:1000px){.cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:620px){
-  .cats{grid-template-columns:1fr 1fr;gap:10px}
-  .cat{grid-template-columns:1fr;grid-template-rows:auto 1fr;min-height:0}
-  .cat__img{aspect-ratio:4/3}
-  .cat__body{padding:.8rem .85rem 1rem}
-  .cat__b{display:none}
-  .cat__go{margin-top:.6rem}
+.tile{
+  --ph-bg:var(--page);
+  position:relative; display:grid; align-content:space-between; overflow:hidden; isolation:isolate;
+  min-height:clamp(250px,24vw,330px); padding:clamp(1.1rem,2vw,1.6rem);
+  background:var(--page); border-radius:var(--r-lg); text-decoration:none;
+  box-shadow:var(--shadow-rest);
+  transition:box-shadow .6s var(--ease-out);
+}
+.tile--books{grid-area:b;min-height:clamp(300px,30vw,400px)}
+.tile--writing-instruments{grid-area:w;min-height:clamp(300px,30vw,400px)}
+.tile--desk-accessories{grid-area:d}
+.tile--stationery-supplies{grid-area:s}
+.tile--copy-paper{grid-area:p}
+/* the faintest exercise-book ruling on every sheet */
+.tile::before{
+  content:""; position:absolute; inset:0; z-index:-1; opacity:.5;
+  background:repeating-linear-gradient(180deg,transparent 0 31px,rgba(183,196,220,.45) 31px 32px);
+}
+.tile__txt{position:relative;z-index:2;display:grid;max-width:62%}
+.tile__i{font-size:.64rem;letter-spacing:.2em;color:var(--magenta);font-weight:600}
+.tile__t{margin-top:.5rem;font-size:clamp(1.25rem,2.1vw,1.85rem);font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.tile--books .tile__t,.tile--writing-instruments .tile__t{font-size:clamp(1.5rem,2.8vw,2.5rem)}
+.tile__my{font-size:.95rem;color:var(--magenta);margin-top:.2rem}
+.tile__b{font-size:.82rem;color:var(--ink-soft);line-height:1.45;margin-top:.55rem;max-width:26ch}
+.tile__go{
+  position:relative; z-index:2; justify-self:start;
+  display:inline-flex; align-items:center; gap:.5em; padding:.55rem .95rem; border-radius:100px;
+  background:rgba(252,250,245,.9); border:1px solid var(--line);
+  font-size:.64rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+  transition:background .3s, color .3s, border-color .3s;
+}
+.tile__go svg{width:14px;height:14px;transition:transform .45s var(--ease-out)}
+
+/* the object: a framed product photo multiplied onto the sheet, with a
+   contact shadow that softens as it lifts */
+.tile__obj{
+  position:absolute; z-index:1; right:-4%; bottom:-6%;
+  width:min(62%,330px); aspect-ratio:1;
+  transform:rotate(var(--r)); transition:transform .8s var(--ease-out);
+}
+.tile--books .tile__obj,.tile--writing-instruments .tile__obj{width:min(58%,400px);right:-2%;bottom:-8%}
+.tile__obj::before{
+  content:""; position:absolute; left:14%; right:6%; top:18%; bottom:4%; z-index:-1;
+  background:radial-gradient(ellipse at 50% 55%,rgba(74,52,38,.26),rgba(74,52,38,0) 68%);
+  filter:blur(8px); transition:transform .8s var(--ease-out), opacity .8s var(--ease-out);
+}
+.tile__ph{position:absolute;inset:0;overflow:hidden;background:var(--page);isolation:isolate}
+.tile__ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  mix-blend-mode:multiply;filter:brightness(1.06) contrast(1.1)}
+.tile:hover,.tile:focus-visible{box-shadow:var(--shadow-lift)}
+.tile:hover .tile__obj,.tile:focus-visible .tile__obj{transform:translate(-2%,-5%) rotate(calc(var(--r) * .55)) scale(1.03)}
+.tile:hover .tile__obj::before,.tile:focus-visible .tile__obj::before{transform:translate(5%,9%) scale(1.06);opacity:.75}
+.tile:hover .tile__go,.tile:focus-visible .tile__go{background:var(--magenta);border-color:var(--magenta);color:#fff}
+.tile:hover .tile__go svg{transform:translateX(4px)}
+
+/* the smaller categories: a ruled notebook index */
+.index{
+  list-style:none; margin:clamp(12px,1.4vw,18px) 0 0; padding:.4rem 0;
+  display:grid; grid-template-columns:1fr 1fr; column-gap:clamp(1.5rem,4vw,3.5rem);
+  background:
+    linear-gradient(90deg,transparent 3.2rem,var(--rule-margin) 3.2rem,var(--rule-margin) calc(3.2rem + 1.5px),transparent calc(3.2rem + 1.5px)),
+    var(--page);
+  border-radius:var(--r-lg); box-shadow:var(--shadow-rest);
+}
+.index li{border-bottom:1px solid rgba(183,196,220,.7)}
+.index li:nth-last-child(-n+2){border-bottom:0}
+.index a{
+  display:grid; grid-template-columns:3.2rem auto auto 1fr auto auto; align-items:baseline; column-gap:.8rem;
+  padding:1.05rem 1.3rem 1.05rem 0; text-decoration:none; transition:background .25s;
+}
+.index__i{font-size:.62rem;letter-spacing:.16em;color:var(--ink-faint);text-align:center}
+.index__t{font-weight:700;font-size:1.02rem;letter-spacing:-.01em;padding-left:.7rem}
+.index__my{font-size:.88rem;color:var(--magenta)}
+.index__b{font-size:.78rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.index__n{font-size:.74rem;color:var(--ink-faint)}
+.index a svg{width:16px;height:16px;align-self:center;transition:transform .4s var(--ease-out)}
+.index a:hover .index__t{color:var(--magenta)}
+.index a:hover svg{transform:translateX(4px);color:var(--magenta)}
+
+@media (max-width:980px){
+  .desk{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"b b" "w w" "d s" "p p"}
+  .index{grid-template-columns:1fr}
+  .index li:nth-last-child(2){border-bottom:1px solid rgba(183,196,220,.7)}
+  .index__b{display:none}
+  .index a{grid-template-columns:3.2rem auto 1fr auto auto}
+}
+@media (max-width:560px){
+  .tile{min-height:236px}
+  .tile--books,.tile--writing-instruments,.tile--copy-paper{min-height:230px}
+  .tile__txt{max-width:56%}
+  .tile__b{display:none}
+  .tile--books .tile__obj,.tile--writing-instruments .tile__obj,.tile--copy-paper .tile__obj{width:56%;right:-3%;bottom:-6%}
+  .tile--desk-accessories .tile__txt,.tile--stationery-supplies .tile__txt{max-width:100%}
+  .tile--desk-accessories .tile__obj,.tile--stationery-supplies .tile__obj{width:82%;right:-10%;bottom:-2%}
+  .tile__go{padding:.45rem .75rem}
+  .index a{grid-template-columns:2.6rem auto 1fr auto auto;column-gap:.5rem}
+  .index{background:linear-gradient(90deg,transparent 2.6rem,var(--rule-margin) 2.6rem,var(--rule-margin) calc(2.6rem + 1.5px),transparent calc(2.6rem + 1.5px)),var(--page)}
 }
 
 /* campaigns: the store's own homepage artwork */
@@ -655,14 +742,15 @@ svg .fill,svg.fill{fill:currentColor;stroke:none}
   position:relative; aspect-ratio:1; background:#fff; border-radius:var(--r-lg); overflow:hidden; isolation:isolate;
   box-shadow:var(--shadow-lift); cursor:zoom-in;
 }
+.stage-img__in{position:absolute;inset:0;transform-origin:var(--zx,50%) var(--zy,50%);
+  transition:opacity .3s var(--ease-out), transform .45s var(--ease-out)}
 .stage-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;
-  filter:brightness(1.04) contrast(1.06); transition:opacity .35s var(--ease-out), transform .35s var(--ease-out);
-  transform-origin:var(--zx,50%) var(--zy,50%)}
-.stage-img.is-zoom img{transform:scale(2)}
-.stage-img.is-swap img{opacity:0}
+  filter:brightness(1.04) contrast(1.06)}
+.stage-img.is-zoom .stage-img__in{transform:scale(2)}
+.stage-img.is-swap .stage-img__in{opacity:0}
 .thumbs{display:flex;gap:.6rem;overflow-x:auto;scrollbar-width:none;padding:4px 2px}
 .thumbs::-webkit-scrollbar{display:none}
-.thumbs button{flex:none;width:68px;aspect-ratio:1;padding:0;border:0;border-radius:var(--r);background:#fff;cursor:pointer;
+.thumbs button{position:relative;flex:none;width:68px;aspect-ratio:1;padding:0;border:0;border-radius:var(--r);background:#fff;cursor:pointer;
   overflow:hidden;isolation:isolate;box-shadow:var(--shadow-rest);outline:2px solid transparent;outline-offset:2px;transition:outline-color .2s,transform .3s var(--ease-out)}
 .thumbs button img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 .thumbs button:hover{transform:translateY(-2px)}

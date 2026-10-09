@@ -13,11 +13,12 @@
    Then commit data/catalog.json and push. Nothing else needs to change.
    ========================================================================== */
 
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
 const SHOP = 'https://apolostationey.com';
 const CDN  = 'https://cdn.shopify.com/s/files/1/0580/6443/7401/';
 const OUT  = new URL('../data/catalog.json', import.meta.url);
+const CROPS = new URL('../data/crops.json', import.meta.url);
 
 /* Collections the site shows, in menu order, with the Burmese names and the
    one-line descriptions the store itself does not carry. A collection that is
@@ -153,6 +154,16 @@ for (const p of products) {
   else console.warn(`! "${p.title}" is in no collection; it will appear in Shop all and search only`);
 }
 
+/* Product framing measured by tools/measure-images.mjs. New photos have no
+   crop until that is run again; they simply show uncropped. */
+const crops = JSON.parse(await readFile(CROPS, 'utf8').catch(() => '{}'));
+let unmeasured = 0;
+for (const p of products) for (const im of p.images) {
+  const k = im.src.split('?')[0];
+  if (!(k in crops)) unmeasured++;
+  if (crops[k]) im.c = crops[k];
+}
+
 const catalog = {
   synced: new Date().toISOString().slice(0, 10),
   shop: SHOP,
@@ -163,4 +174,5 @@ const catalog = {
 
 await writeFile(OUT, JSON.stringify(catalog));
 const kb = (JSON.stringify(catalog).length / 1024).toFixed(0);
+if (unmeasured) console.log(`  ${unmeasured} new photo(s) not framed yet — run node tools/measure-images.mjs`);
 console.log(`✓ ${products.length} products, ${catalog.collections.length} collections → data/catalog.json (${kb} KB)`);

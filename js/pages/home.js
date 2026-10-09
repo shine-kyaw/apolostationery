@@ -7,7 +7,7 @@
 
 import { mountChrome, ICON } from '../site/chrome.js';
 import { card, wireQuickAdd } from '../site/card.js';
-import { catalog, img, esc } from '../store/catalog.js';
+import { catalog, photo, esc } from '../store/catalog.js';
 import { wireRails } from '../site/rail.js';
 
 mountChrome({ home: true });
@@ -29,6 +29,17 @@ const CAMPAIGNS = [
 
 const sized = (src, w) => src + '&width=' + w;
 
+/* The product that stands for each big category, and how it lies on the
+   page. The sharpener photo shows three; the crop keeps the magenta one
+   (the same crop the film uses). */
+const FEATURE = {
+  'books':               { h: 'copy-of-apolo-drawing-book-55-gsm-80-pages-12-pcs', r: -6 },
+  'writing-instruments': { h: 'apolo-color-pencil-36-colors', r: 9 },
+  'desk-accessories':    { h: 'copy-of-office-stapler-a191b', r: -14 },
+  'stationery-supplies': { h: 'apolo-pencil-sharpener-a-210', r: 12, c: [0.329, 0.226, 0.378] },
+  'copy-paper':          { h: 'copy-of-apolo-color-paper-70-gsm-a4-500-sheets', r: -5 }
+};
+
 document.getElementById('campRail').innerHTML = CAMPAIGNS.map((c, i) => `
   <a class="camp__slide" href="${c.href}">
     <img src="${sized(c.src, 900)}" srcset="${sized(c.src, 600)} 600w, ${sized(c.src, 900)} 900w, ${sized(c.src, 1400)} 1400w"
@@ -36,18 +47,41 @@ document.getElementById('campRail').innerHTML = CAMPAIGNS.map((c, i) => `
   </a>`).join('');
 
 catalog().then(c => {
-  /* ---- categories: APOLO's own illustrated catalogue pages as covers ---- */
-  document.getElementById('cats').innerHTML = c.collections.map((col, i) => `
-    <a class="cat" href="/collections/${col.handle}">
-      <span class="cat__img">${col.image ? `<img src="${img(col.image, 520)}" alt="" loading="lazy" decoding="async" width="520" height="735">` : ''}</span>
-      <span class="cat__body">
-        <span class="cat__i">${String(i + 1).padStart(2, '0')}</span>
-        <span class="cat__t">${esc(col.title)}</span>
-        <span class="cat__my my" lang="my">${col.my}</span>
-        <span class="cat__b">${esc(col.blurb)}</span>
-        <span class="cat__go">${col.items.length} products ${ICON.arrow}</span>
-      </span>
-    </a>`).join('');
+  /* ---- categories ----------------------------------------------------
+     The film ends on a desk of real APOLO products; the index continues it.
+     The five big categories each get one real product lying on a sheet of
+     paper, which lifts when you reach for it. The four smaller ones are
+     written into a ruled notebook index underneath. */
+  const num = col => String(c.collections.indexOf(col) + 1).padStart(2, '0');
+  const big = [], small = [];
+  for (const col of c.collections) (FEATURE[col.handle] ? big : small).push(col);
+
+  document.getElementById('cats').innerHTML = `
+    <div class="desk">${big.map(col => {
+      const f = FEATURE[col.handle];
+      const p = c.byHandle.get(f.h) || col.items[0];
+      const im = p && p.images[0] && (f.c ? { ...p.images[0], c: f.c } : p.images[0]);
+      return `
+      <a class="tile tile--${col.handle}" href="/collections/${col.handle}" style="--r:${f.r}deg">
+        <span class="tile__txt">
+          <span class="tile__i">${num(col)}</span>
+          <span class="tile__t">${esc(col.title)}</span>
+          <span class="tile__my my" lang="my">${col.my}</span>
+          <span class="tile__b">${esc(col.blurb)}</span>
+        </span>
+        <span class="tile__go">${col.items.length} products ${ICON.arrow}</span>
+        <span class="tile__obj" aria-hidden="true"><span class="tile__ph">${photo(im, { w: 420 })}</span></span>
+      </a>`;
+    }).join('')}</div>
+    <ol class="index" aria-label="More categories">${small.map(col => `
+      <li><a href="/collections/${col.handle}">
+        <span class="index__i">${num(col)}</span>
+        <span class="index__t">${esc(col.title)}</span>
+        <span class="index__my my" lang="my">${col.my}</span>
+        <span class="index__b">${esc(col.blurb)}</span>
+        <span class="index__n">${col.items.length}</span>
+        ${ICON.arrow}
+      </a></li>`).join('')}</ol>`;
 
   /* ---- shelves ---- */
   for (const el of document.querySelectorAll('[data-shelf]')) {

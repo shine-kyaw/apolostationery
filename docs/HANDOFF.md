@@ -3,6 +3,14 @@
 > **Update 2026-10-04:** the film is now the top of a full store — categories,
 > product pages, search, cart and checkout. How that part works is in
 > [STORE.md](STORE.md). This file still describes the film itself.
+>
+> **Update 2026-10-09 — the opening was re-choreographed.** The pencil now lies
+> on the page from the first frame (`REST` in hero.js), is picked up in an arc,
+> draws the outline and then the door (after a small hop), and is lifted out of
+> frame at full opacity instead of fading over the drawing. The headline leaves
+> before it lands (no blur). The line has a graphite filter on screens over
+> 820px. The timings in the scene map below are superseded by the comments in
+> `frame()`.
 
 Last updated: **2026-09-05** (session 2, "creative-dev + QA pass").
 Written so this project can be resumed on a different machine with zero prior

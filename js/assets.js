@@ -164,10 +164,11 @@ export const MOBILE_KEEP = new Set([
    middle of a very tall frame. `delay` is respaced too: six objects arriving
    on the desktop's fourteen-object schedule leaves long dead stretches. */
 export const MOBILE_LAYOUT = {
-  'cruizer-blue'  : { x: -31, y:  26, len: 46, r: 76, delay:.00, from:[-16,  10] },
+  /* y 20–50 is where the brand line and CTA land at the end; keep it clear */
+  'cruizer-blue'  : { x: -30, y:  60, len: 44, r: 72, delay:.00, from:[-16,  10] },
   'high-pink'     : { x: -28, y:  78, len: 34, r:100, delay:.18, from:[-10,  34] },
   'gel-red'       : { x:  33, y: -26, len: 46, r:-74, delay:.34, from:[ 16, -14] },
-  'eraser'        : { x:  31, y:  30, len: 15, r:-21, delay:.48, from:[ 10,  14] },
+  'eraser'        : { x:   6, y:  63, len: 15, r:-21, delay:.48, from:[ 10,  14] },
   'colour-pencils': { x: -35, y: -86, len: 54, r:-14, delay:.62, from:[-16, -28] },
   'drawing-book'  : { x:  27, y:  80, len: 52, r:  8, delay:.82, from:[ 18,  30] }
 };

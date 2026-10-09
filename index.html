@@ -46,6 +46,17 @@
     <!-- the drawing: one morphing stroke, plus the ruling it becomes -->
     <svg class="draw" id="draw" viewBox="0 0 1000 620"
          preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+      <defs>
+        <!-- Graphite, not ink: the line is broken up by the paper's tooth
+             and its edges are a touch rough. One small filter on two paths. -->
+        <filter id="graphite" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="1.15" numOctaves="2" seed="7" result="tooth"/>
+          <feColorMatrix in="tooth" type="matrix" result="mask"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 2.05"/>
+          <feComposite in="SourceGraphic" in2="mask" operator="in" result="grain"/>
+          <feDisplacementMap in="grain" in2="tooth" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
       <g id="ruling"></g>
       <path id="door"   class="stroke" pathLength="100"></path>
       <path id="stroke" class="stroke" pathLength="100"></path>
@@ -98,7 +109,7 @@
 
     </div>
 
-    <p class="scrollcue" id="cue" aria-hidden="true"><span>Scroll</span><i></i></p>
+    <p class="scrollcue" id="cue" aria-hidden="true"><span>Scroll to draw</span><i></i></p>
 
     <button class="sound" id="sound" type="button" aria-pressed="false">
       <b aria-hidden="true"><i></i><i></i><i></i></b>
@@ -144,13 +155,12 @@
 </section>
 
 <section class="shelf" data-shelf="books" data-n="09"></section>
-<section class="shelf" data-shelf="desk-accessories" data-n="10"></section>
-<section class="shelf" data-shelf="copy-paper" data-n="11"></section>
+<section class="shelf" data-shelf="copy-paper" data-n="10"></section>
 
 <section class="visit" aria-labelledby="visitT">
   <div class="wrap visit__in">
     <div class="visit__copy">
-      <p class="eyebrow"><span>12</span> Made in Yangon</p>
+      <p class="eyebrow"><span>11</span> Made in Yangon</p>
       <h2 id="visitT">Visit the showroom, <em>or just call.</em></h2>
       <p>APOLO books, pens and supplies are made at our factory in Hlaing Thar Yar, and the showroom is in
          the same building. Order online, by phone, or come and see them in person.</p>
