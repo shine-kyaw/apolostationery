@@ -132,6 +132,8 @@ svg.i .fill,svg.i.fill{fill:currentColor;stroke:none}
   font-size:.8rem; font-weight:600; color:var(--ink-soft);
 }
 .hdr__call svg{width:16px;height:16px;color:var(--magenta)}
+.hdr__call span{display:grid;line-height:1.15}
+.hdr__call small{font-size:.6rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
 .hdr__call:hover{color:var(--ink)}
 .tool--menu{display:none}
 
@@ -575,6 +577,66 @@ img.ph.ph--c{
 .index a svg{width:16px;height:16px;align-self:center;transition:transform .4s var(--ease-out)}
 .index a:hover .index__t{color:var(--magenta)}
 .index a:hover svg{transform:translateX(4px);color:var(--magenta)}
+
+/* ---- ordering from APOLO ---------------------------------------------------
+   The four things the store itself leads with. Hairlines, not cards: it reads
+   like the terms printed on the back of an order slip. The day counts are
+   written in biro, like the labels on the exercise books above. */
+.service{background:var(--page);padding:clamp(4rem,8vw,6.5rem) 0}
+.service__head{max-width:46rem;margin-bottom:clamp(2rem,4vw,3.2rem)}
+.service__head h2{margin:0;font-weight:800;letter-spacing:-.04em;line-height:.98;font-size:clamp(2.1rem,4.6vw,3.6rem)}
+.service__head p:last-child{margin:1rem 0 0;color:var(--ink-soft);max-width:44ch;line-height:1.6}
+.service__grid{
+  display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr;
+  border-top:2px solid var(--ink);
+}
+.svc{
+  display:grid; align-content:start; gap:.75rem;
+  padding:clamp(1.3rem,2.2vw,1.9rem) clamp(1rem,1.8vw,1.6rem) clamp(1.4rem,2.4vw,2rem);
+  border-left:1px solid var(--line);
+}
+.svc:first-child{border-left:0;padding-left:0}
+.svc:last-child{padding-right:0}
+.svc > svg.i{width:30px;height:30px;color:var(--magenta);stroke-width:1.5}
+.svc h3{margin:.3rem 0 0;font-size:clamp(1.1rem,1.5vw,1.35rem);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.svc p{margin:0;font-size:.9rem;line-height:1.6;color:#3d3a40}
+.svc .svc__small{font-size:.8rem;color:var(--ink-soft);line-height:1.7}
+.svc .link-arrow{margin-top:.5rem;font-size:.68rem}
+.days{margin:.2rem 0 0;display:grid;grid-template-columns:1fr 1fr;column-gap:1.6rem}
+.days div{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;
+  padding:.38rem 0;border-bottom:1px solid var(--rule)}
+.days dt{font-size:.84rem;white-space:nowrap}
+.days dd{margin:0;font-family:Kalam,"Comic Sans MS",cursive;font-weight:700;font-size:1rem;color:var(--biro);white-space:nowrap}
+.days div:last-child{grid-column:1/-1}
+.svc__tel{
+  font-size:clamp(1.25rem,1.9vw,1.6rem); font-weight:800; letter-spacing:-.02em; text-decoration:none;
+  color:var(--magenta); line-height:1.15;
+}
+.svc__tel:hover{color:var(--magenta-deep)}
+.svc__tel--2{margin-top:-.45rem;font-size:1.02rem;color:var(--ink)}
+.svc__tel--2:hover{color:var(--magenta)}
+@media (max-width:1100px){
+  .service__grid{grid-template-columns:1fr 1fr}
+  .svc:nth-child(odd){border-left:0;padding-left:0}
+  .svc:nth-child(even){padding-right:0}
+  .svc:nth-child(n+3){border-top:1px solid var(--line)}
+}
+@media (max-width:640px){
+  .service__grid{grid-template-columns:1fr}
+  .svc{border-left:0;padding-left:0;padding-right:0}
+  .svc + .svc{border-top:1px solid var(--line)}
+  .days{column-gap:1.2rem}
+}
+
+/* ---- the hero's trust line ---- */
+.ask__trust{
+  list-style:none; margin:clamp(1.2rem,2.6vmin,1.8rem) 0 0; padding:0;
+  display:flex; flex-wrap:wrap; justify-content:center; gap:.3rem 0;
+  font-size:clamp(.72rem,1.2vmin,.82rem); color:var(--ink-soft);
+}
+.ask__trust li{padding:0 .95rem;border-left:1px solid rgba(22,21,26,.22)}
+.ask__trust li:first-child{border-left:0}
+@media (max-width:560px){ .ask__trust li:nth-child(3){display:none} }   /* two fit on one line; the guarantee has its own section */
 
 /* ---- the school list ------------------------------------------------------ */
 .list{background:var(--desk);padding:clamp(4.5rem,9vw,7.5rem) 0}

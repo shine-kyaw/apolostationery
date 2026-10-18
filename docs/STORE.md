@@ -119,6 +119,19 @@ APOLO makes — the exercise book:
 Handwriting (Kalam, ballpoint blue `--biro`) is used only where a person
 would really write by hand: the cover labels, the ticks, counts.
 
+### What the site says about APOLO (and where it comes from)
+Every service claim is taken from APOLO's own store (apolostationey.com), not
+written by us: **door-to-door delivery**; delivery times by city (Yangon 3–5
+days … other cities 5–12); **cash on delivery or prepaid banking** (KBZPay, KBZ,
+CB, AYA, UAB, Yoma Bank, from the store's footer image); **100% quality
+guarantee** with returns requested within 14 days; **free support** by phone
+and Facebook (9 AM–5 PM is stated for Facebook/live chat, not for phone). Shown
+in the hero's trust line, the "Ordering from APOLO" section on the home page,
+product pages, the footer strip and the terms page. If the store's Terms page
+changes, update `#service` in index.html and terms.html together. Do not add
+claims the store doesn't make (e.g. where products are made, nationwide
+delivery).
+
 ### Home page header
 Over the film the header has no bar, so the page reads as one sheet of paper;
 it turns solid once the film has scrolled past.

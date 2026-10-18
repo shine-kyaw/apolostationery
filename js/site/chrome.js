@@ -89,7 +89,7 @@ function headerHTML() {
       <a href="/pages/contact">Contact</a>
     </nav>
     <div class="hdr__tools">
-      <a class="hdr__call" href="tel:${CONTACT.phone}">${ICON.phone}<span>${CONTACT.phoneLabel}</span></a>
+      <a class="hdr__call" href="tel:${CONTACT.phone}">${ICON.phone}<span><small>Free support</small>${CONTACT.phoneLabel}</span></a>
       <button type="button" class="tool" data-open="search" aria-label="Search products">${ICON.search}</button>
       <button type="button" class="tool tool--cart" data-open="cart" aria-label="Cart">
         ${ICON.bag}<span class="badge" data-count hidden>0</span>
@@ -103,10 +103,10 @@ function footerHTML() {
   return `
   <div class="ftr__promise">
     <ul class="promise">
-      <li>${ICON.truck}<div><b>Door-to-door delivery</b><span>Yangon 3–5 days · nationwide 5–12</span></div></li>
-      <li>${ICON.cash}<div><b>Cash on delivery</b><span>Or prepaid bank transfer</span></div></li>
-      <li>${ICON.shield}<div><b>100% quality guarantee</b><span>Damaged or wrong? Return within 14 days</span></div></li>
-      <li>${ICON.phone}<div><b>Help &amp; support</b><span><a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a></span></div></li>
+      <li>${ICON.truck}<div><b>Door-to-door delivery</b><span>Yangon 3–5 days · other cities 5–12</span></div></li>
+      <li>${ICON.cash}<div><b>Cash on delivery</b><span>Or prepaid banking, KBZPay</span></div></li>
+      <li>${ICON.shield}<div><b>100% quality guarantee</b><span>Money back: return within 14 days</span></div></li>
+      <li>${ICON.phone}<div><b>Free support</b><span><a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a></span></div></li>
     </ul>
   </div>
   <div class="ftr__main">
@@ -140,7 +140,7 @@ function footerHTML() {
     </div>
   </div>
   <div class="ftr__base">
-    <span>© ${new Date().getFullYear()} APOLO Stationery Myanmar</span>
+    <span>© ${new Date().getFullYear()} Deco Land Co., Ltd. · APOLO Stationery Myanmar</span>
     <span>Prices in Myanmar kyat · catalogue updated <span id="ftrSynced">—</span></span>
   </div>`;
 }

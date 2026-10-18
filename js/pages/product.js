@@ -38,7 +38,7 @@ catalog().then(c => {
   document.title = `${p.title} — APOLO Stationery Myanmar`;
   const plain = p.body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   document.querySelector('meta[name=description]').setAttribute('content',
-    (plain ? plain.slice(0, 140) + (plain.length > 140 ? '…' : '') + ' ' : '') + 'Door-to-door delivery and cash on delivery across Myanmar.');
+    (plain ? plain.slice(0, 140) + (plain.length > 140 ? '…' : '') + ' ' : '') + 'Door-to-door delivery and cash on delivery.');
 
   if (col) $('#crumbs').insertAdjacentHTML('beforeend', `<li><a href="/collections/${col.handle}">${esc(col.title)}</a></li>`);
   $('#crumbs').insertAdjacentHTML('beforeend', `<li><span aria-current="page">${esc(shortTitle(p))}</span></li>`);
@@ -87,8 +87,9 @@ catalog().then(c => {
 
       <ul class="assure">
         <li>${ICON.truck}<div><b>Door-to-door delivery.</b> <span>Yangon in 3–5 days, Mandalay and Naypyitaw 3–6, other cities 5–12.</span></div></li>
-        <li>${ICON.cash}<div><b>Cash on delivery</b> <span>or prepaid bank transfer.</span></div></li>
-        <li>${ICON.phone}<div><b>Prefer to talk?</b> <span>Order by phone on</span> <a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a></div></li>
+        <li>${ICON.cash}<div><b>Cash on delivery</b> <span>or prepaid banking (KBZPay and bank transfer).</span></div></li>
+        <li>${ICON.shield}<div><b>100% quality guarantee.</b> <span>Damaged or wrong? Request a return within 14 days.</span></div></li>
+        <li>${ICON.phone}<div><b>Free support.</b> <span>Order or ask by phone on</span> <a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a></div></li>
       </ul>
 
       <div class="details">
