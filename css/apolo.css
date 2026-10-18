@@ -287,7 +287,7 @@
 .ask .eyebrow .my{letter-spacing:0;text-transform:none;color:var(--magenta);font-size:1.5em}
 .ask .eyebrow i{width:1.6em;height:1px;background:currentColor;opacity:.5}
 .ask h1{
-  margin:0; font-weight:800; letter-spacing:-.045em; line-height:.94;
+  margin:0; font-weight:800; letter-spacing:-.045em; line-height:1;
   font-size:clamp(2.6rem,5.4vw,5.8rem);
 }
 .ask h1 em{display:block;font-style:normal;color:var(--magenta)}
