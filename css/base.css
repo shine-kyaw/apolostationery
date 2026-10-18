@@ -47,7 +47,9 @@ body{
   font-size:16px; line-height:1.55;
   overflow-x:hidden;
 }
-:lang(my),.my{font-family:Padauk,Poppins,sans-serif}
+/* Burmese. Latin letters (brand names, model codes) keep Poppins and Burmese
+   falls back, glyph by glyph, to Padauk — the face APOLO's own store uses. */
+:lang(my),.my{font-family:Poppins,Padauk,"Noto Sans Myanmar","Myanmar Text",sans-serif}
 img{max-width:100%;display:block}
 a{color:inherit}
 button{font:inherit;color:inherit}
@@ -65,3 +67,20 @@ button{font:inherit;color:inherit}
   position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
   overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
 }
+
+/* ==========================================================================
+   BURMESE PAGES  (<html lang="my">, set by js/i18n-boot.js)
+   Burmese stacks vowels and marks above and below the line, so it needs room
+   Latin does not: taller line-height, and no letter-spacing at all — tracking
+   (and the tight negative tracking on our display type) pulls clusters apart.
+   ========================================================================== */
+/* Burmese letters sit small on the line next to Latin at the same size, so the
+   whole page steps up one notch (every size here is in rem or em). */
+html[lang="my"]{font-size:112.5%}
+html[lang="my"] body{line-height:1.85}
+html[lang="my"] *{letter-spacing:normal!important}
+html[lang="my"] h1,html[lang="my"] h2,html[lang="my"] h3,html[lang="my"] h4{line-height:1.38}
+
+/* The static pages are written in English; for Burmese, stay hidden for the
+   moment before the text is swapped (js/i18n-boot.js releases this). */
+html.i18n-wait body{visibility:hidden}

@@ -5,8 +5,10 @@
    call mountChrome(); the markup lives here once instead of six times.
    ========================================================================== */
 
-import { catalog, money, photo, esc, search, shortTitle, priceLabel, variantImage } from '../store/catalog.js';
+import { catalog, money, photo, esc, search, shortTitle, priceLabel, variantImage, colTitle, optVal } from '../store/catalog.js';
 import { cart } from '../store/cart.js';
+import { t, isMy } from '../i18n.js';
+import { langSwitch, wireLang } from './lang.js';
 
 export const LOGO = '/img/apolo-logo.png';
 export const CONTACT = {
@@ -51,6 +53,7 @@ export function mountChrome({ home = false } = {}) {
   ftr.innerHTML = footerHTML();
   document.body.insertAdjacentHTML('beforeend', dialogsHTML());
 
+  wireLang();
   wireDialogs();
   wireMega();
   wireSearch();
@@ -59,8 +62,9 @@ export function mountChrome({ home = false } = {}) {
 
   catalog().then(c => {
     fillCategories(c);
+    /* -u-nu-latn: keep Arabic digits in Burmese, like the rest of the site */
     $('#ftrSynced').textContent = new Date(c.synced + 'T00:00:00')
-      .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      .toLocaleDateString(isMy ? 'my-MM-u-nu-latn' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   }).catch(err => console.error('[apolo] catalogue failed to load', err));
 }
 
@@ -69,32 +73,33 @@ export function mountChrome({ home = false } = {}) {
 function headerHTML() {
   return `
   <div class="hdr__in">
-    <a class="hdr__logo" href="/" aria-label="APOLO Stationery — home">
+    <a class="hdr__logo" href="/" aria-label="${t('chrome.logo.aria')}">
       <img src="${LOGO}" alt="APOLO" width="200" height="105">
     </a>
-    <nav class="hdr__nav" aria-label="Main">
-      <a href="/shop">Shop all</a>
+    <nav class="hdr__nav" aria-label="${t('chrome.nav.aria')}">
+      <a href="/shop">${t('chrome.nav.shop')}</a>
       <div class="hdr__cats">
         <button type="button" class="hdr__catbtn" aria-expanded="false" aria-controls="mega">
-          Categories ${ICON.chev}
+          ${t('chrome.nav.categories')} ${ICON.chev}
         </button>
         <div class="mega" id="mega" hidden>
           <div class="mega__in">
             <ul class="mega__list" data-cats></ul>
-            <a class="mega__all" href="/shop">See every product ${ICON.arrow}</a>
+            <a class="mega__all" href="/shop">${t('chrome.nav.all')} ${ICON.arrow}</a>
           </div>
         </div>
       </div>
-      <a href="/pages/terms-conditions">Delivery &amp; returns</a>
-      <a href="/pages/contact">Contact</a>
+      <a href="/pages/terms-conditions">${esc(t('chrome.nav.delivery'))}</a>
+      <a href="/pages/contact">${t('chrome.nav.contact')}</a>
     </nav>
     <div class="hdr__tools">
-      <a class="hdr__call" href="tel:${CONTACT.phone}">${ICON.phone}<span><small>Free support</small>${CONTACT.phoneLabel}</span></a>
-      <button type="button" class="tool" data-open="search" aria-label="Search products">${ICON.search}</button>
-      <button type="button" class="tool tool--cart" data-open="cart" aria-label="Cart">
+      <a class="hdr__call" href="tel:${CONTACT.phone}">${ICON.phone}<span><small>${t('chrome.hdr.support')}</small>${CONTACT.phoneLabel}</span></a>
+      ${langSwitch()}
+      <button type="button" class="tool" data-open="search" aria-label="${t('chrome.hdr.search')}">${ICON.search}</button>
+      <button type="button" class="tool tool--cart" data-open="cart" aria-label="${t('chrome.hdr.cart')}">
         ${ICON.bag}<span class="badge" data-count hidden>0</span>
       </button>
-      <button type="button" class="tool tool--menu" data-open="menu" aria-label="Menu">${ICON.menu}</button>
+      <button type="button" class="tool tool--menu" data-open="menu" aria-label="${t('chrome.hdr.menu')}">${ICON.menu}</button>
     </div>
   </div>`;
 }
@@ -103,57 +108,58 @@ function footerHTML() {
   return `
   <div class="ftr__promise">
     <ul class="promise">
-      <li>${ICON.truck}<div><b>Door-to-door delivery</b><span>Yangon 3–5 days · other cities 5–12</span></div></li>
-      <li>${ICON.cash}<div><b>Cash on delivery</b><span>Or prepaid banking, KBZPay</span></div></li>
-      <li>${ICON.shield}<div><b>100% quality guarantee</b><span>Money back: return within 14 days</span></div></li>
-      <li>${ICON.phone}<div><b>Free support</b><span><a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a></span></div></li>
+      <li>${ICON.truck}<div><b>${t('chrome.ftr.p1.title')}</b><span>${t('chrome.ftr.p1.sub')}</span></div></li>
+      <li>${ICON.cash}<div><b>${t('chrome.ftr.p2.title')}</b><span>${t('chrome.ftr.p2.sub')}</span></div></li>
+      <li>${ICON.shield}<div><b>${t('chrome.ftr.p3.title')}</b><span>${t('chrome.ftr.p3.sub')}</span></div></li>
+      <li>${ICON.phone}<div><b>${t('chrome.ftr.p4.title')}</b><span><a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a></span></div></li>
     </ul>
   </div>
   <div class="ftr__main">
     <div class="ftr__brand">
-      <img src="${LOGO}" alt="APOLO Stationery Myanmar" width="200" height="105" loading="lazy">
-      <p>Exercise books, pens, pencils and paper for Myanmar classrooms, desks and offices.</p>
-      <p class="my" lang="my">အပိုလိုစာရေးကိရိယာ</p>
+      <img src="${LOGO}" alt="${t('chrome.ftr.logo_alt')}" width="200" height="105" loading="lazy">
+      <p>${t('chrome.ftr.blurb')}</p>
+      ${isMy ? '' : '<p class="my" lang="my">အပိုလိုစာရေးကိရိယာ</p>'}
       <div class="ftr__social">
-        <a href="${CONTACT.facebook}" target="_blank" rel="noopener" aria-label="APOLO on Facebook">${ICON.fb}</a>
-        <a href="${CONTACT.instagram}" target="_blank" rel="noopener" aria-label="APOLO on Instagram">${ICON.ig}</a>
+        <a href="${CONTACT.facebook}" target="_blank" rel="noopener" aria-label="${t('chrome.ftr.facebook')}">${ICON.fb}</a>
+        <a href="${CONTACT.instagram}" target="_blank" rel="noopener" aria-label="${t('chrome.ftr.instagram')}">${ICON.ig}</a>
       </div>
+      ${langSwitch()}
     </div>
-    <nav class="ftr__col" aria-label="Shop">
-      <h2>Shop</h2>
-      <ul data-cats-ftr><li><a href="/shop">All products</a></li></ul>
+    <nav class="ftr__col" aria-label="${t('chrome.ftr.shop')}">
+      <h2>${t('chrome.ftr.shop')}</h2>
+      <ul data-cats-ftr><li><a href="/shop">${t('chrome.ftr.all')}</a></li></ul>
     </nav>
-    <nav class="ftr__col" aria-label="Help">
-      <h2>Help</h2>
+    <nav class="ftr__col" aria-label="${t('chrome.ftr.help')}">
+      <h2>${t('chrome.ftr.help')}</h2>
       <ul>
-        <li><a href="/pages/terms-conditions#delivery">Delivery times</a></li>
-        <li><a href="/pages/terms-conditions#payment">Payment</a></li>
-        <li><a href="/pages/terms-conditions#returns">Returns</a></li>
-        <li><a href="/pages/contact">Contact us</a></li>
+        <li><a href="/pages/terms-conditions#delivery">${t('chrome.ftr.delivery')}</a></li>
+        <li><a href="/pages/terms-conditions#payment">${t('chrome.ftr.payment')}</a></li>
+        <li><a href="/pages/terms-conditions#returns">${t('chrome.ftr.returns')}</a></li>
+        <li><a href="/pages/contact">${t('chrome.ftr.contact')}</a></li>
       </ul>
     </nav>
     <div class="ftr__col">
-      <h2>Showroom &amp; factory</h2>
-      <address>${CONTACT.address}, Myanmar</address>
+      <h2>${esc(t('chrome.ftr.showroom'))}</h2>
+      <address>${t('chrome.ftr.address', { address: t('chrome.address') })}</address>
       <p><a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a> · <a href="tel:${CONTACT.phone2}">${CONTACT.phone2Label}</a><br>
          <a href="mailto:${CONTACT.email}">${CONTACT.email}</a></p>
     </div>
   </div>
   <div class="ftr__base">
-    <span>© ${new Date().getFullYear()} Deco Land Co., Ltd. · APOLO Stationery Myanmar</span>
-    <span>Prices in Myanmar kyat · catalogue updated <span id="ftrSynced">—</span></span>
+    <span>${t('chrome.ftr.copy', { year: new Date().getFullYear() })}</span>
+    <span>${t('chrome.ftr.synced')}</span>
   </div>`;
 }
 
 function dialogsHTML() {
   return `
-  <dialog class="sheet-d sheet-d--search" id="searchD" aria-label="Search products">
+  <dialog class="sheet-d sheet-d--search" id="searchD" aria-label="${t('chrome.search.products')}">
     <form class="srch" action="/search" role="search">
-      <label class="sr-only" for="srchQ">Search products</label>
+      <label class="sr-only" for="srchQ">${t('chrome.search.products')}</label>
       ${ICON.search}
       <input id="srchQ" name="q" type="search" autocomplete="off" spellcheck="false"
-             placeholder="Search pens, exercise books, A4 paper…">
-      <button type="button" class="tool" data-close aria-label="Close search">${ICON.close}</button>
+             placeholder="${t('chrome.search.placeholder')}">
+      <button type="button" class="tool" data-close aria-label="${t('chrome.search.close')}">${ICON.close}</button>
     </form>
     <div class="srch__body" id="srchBody" aria-live="polite"></div>
   </dialog>
@@ -161,30 +167,31 @@ function dialogsHTML() {
   <dialog class="sheet-d sheet-d--side" id="cartD" aria-labelledby="cartTitle">
     <div class="drawer">
       <div class="drawer__head">
-        <h2 id="cartTitle">Your cart <span data-count-text></span></h2>
-        <button type="button" class="tool" data-close aria-label="Close cart">${ICON.close}</button>
+        <h2 id="cartTitle">${t('chrome.cart.title')} <span data-count-text></span></h2>
+        <button type="button" class="tool" data-close aria-label="${t('chrome.cart.close')}">${ICON.close}</button>
       </div>
       <div class="drawer__body" id="cartBody"></div>
       <div class="drawer__foot" id="cartFoot"></div>
     </div>
   </dialog>
 
-  <dialog class="sheet-d sheet-d--side sheet-d--left" id="menuD" aria-label="Menu">
+  <dialog class="sheet-d sheet-d--side sheet-d--left" id="menuD" aria-label="${t('chrome.menu.title')}">
     <div class="drawer menu">
       <div class="drawer__head">
-        <a href="/" class="menu__logo"><img src="${LOGO}" alt="APOLO — home" width="200" height="105"></a>
-        <button type="button" class="tool" data-close aria-label="Close menu">${ICON.close}</button>
+        <a href="/" class="menu__logo"><img src="${LOGO}" alt="${t('chrome.menu.logo_alt')}" width="200" height="105"></a>
+        <button type="button" class="tool" data-close aria-label="${t('chrome.menu.close')}">${ICON.close}</button>
       </div>
-      <nav class="drawer__body menu__body" aria-label="Mobile">
-        <a class="menu__big" href="/shop">Shop all products</a>
-        <p class="menu__label">Categories</p>
+      <nav class="drawer__body menu__body" aria-label="${t('chrome.menu.aria')}">
+        <a class="menu__big" href="/shop">${t('chrome.menu.shop')}</a>
+        <p class="menu__label">${t('chrome.menu.categories')}</p>
         <ul class="menu__cats" data-cats-menu></ul>
-        <p class="menu__label">Help</p>
-        <a class="menu__link" href="/pages/terms-conditions">Delivery &amp; returns</a>
-        <a class="menu__link" href="/pages/contact">Contact &amp; showroom</a>
+        <p class="menu__label">${t('chrome.menu.help')}</p>
+        <a class="menu__link" href="/pages/terms-conditions">${esc(t('chrome.menu.delivery'))}</a>
+        <a class="menu__link" href="/pages/contact">${esc(t('chrome.menu.contact'))}</a>
       </nav>
       <div class="drawer__foot">
-        <a class="btn btn--ghost btn--block" href="tel:${CONTACT.phone}">${ICON.phone} Call ${CONTACT.phoneLabel}</a>
+        ${langSwitch('lang--block')}
+        <a class="btn btn--ghost btn--block" href="tel:${CONTACT.phone}">${ICON.phone} ${t('chrome.menu.call', { phone: CONTACT.phoneLabel })}</a>
       </div>
     </div>
   </dialog>
@@ -265,16 +272,16 @@ function fillCategories(c) {
   $('[data-cats]').innerHTML = c.collections.map((col, i) => `
     <li><a href="/collections/${col.handle}" ${here === '/collections/' + col.handle ? 'aria-current="page"' : ''}>
       <span class="mega__n">${String(i + 1).padStart(2, '0')}</span>
-      <span class="mega__t">${esc(col.title)}</span>
-      <span class="mega__my my" lang="my">${col.my}</span>
+      <span class="mega__t">${esc(colTitle(col))}</span>
+      ${isMy ? '' : `<span class="mega__my my" lang="my">${col.my}</span>`}
       <span class="mega__c">${col.items.length}</span>
     </a></li>`).join('');
   $('[data-cats-menu]').innerHTML = c.collections.map(col => `
     <li><a href="/collections/${col.handle}">
-      <span>${esc(col.title)}</span><span class="my" lang="my">${col.my}</span><em>${col.items.length}</em>
+      <span>${esc(colTitle(col))}</span>${isMy ? '' : `<span class="my" lang="my">${col.my}</span>`}<em>${col.items.length}</em>
     </a></li>`).join('');
   $('[data-cats-ftr]').insertAdjacentHTML('beforeend', c.collections.map(col =>
-    `<li><a href="/collections/${col.handle}">${esc(col.title)}</a></li>`).join(''));
+    `<li><a href="/collections/${col.handle}">${esc(colTitle(col))}</a></li>`).join(''));
 }
 
 /* ---------- the header over the film ----------
@@ -307,15 +314,15 @@ function wireSearch() {
     if (!c) return;
     const term = q.value.trim();
     if (!term) {
-      body.innerHTML = `<p class="srch__label">Browse a category</p>
+      body.innerHTML = `<p class="srch__label">${t('chrome.search.browse')}</p>
         <ul class="srch__chips">${c.collections.map(col =>
-          `<li><a href="/collections/${col.handle}">${esc(col.title)}</a></li>`).join('')}</ul>`;
+          `<li><a href="/collections/${col.handle}">${esc(colTitle(col))}</a></li>`).join('')}</ul>`;
       return;
     }
     const hits = search(c, term);
     if (!hits.length) {
-      body.innerHTML = `<p class="srch__none">Nothing matches “${esc(term)}”. Try a product type — <em>pen</em>, <em>A4</em>, <em>exercise book</em> — or call
-        <a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a>.</p>`;
+      body.innerHTML = `<p class="srch__none">${t('chrome.search.none',
+        { term: esc(term), tel: CONTACT.phone, phone: CONTACT.phoneLabel })}</p>`;
       return;
     }
     body.innerHTML = `
@@ -323,10 +330,10 @@ function wireSearch() {
         const im = variantImage(p);
         return `<li><a href="/products/${p.handle}">
           <span class="srch__img">${photo(im, { w: 60 })}</span>
-          <span class="srch__t">${esc(shortTitle(p))}<small>${esc(p.collections[0]?.title || p.vendor)}</small></span>
+          <span class="srch__t">${esc(shortTitle(p))}<small>${esc(p.collections[0] ? colTitle(p.collections[0]) : p.vendor)}</small></span>
           <span class="srch__p">${priceLabel(p)}</span></a></li>`;
       }).join('')}</ul>
-      <a class="srch__all" href="/search?q=${encodeURIComponent(term)}">See all ${hits.length} result${hits.length === 1 ? '' : 's'} ${ICON.arrow}</a>`;
+      <a class="srch__all" href="/search?q=${encodeURIComponent(term)}">${hits.length === 1 ? t('chrome.search.all_one', { n: hits.length }) : t('chrome.search.all_many', { n: hits.length })} ${ICON.arrow}</a>`;
   };
   q.addEventListener('input', render);
 }
@@ -339,21 +346,22 @@ function wireCart() {
     const n = cart.count;
     document.querySelectorAll('[data-count]').forEach(b => { b.textContent = n; b.hidden = !n; });
     document.querySelectorAll('[data-count-text]').forEach(b => { b.textContent = n ? `(${n})` : ''; });
-    document.querySelectorAll('.tool--cart').forEach(b => b.setAttribute('aria-label', `Cart, ${n} item${n === 1 ? '' : 's'}`));
+    document.querySelectorAll('.tool--cart').forEach(b => b.setAttribute('aria-label',
+      n === 1 ? t('chrome.cart.aria_one', { n }) : t('chrome.cart.aria_many', { n })));
   };
 
   const render = async () => {
     badges();
     const c = await catalog().catch(() => null);
-    if (!c) { body.innerHTML = '<p class="drawer__empty">The catalogue could not be loaded. Please refresh the page.</p>'; return; }
+    if (!c) { body.innerHTML = `<p class="drawer__empty">${t('chrome.cart.error')}</p>`; return; }
     const lines = cart.resolve(c);
     if (!lines.length) {
       body.innerHTML = `
         <div class="blank">
           <div class="blank__page" aria-hidden="true"></div>
-          <p class="blank__t">Your page is still blank.</p>
-          <p class="blank__s">Every idea starts that way. Find something to fill it with.</p>
-          <a class="btn btn--ink" href="/shop">Browse the shop</a>
+          <p class="blank__t">${t('chrome.cart.empty.title')}</p>
+          <p class="blank__s">${t('chrome.cart.empty.sub')}</p>
+          <a class="btn btn--ink" href="/shop">${t('chrome.cart.empty.cta')}</a>
         </div>`;
       foot.innerHTML = '';
       return;
@@ -365,25 +373,25 @@ function wireCart() {
           ${photo(im, { w: 80 })}</a>
         <div class="ci__info">
           <a class="ci__t" href="/products/${l.product.handle}${l.product.variants.length > 1 ? '?variant=' + l.id : ''}">${esc(shortTitle(l.product))}</a>
-          ${l.variant.title ? `<span class="ci__v">${esc(l.variant.title)}</span>` : ''}
-          ${l.variant.available ? '' : '<span class="ci__out">Sold out — not included at checkout</span>'}
+          ${l.variant.title ? `<span class="ci__v">${esc(isMy && l.variant.o?.length ? l.variant.o.map(optVal).join(' / ') : l.variant.title)}</span>` : ''}
+          ${l.variant.available ? '' : `<span class="ci__out">${t('chrome.cart.soldout')}</span>`}
           <div class="ci__row">
-            ${stepper(l.qty, `Quantity of ${shortTitle(l.product)}`)}
-            <button type="button" class="ci__rm" data-rm>Remove</button>
+            ${stepper(l.qty, t('chrome.cart.qty_of', { title: shortTitle(l.product) }))}
+            <button type="button" class="ci__rm" data-rm>${t('chrome.cart.remove')}</button>
           </div>
         </div>
-        <span class="ci__p">${money(l.total)}${l.qty > 1 ? `<small>${money(l.variant.price)} each</small>` : ''}</span>
+        <span class="ci__p">${money(l.total)}${l.qty > 1 ? `<small>${t('chrome.cart.each', { price: money(l.variant.price) })}</small>` : ''}</span>
       </li>`;
     }).join('')}</ul>`;
 
     const sub = lines.filter(l => l.variant.available).reduce((s, l) => s + l.total, 0);
     const url = cart.checkoutUrl(c);
     foot.innerHTML = `
-      <div class="sum"><span>Subtotal</span><b>${money(sub)}</b></div>
-      <p class="sum__note">Delivery is calculated at checkout. Pay cash on delivery or by bank transfer.</p>
-      ${url ? `<a class="btn btn--brand btn--block" href="${url}">Checkout ${ICON.arrow}</a>` : ''}
-      <a class="btn btn--ghost btn--block" href="tel:${CONTACT.phone}">${ICON.phone} Or order by phone</a>
-      <p class="sum__fine">Checkout is completed on APOLO’s secure store, apolostationey.com.</p>`;
+      <div class="sum"><span>${t('chrome.cart.subtotal')}</span><b>${money(sub)}</b></div>
+      <p class="sum__note">${t('chrome.cart.note')}</p>
+      ${url ? `<a class="btn btn--brand btn--block" href="${url}">${t('chrome.cart.checkout')} ${ICON.arrow}</a>` : ''}
+      <a class="btn btn--ghost btn--block" href="tel:${CONTACT.phone}">${ICON.phone} ${t('chrome.cart.phone')}</a>
+      <p class="sum__fine">${t('chrome.cart.fine')}</p>`;
   };
 
   body.addEventListener('click', e => {
@@ -406,9 +414,9 @@ function wireCart() {
 /** − [n] + — shared by the cart and the product page */
 export function stepper(qty, label) {
   return `<div class="step" role="group" aria-label="${esc(label)}">
-    <button type="button" data-dec aria-label="Decrease">${ICON.minus}</button>
-    <input type="number" inputmode="numeric" min="0" max="99" value="${qty}" aria-label="Quantity">
-    <button type="button" data-inc aria-label="Increase">${ICON.plus}</button>
+    <button type="button" data-dec aria-label="${t('chrome.step.dec')}">${ICON.minus}</button>
+    <input type="number" inputmode="numeric" min="0" max="99" value="${qty}" aria-label="${t('chrome.step.qty')}">
+    <button type="button" data-inc aria-label="${t('chrome.step.inc')}">${ICON.plus}</button>
   </div>`;
 }
 

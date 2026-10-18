@@ -4,16 +4,21 @@
    and answers every question the store asks of it. Nothing else fetches data.
    ========================================================================== */
 
+import { isMy, t, tr } from '../i18n.js';
+
 let loading = null;
 
-/** The whole catalogue, indexed. Fetched once and shared by every caller. */
+/** The whole catalogue, indexed. Fetched once and shared by every caller.
+    In Burmese, data/catalog.my.json (optional) supplies Burmese product names
+    and descriptions by handle; anything it does not cover stays English. */
 export function catalog() {
-  return loading ||= fetch('/data/catalog.json')
-    .then(r => { if (!r.ok) throw new Error('catalog ' + r.status); return r.json(); })
-    .then(index);
+  return loading ||= Promise.all([
+    fetch('/data/catalog.json').then(r => { if (!r.ok) throw new Error('catalog ' + r.status); return r.json(); }),
+    isMy ? fetch('/data/catalog.my.json').then(r => (r.ok ? r.json() : {})).catch(() => ({})) : {}
+  ]).then(([c, ov]) => index(c, ov));
 }
 
-function index(c) {
+function index(c, ov = {}) {
   c.byHandle = new Map(c.products.map(p => [p.handle, p]));
   c.byVariant = new Map();
   for (const p of c.products) {
@@ -21,8 +26,12 @@ function index(c) {
     p.max = Math.max(...p.variants.map(v => v.price));
     p.available = p.variants.some(v => v.available);
     p.collections = [];
-    p.search = norm([p.title, p.vendor, p.type, ...p.tags,
-                     ...p.variants.map(v => v.title)].join(' '));
+    const my = ov[p.handle] || {};
+    /* search matches the English name always, and the Burmese one too */
+    p.search = norm([p.title, my.title, p.vendor, p.type, ...p.tags,
+                     ...p.variants.map(v => v.title)].filter(Boolean).join(' '));
+    if (my.title) { p.titleEn = p.title; p.title = my.title; }
+    if (my.body) p.body = my.body;
     for (const v of p.variants) c.byVariant.set(v.id, { product: p, variant: v });
   }
   c.byCollection = new Map(c.collections.map(col => [col.handle, col]));
@@ -55,15 +64,43 @@ const FEATURED = [
   'apolo-clear-file-a4-20-40-60-pockets', 'apolo-binder-clip'
 ];
 
-const norm = s => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ');
+/* \p{M} keeps Burmese vowel signs and tone marks attached to their letters */
+const norm = s => s.toLowerCase().replace(/[^\p{L}\p{M}\p{N}]+/gu, ' ');
 
 /* ---------- formatting ---------- */
 
-/** Kyat, the way the store prints it but without the meaningless ".00". */
-export const money = n => 'K' + Math.round(n).toLocaleString('en-US');
+/** Kyat, the way the store prints it but without the meaningless ".00":
+    K48,200 in English, 48,200 ကျပ် in Burmese (digits stay Arabic, as on the
+    store). The pattern is the `price.fmt` entry in the language tables. */
+export const money = n => t('price.fmt', { n: Math.round(n).toLocaleString('en-US') });
 
 export function priceLabel(p) {
-  return p.min === p.max ? money(p.min) : `From ${money(p.min)}`;
+  return p.min === p.max ? money(p.min) : t('price.from', { price: money(p.min) });
+}
+
+/* ---------- words the catalogue gives us in English ---------- */
+
+/** A category's name, short name and one-line description in this language. */
+export const colTitle = col => tr(`cat.${col.handle}.title`, col.title);
+export const colShort = col => tr(`cat.${col.handle}.short`, col.short || col.title);
+export const colBlurb = col => tr(`cat.${col.handle}.blurb`, col.blurb);
+
+/** "Color" → အရောင်. Unknown names stay as Shopify wrote them. */
+export const optName = name => tr(`opt.${String(name).toLowerCase().trim()}`, name);
+
+const UNITS = { sheet: 'unit.sheet', sheets: 'unit.sheet', page: 'unit.page', pages: 'unit.page',
+  pocket: 'unit.pocket', pockets: 'unit.pocket', layer: 'unit.layer', layers: 'unit.layer',
+  divider: 'unit.divider' };
+/** An option value: a colour name, or a count with a unit ("10 sheets"). Sizes
+    and codes ("A4", "0.5mm") are the same in every language. */
+export function optVal(v) {
+  if (!isMy) return v;
+  const k = String(v).toLowerCase().trim();
+  const hit = tr(`val.${k}`, null);
+  if (hit) return hit;
+  const m = k.match(/^(\d+)\s+([a-z]+)$/);
+  if (m && UNITS[m[2]]) return `${m[1]} ${t(UNITS[m[2]])}`;
+  return v;
 }
 
 const CDN = 'https://cdn.shopify.com/s/files/1/0580/6443/7401/';
@@ -150,12 +187,15 @@ export function search(c, q, limit = Infinity) {
   return out.sort((a, b) => b[0] - a[0]).slice(0, limit).map(x => x[1]);
 }
 
+/* Labels come from the language tables (sort.<key>); `label` reads them when
+   asked, so a sort order is named in whatever language the page is in. */
+const sortOf = (key, fn) => ({ fn, get label() { return t(`sort.${key}`); } });
 export const SORTS = {
-  featured:   { label: 'Featured',            fn: null },
-  'price-asc':  { label: 'Price, low to high', fn: (a, b) => a.min - b.min },
-  'price-desc': { label: 'Price, high to low', fn: (a, b) => b.min - a.min },
-  'title':      { label: 'Name, A–Z',          fn: (a, b) => shortTitle(a).localeCompare(shortTitle(b)) },
-  'new':        { label: 'Newest',             fn: (a, b) => b.created.localeCompare(a.created) }
+  featured:     sortOf('featured', null),
+  'price-asc':  sortOf('price-asc', (a, b) => a.min - b.min),
+  'price-desc': sortOf('price-desc', (a, b) => b.min - a.min),
+  'title':      sortOf('title', (a, b) => shortTitle(a).localeCompare(shortTitle(b), isMy ? 'my' : 'en')),
+  'new':        sortOf('new', (a, b) => b.created.localeCompare(a.created))
 };
 
 /** Products that belong with this one: same collection first, nearest in price. */

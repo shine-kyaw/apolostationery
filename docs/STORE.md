@@ -119,6 +119,18 @@ APOLO makes — the exercise book:
 Handwriting (Kalam, ballpoint blue `--biro`) is used only where a person
 would really write by hand: the cover labels, the ticks, counts.
 
+### Two languages (English / Burmese)
+A globe pill in the header (also in the mobile menu and footer) switches the
+whole site; the choice is remembered, and a browser set to Burmese opens in
+Burmese. `?lang=my` / `?lang=en` on any URL forces one. All text lives in one
+table per language (`js/i18n/en/*.js`, `js/i18n/my/*.js`); `js/i18n.js` reads
+it, `js/i18n-boot.js` sets the language before first paint, Burmese typography
+is `html[lang="my"]` in `css/base.css`. Product names and descriptions come from
+Shopify in English; Burmese ones go in `data/catalog.my.json` (template
+included). Full guide, glossary and the proofreading table:
+[TRANSLATING.md](TRANSLATING.md), [TRANSLATIONS.md](TRANSLATIONS.md). After
+editing any text: `node tools/check-i18n.mjs`.
+
 ### What the site says about APOLO (and where it comes from)
 Every service claim is taken from APOLO's own store (apolostationey.com), not
 written by us: **door-to-door delivery**; delivery times by city (Yangon 3–5

@@ -6,8 +6,9 @@
    is how wrong orders happen.
    ========================================================================== */
 
-import { photo, esc, money, priceLabel, shortTitle, catalog } from '../store/catalog.js';
+import { photo, esc, money, priceLabel, shortTitle, catalog, colTitle } from '../store/catalog.js';
 import { cart } from '../store/cart.js';
+import { t } from '../i18n.js';
 import { ICON, toast, openDialog } from './chrome.js';
 
 const SIZES = '(max-width:600px) 46vw, (max-width:1100px) 30vw, 280px';
@@ -26,18 +27,18 @@ export function card(p, { eager = false } = {}) {
       <span class="card__img">
         ${photo(a, { w: 300, sizes: SIZES, alt: p.title, lazy: !eager })}
         ${b ? photo(b, { w: 300, sizes: SIZES, cls: 'card__alt' }) : ''}
-        ${sale ? '<span class="tag tag--sale">Sale</span>' : ''}
-        ${p.available ? '' : '<span class="tag">Sold out</span>'}
+        ${sale ? `<span class="tag tag--sale">${t('card.sale')}</span>` : ''}
+        ${p.available ? '' : `<span class="tag">${t('card.soldout')}</span>`}
       </span>
-      <span class="card__meta">${esc(p.collections[0]?.title || p.type || p.vendor)}${
+      <span class="card__meta">${esc(p.collections[0] ? colTitle(p.collections[0]) : p.type || p.vendor)}${
         p.vendor && !/^apolo/i.test(p.vendor) ? ` · ${esc(p.vendor)}` : ''}</span>
       <h3 class="card__t">${esc(shortTitle(p))}</h3>
       <span class="card__p">${priceLabel(p)}${sale && one ? ` <s>${money(v.compare)}</s>` : ''}</span>
-      ${p.variants.length > 1 ? `<span class="card__v">${swatches ? `${swatches} colours` : `${p.variants.length} options`}</span>` : ''}
+      ${p.variants.length > 1 ? `<span class="card__v">${swatches ? t('card.colours', { n: swatches }) : t('card.options', { n: p.variants.length })}</span>` : ''}
     </a>
     ${p.available ? (one
-      ? `<button type="button" class="card__add" data-add="${v.id}" aria-label="Add ${esc(shortTitle(p))} to cart">${ICON.plus}</button>`
-      : `<a class="card__add" href="/products/${p.handle}" aria-label="Choose options for ${esc(shortTitle(p))}" tabindex="-1">${ICON.arrow}</a>`)
+      ? `<button type="button" class="card__add" data-add="${v.id}" aria-label="${esc(t('card.add_aria', { title: shortTitle(p) }))}">${ICON.plus}</button>`
+      : `<a class="card__add" href="/products/${p.handle}" aria-label="${esc(t('card.choose_aria', { title: shortTitle(p) }))}" tabindex="-1">${ICON.arrow}</a>`)
       : ''}
   </article>`;
 }
@@ -54,8 +55,8 @@ export function wireQuickAdd() {
     btn.classList.remove('is-done'); void btn.offsetWidth; btn.classList.add('is-done');
     const c = await catalog();
     const hit = c.byVariant.get(id);
-    toast(`<span><b>Added</b> ${esc(shortTitle(hit.product))}</span>
-           <button type="button" class="toast__go" data-open="cart">View cart (${cart.count})</button>`);
+    toast(`<span>${t('card.added', { title: esc(shortTitle(hit.product)) })}</span>
+           <button type="button" class="toast__go" data-open="cart">${t('card.view_cart', { n: cart.count })}</button>`);
   });
 }
 

@@ -30,6 +30,7 @@ import {
   OBJECTS, MOBILE_KEEP, MOBILE_LAYOUT, OPEN, MOBILE_OPEN, PENCIL_OPEN, PENCIL, LOGO, url
 } from './assets.js';
 import { createAudio } from './audio.js';
+import { t } from './i18n.js';
 
 const $ = s => document.querySelector(s);
 const reduced  = matchMedia('(prefers-reduced-motion: reduce)');
@@ -229,7 +230,7 @@ const soundBtn = $('#sound'), soundLabel = $('#soundLabel');
 soundBtn.addEventListener('click', async () => {
   const on = await audio.toggle();
   soundBtn.setAttribute('aria-pressed', String(on));
-  soundLabel.textContent = on ? 'Sound on' : 'Sound off';
+  soundLabel.textContent = on ? t('film.sound.on') : t('film.sound.off');
 });
 
 /* --------------------------------------------------------------------------
@@ -240,11 +241,11 @@ soundBtn.addEventListener('click', async () => {
    which is what stops a long scroll feeling like an unbroken tunnel.
    -------------------------------------------------------------------------- */
 const SLATES = [
-  [0.000, '01', 'The blank page',  'APOLO A-221C, 2B'],
-  [0.135, '02', 'The first mark',  'One continuous line'],
-  [0.440, '03', 'The page',        'Exercise ruling, 100 GSM'],
-  [0.585, '04', 'The desk',        '14 APOLO products'],
-  [0.905, '05', 'APOLO',           'Yangon, Myanmar']
+  [0.000, '01', t('film.slate.1.title'), t('film.slate.1.sub')],
+  [0.135, '02', t('film.slate.2.title'), t('film.slate.2.sub')],
+  [0.440, '03', t('film.slate.3.title'), t('film.slate.3.sub')],
+  [0.585, '04', t('film.slate.4.title'), t('film.slate.4.sub')],
+  [0.905, '05', t('film.slate.5.title'), t('film.slate.5.sub')]
 ];
 let slateIdx = -1, slateTimer = 0;
 function setSlate(p) {
@@ -254,8 +255,8 @@ function setSlate(p) {
   const first = slateIdx === -1;
   slateIdx = i;
   const write = () => {
-    const [, n, t, d] = SLATES[i];
-    slateEl.innerHTML = `<span>${n}</span> ${t} &mdash; <i>${d}</i>`;
+    const [, n, title, d] = SLATES[i];
+    slateEl.innerHTML = `<span>${n}</span> ${title} &mdash; <i>${d}</i>`;
     slateEl.style.setProperty('--slate', '0.85');
   };
   if (first) { write(); return; }

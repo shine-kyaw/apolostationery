@@ -1,0 +1,72 @@
+/* Shared by every page. The `opt.*`, `val.*` and `unit.*` keys exist only
+   here: the catalogue gives those words to us in English, and one that is
+   missing here simply shows the English word. */
+export default {
+  'lang.to_my': 'ဘာသာစကားကို မြန်မာသို့ ပြောင်းရန်',
+  'lang.to_en': 'ဘာသာစကားကို အင်္ဂလိပ်သို့ ပြောင်းရန်',
+
+  'price.fmt': '{n} ကျပ်',
+  'price.from': '{price} မှစ၍',
+
+  'sort.featured': 'အကြံပြု',
+  'sort.match': 'အကိုက်ညီဆုံး',
+  'sort.price-asc': 'ဈေးနှုန်း နိမ့်မှ မြင့်',
+  'sort.price-desc': 'ဈေးနှုန်း မြင့်မှ နိမ့်',
+  'sort.title': 'အမည်အလိုက် (A–Z)',
+  'sort.new': 'အသစ်ဆုံး',
+
+  'cat.books.title': 'စာအုပ်များ',
+  'cat.books.short': 'စာအုပ်',
+  'cat.books.blurb': 'ကျောင်းသုံးစာအုပ်၊ မှတ်စုစာအုပ်၊ ပုံဆွဲစာအုပ်နှင့် အဖုံးမာစာအုပ်များ',
+  'cat.writing-instruments.title': 'ရေးသားကိရိယာများ',
+  'cat.writing-instruments.short': 'ရေးကိရိယာ',
+  'cat.writing-instruments.blurb': 'ဘောပင်၊ ခဲတံ၊ မားကာပင်၊ ခရေယွန်နှင့် ဆီခရေယွန်များ',
+  'cat.desk-accessories.title': 'စားပွဲသုံးပစ္စည်းများ',
+  'cat.desk-accessories.short': 'စားပွဲသုံး',
+  'cat.desk-accessories.blurb': 'စတေပလာ၊ ကလစ်၊ ကော်၊ တိပ်နှင့် ဖြတ်ဓားများ',
+  'cat.stationery-supplies.title': 'စာရေးကိရိယာ ပစ္စည်းများ',
+  'cat.stationery-supplies.short': 'ပစ္စည်းများ',
+  'cat.stationery-supplies.blurb': 'ပေတံ၊ ခဲချွန်စက်၊ လမ်မီနိတ်နှင့် OHP ဖလင်များ',
+  'cat.copy-paper.title': 'ကော်ပီစက္ကူ',
+  'cat.copy-paper.short': 'စက္ကူ',
+  'cat.copy-paper.blurb': 'ကော်ပီစက္ကူနှင့် အရောင်စက္ကူ အထုပ်လိုက်',
+  'cat.file-folders.title': 'ဖိုင်များ',
+  'cat.file-folders.short': 'ဖိုင်',
+  'cat.file-folders.blurb': 'ကလီးယားဖိုင်၊ ဘောက်စ်ဖိုင်နှင့် ဖိုင်တွဲများ',
+  'cat.envelopes.title': 'စာအိတ်များ',
+  'cat.envelopes.short': 'စာအိတ်',
+  'cat.envelopes.blurb': 'ပိုက်ဆံအိတ်ပုံစံနှင့် စာရွက်စာတမ်းထည့် စာအိတ်များ',
+  'cat.ledgers.title': 'စာရင်းစာအုပ်များ',
+  'cat.ledgers.short': 'စာရင်းစာအုပ်',
+  'cat.ledgers.blurb': 'နေ့စဉ်စာရင်း၊ ငွေစာရင်းနှင့် စာရင်းချုပ်စာအုပ်များ',
+  'cat.vouchers.title': 'ဘောက်ချာများ',
+  'cat.vouchers.short': 'ဘောက်ချာ',
+  'cat.vouchers.blurb': 'ငွေတောင်းခံလွှာ၊ ငွေသားနှင့် ပြေစာ ဘောက်ချာများ',
+
+  /* product option names (Shopify gives them in English; lower-case lookup) */
+  'opt.color': 'အရောင်',
+  'opt.size': 'အရွယ်အစား',
+  'opt.pages': 'စာမျက်နှာ',
+  'opt.gsm': 'GSM',
+  'opt.micron': 'မိုက်ခရွန်',
+  'opt.material': 'ပစ္စည်းအမျိုးအစား',
+  'opt.sheet': 'စာရွက်အရေအတွက်',
+  'opt.gram': 'ဂရမ်',
+  'opt.divider': 'ခြားစာရွက်',
+  'opt.pocket': 'အိတ်ကပ်',
+  'opt.layer': 'အလွှာ',
+  'opt.style': 'ပုံစံ',
+  'opt.size & micron': 'အရွယ်အစားနှင့် မိုက်ခရွန်',
+
+  /* colours that appear in the catalogue (lower-case lookup) */
+  'val.blue': 'အပြာ', 'val.dark blue': 'အပြာရင့်', 'val.light blue': 'အပြာဖျော့',
+  'val.black': 'အနက်', 'val.red': 'အနီ', 'val.green': 'အစိမ်း', 'val.grey': 'မီးခိုးရောင်',
+  'val.yellow': 'အဝါ', 'val.pink': 'ပန်းရောင်', 'val.baby pink': 'ပန်းရောင်ဖျော့',
+  'val.orange': 'လိမ္မော်ရောင်', 'val.purple': 'ခရမ်းရောင်', 'val.brown': 'အညို',
+  'val.white': 'အဖြူ', 'val.gold': 'ရွှေရောင်', 'val.ivory': 'ဆင်စွယ်ရောင်',
+  'val.lavender': 'ခရမ်းဖျော့', 'val.lavendar': 'ခရမ်းဖျော့', 'val.clear': 'ကြည်လင်',
+
+  /* units that appear inside option values, e.g. "10 sheets" */
+  'unit.sheet': 'ရွက်', 'unit.page': 'စာမျက်နှာ', 'unit.pocket': 'အိတ်ကပ်',
+  'unit.layer': 'လွှာ', 'unit.divider': 'ခြားစာရွက်'
+};

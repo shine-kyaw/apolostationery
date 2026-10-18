@@ -8,7 +8,8 @@
 
 import { mountChrome, ICON, openDialog, toast } from '../site/chrome.js';
 import { card, wireQuickAdd } from '../site/card.js';
-import { catalog, photo, esc, money, shortTitle } from '../store/catalog.js';
+import { catalog, photo, esc, money, shortTitle, colTitle, colShort, colBlurb } from '../store/catalog.js';
+import { t, isMy } from '../i18n.js';
 import { cart } from '../store/cart.js';
 import { wireRails } from '../site/rail.js';
 
@@ -20,15 +21,15 @@ const LOGO = '/img/apolo-logo.png';
 /* APOLO's own homepage campaign artwork, each pointed at what it advertises. */
 const CAMPAIGNS = [
   { src: 'https://apolostationey.com/cdn/shop/files/Apolo1_copy.jpg?v=1716622025',
-    href: '/shop', alt: 'School Season Sale — APOLO pens, highlighters, rulers and correction pens' },
+    href: '/shop', alt: t('home.camp.1.alt') },
   { src: 'https://apolostationey.com/cdn/shop/files/WSL.jpg?v=1718168729',
-    href: '/products/apolo-exercise-book-55-gsm-80-pages-single-line', alt: 'New APOLO exercise book covers with the APOLO rabbit' },
+    href: '/products/apolo-exercise-book-55-gsm-80-pages-single-line', alt: t('home.camp.2.alt') },
   { src: 'https://apolostationey.com/cdn/shop/files/Apolo6_c7e3e1ed-9e93-4e82-b8b1-aa68ee7639a4.jpg?v=1716625436',
-    href: '/collections/writing-instruments', alt: 'APOLO — let’s draw: sketch books, crayons, colour pens and oil pastels' },
+    href: '/collections/writing-instruments', alt: t('home.camp.3.alt') },
   { src: 'https://apolostationey.com/cdn/shop/files/Banner01_copy_8c08478a-9a56-4abe-9e36-7c9b0db0fe39.jpg?v=1712202199',
-    href: '/products/apolo-note-book-70-gsm-80-pages-single-line', alt: 'The best quality APOLO note books in pink, blue and orange' },
+    href: '/products/apolo-note-book-70-gsm-80-pages-single-line', alt: t('home.camp.4.alt') },
   { src: 'https://apolostationey.com/cdn/shop/files/Frame6_31224a9a-62a1-4344-8c9f-5df402a9231d.jpg?v=1679561427',
-    href: '/products/apolo-sticky-note', alt: 'APOLO sticky notes in pastel colours, five sizes' }
+    href: '/products/apolo-sticky-note', alt: t('home.camp.5.alt') }
 ];
 const sized = (src, w) => src + '&width=' + w;
 
@@ -82,23 +83,23 @@ catalog().then(c => {
         <span class="book__spine" aria-hidden="true"></span>
         <span class="book__top">
           <img src="${LOGO}" alt="" width="200" height="105">
-          <span class="book__series my" lang="my">${col.my}</span>
+          <span class="book__series my" lang="my">${isMy ? esc(col.short) : col.my}</span>
         </span>
         <span class="book__art" aria-hidden="true">${photo(im, { w: 260 })}</span>
         <span class="book__label">
-          <span class="book__row"><em>Subject</em><b>${esc(col.short)}</b></span>
-          <span class="book__row"><em>Items</em><b>${col.items.length}</b></span>
+          <span class="book__row"><em>${t('home.book.subject')}</em><b>${esc(colShort(col))}</b></span>
+          <span class="book__row"><em>${t('home.book.items')}</em><b>${col.items.length}</b></span>
         </span>
-        <span class="sr-only">${esc(col.title)}, ${col.items.length} products</span>
+        <span class="sr-only">${t('home.book.sr', { title: esc(colTitle(col)), n: col.items.length })}</span>
       </span>
     </a>`;
   }).join('');
 
   document.getElementById('index').innerHTML = small.map(col => `
     <li><a href="/collections/${col.handle}">
-      <span class="index__t">${esc(col.title)}</span>
-      <span class="index__my my" lang="my">${col.my}</span>
-      <span class="index__b">${esc(col.blurb)}</span>
+      <span class="index__t">${esc(colTitle(col))}</span>
+      ${isMy ? '<span class="index__my" aria-hidden="true"></span>' : `<span class="index__my my" lang="my">${col.my}</span>`}
+      <span class="index__b">${esc(colBlurb(col))}</span>
       <span class="index__n">${col.items.length}</span>
       ${ICON.arrow}
     </a></li>`).join('');
@@ -114,7 +115,7 @@ catalog().then(c => {
       return `
       <li class="row${n ? ' is-ticked' : ''}">
         <button type="button" class="row__tick" data-tick="${v.id}" aria-pressed="${!!n}"
-                aria-label="${n ? 'Remove' : 'Add'} ${esc(shortTitle(p))} ${n ? 'from' : 'to'} cart">
+                aria-label="${esc(n ? t('home.list.remove.aria', { title: shortTitle(p) }) : t('home.list.add.aria', { title: shortTitle(p) }))}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>
         </button>
         <a class="row__img" href="/products/${p.handle}" tabindex="-1" aria-hidden="true">${photo(p.images[0], { w: 64 })}</a>
@@ -125,10 +126,10 @@ catalog().then(c => {
     const todo = items.filter(p => !inCart(p.variants[0].id));
     const sum = todo.reduce((s, p) => s + p.variants[0].price, 0);
     foot.innerHTML = todo.length
-      ? `<button type="button" class="btn btn--brand" data-add-all>Add the whole list &mdash; ${money(sum)}</button>
-         <span class="list__note">${todo.length === items.length ? `${items.length} items` : `${todo.length} not in your cart yet`}</span>`
-      : `<span class="list__done">Everything on the list is in your cart.</span>
-         <button type="button" class="btn btn--ink" data-open="cart">View cart</button>`;
+      ? `<button type="button" class="btn btn--brand" data-add-all>${t('home.list.addall', { price: money(sum) })}</button>
+         <span class="list__note">${todo.length === items.length ? t('home.list.count', { n: items.length }) : t('home.list.todo', { n: todo.length })}</span>`
+      : `<span class="list__done">${t('home.list.done')}</span>
+         <button type="button" class="btn btn--ink" data-open="cart">${t('home.list.viewcart')}</button>`;
   };
   rows.addEventListener('click', e => {
     const b = e.target.closest('[data-tick]'); if (!b) return;
@@ -137,8 +138,8 @@ catalog().then(c => {
     else {
       cart.add(id, 1);
       const p = c.byVariant.get(id).product;
-      toast(`<span><b>Added</b> ${esc(shortTitle(p))}</span>
-             <button type="button" class="toast__go" data-open="cart">View cart (${cart.count})</button>`);
+      toast(`${t('home.toast.added', { title: esc(shortTitle(p)) })}
+             <button type="button" class="toast__go" data-open="cart">${t('home.toast.view', { n: cart.count })}</button>`);
     }
   });
   foot.addEventListener('click', e => {
@@ -159,22 +160,22 @@ catalog().then(c => {
       <div class="wrap">
         <div class="sec-head sec-head--row">
           <div>
-            <p class="kicker my" lang="my">${el.dataset.kicker || col.my}</p>
-            <h2 id="${id}-t">${el.dataset.title || esc(col.title)}</h2>
+            <p class="kicker my" lang="my">${isMy ? esc(col.short) : (el.dataset.kicker || col.my)}</p>
+            <h2 id="${id}-t">${el.dataset.titleKey ? t(el.dataset.titleKey) : esc(colTitle(col))}</h2>
           </div>
           <div class="sec-head__end">
-            <a class="link-arrow" href="/collections/${col.handle}">See all ${col.items.length} ${ICON.arrow}</a>
+            <a class="link-arrow" href="/collections/${col.handle}">${t('home.shelf.all', { n: col.items.length })} ${ICON.arrow}</a>
             <div class="rail-ctl" data-for="${id}">
-              <button type="button" class="tool tool--line" data-dir="-1" aria-label="Scroll back"></button>
-              <button type="button" class="tool tool--line" data-dir="1" aria-label="Scroll forward"></button>
+              <button type="button" class="tool tool--line" data-dir="-1" aria-label="${t('home.shelf.back')}"></button>
+              <button type="button" class="tool tool--line" data-dir="1" aria-label="${t('home.shelf.forward')}"></button>
             </div>
           </div>
         </div>
       </div>
-      <div class="rail" id="${id}" tabindex="0" aria-label="${esc(col.title)}, scroll sideways">
+      <div class="rail" id="${id}" tabindex="0" aria-label="${esc(t('home.shelf.aria', { title: colTitle(col) }))}">
         ${col.items.slice(0, 12).map(p => card(p)).join('')}
         <a class="rail__more" href="/collections/${col.handle}">
-          <span>All ${col.items.length}<br>${esc(col.title.toLowerCase())}</span>${ICON.arrow}
+          <span>${t('home.shelf.more', { n: col.items.length, name: esc(colTitle(col).toLowerCase()) })}</span>${ICON.arrow}
         </a>
       </div>`;
   }
@@ -182,7 +183,7 @@ catalog().then(c => {
 }).catch(err => {
   console.error('[apolo] catalogue failed', err);
   document.getElementById('books').innerHTML =
-    '<p class="err wrap">The catalogue didn’t load. <a href="/shop">Try the shop page</a> or call 09 777 271 999.</p>';
+    `<p class="err wrap">${t('home.err')}</p>`;
 });
 
 wireRails();

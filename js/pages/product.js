@@ -5,8 +5,9 @@
 import { mountChrome, ICON, CONTACT, stepper, openDialog } from '../site/chrome.js';
 import { card, wireQuickAdd } from '../site/card.js';
 import { wireRails } from '../site/rail.js';
-import { catalog, photo, esc, money, shortTitle, related } from '../store/catalog.js';
+import { catalog, photo, esc, money, shortTitle, related, colTitle, optName, optVal } from '../store/catalog.js';
 import { cart } from '../store/cart.js';
+import { t, isMy } from '../i18n.js';
 
 mountChrome();
 wireQuickAdd();
@@ -35,12 +36,12 @@ catalog().then(c => {
   let qty = 1;
   const col = p.collections[0];
 
-  document.title = `${p.title} — APOLO Stationery Myanmar`;
+  document.title = t('product.title', { name: p.title });
   const plain = p.body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   document.querySelector('meta[name=description]').setAttribute('content',
-    (plain ? plain.slice(0, 140) + (plain.length > 140 ? '…' : '') + ' ' : '') + 'Door-to-door delivery and cash on delivery.');
+    (plain ? plain.slice(0, 140) + (plain.length > 140 ? '…' : '') + ' ' : '') + t('product.meta.tail'));
 
-  if (col) $('#crumbs').insertAdjacentHTML('beforeend', `<li><a href="/collections/${col.handle}">${esc(col.title)}</a></li>`);
+  if (col) $('#crumbs').insertAdjacentHTML('beforeend', `<li><a href="/collections/${col.handle}">${esc(colTitle(col))}</a></li>`);
   $('#crumbs').insertAdjacentHTML('beforeend', `<li><span aria-current="page">${esc(shortTitle(p))}</span></li>`);
 
   const box = $('#product');
@@ -51,14 +52,14 @@ catalog().then(c => {
       <div class="stage-img is-in" id="stageImg" role="img" aria-label="${esc(p.title)}">
         <div class="stage-img__in" id="stageIn"></div>
       </div>
-      ${p.images.length > 1 ? `<div class="thumbs" id="thumbs" aria-label="Product images">${p.images.map((im, i) => `
-        <button type="button" data-i="${i}" aria-label="Show image ${i + 1} of ${p.images.length}">
+      ${p.images.length > 1 ? `<div class="thumbs" id="thumbs" aria-label="${esc(t('product.gallery.label'))}">${p.images.map((im, i) => `
+        <button type="button" data-i="${i}" aria-label="${esc(t('product.gallery.show', { i: i + 1, n: p.images.length }))}">
           ${photo(im, { w: 70 })}</button>`).join('')}</div>` : ''}
     </div>
 
     <div class="buy" id="buy" tabindex="-1">
       <div class="buy__meta">
-        ${col ? `<a href="/collections/${col.handle}">${esc(col.title)}</a><span class="my" lang="my">${col.my}</span>` : ''}
+        ${col ? `<a href="/collections/${col.handle}">${esc(colTitle(col))}</a>${isMy ? '' : `<span class="my" lang="my">${col.my}</span>`}` : ''}
         ${!/^apolo/i.test(p.vendor) ? `<span>${esc(p.vendor)}</span>` : ''}
       </div>
       <h1>${esc(p.title)}</h1>
@@ -66,11 +67,11 @@ catalog().then(c => {
 
       ${p.options.map((o, oi) => `
         <fieldset class="opt" data-oi="${oi}">
-          <legend>${esc(o.name)} <span data-sel></span></legend>
+          <legend>${esc(optName(o.name))} <span data-sel></span></legend>
           <div class="pills">${o.values.map(val => {
             const sw = /colou?r/i.test(o.name) ? swatch(val) : null;
             return `<label class="pill"><input type="radio" name="o${oi}" value="${esc(val)}">
-                    <span>${sw ? `<i style="--sw:${sw}"></i>` : ''}${esc(val)}</span></label>`;
+                    <span>${sw ? `<i style="--sw:${sw}"></i>` : ''}${esc(optVal(val))}</span></label>`;
           }).join('')}</div>
         </fieldset>`).join('')}
 
@@ -78,33 +79,32 @@ catalog().then(c => {
 
       <div class="buy__dock">
         <div class="buy__row">
-          <div class="step step--lg" id="qty" role="group" aria-label="Quantity">${stepper(1, 'Quantity').replace(/^<div[^>]*>|<\/div>$/g, '')}</div>
-          <button type="button" class="btn btn--brand" id="add">${ICON.bag} Add to cart</button>
-          <a class="btn btn--ghost buy__now" data-now href="#">Buy now</a>
+          <div class="step step--lg" id="qty" role="group" aria-label="${esc(t('product.qty'))}">${stepper(1, t('product.qty')).replace(/^<div[^>]*>|<\/div>$/g, '')}</div>
+          <button type="button" class="btn btn--brand" id="add">${ICON.bag} ${t('product.add')}</button>
+          <a class="btn btn--ghost buy__now" data-now href="#">${t('product.buy_now')}</a>
         </div>
       </div>
-      <a class="btn btn--ghost btn--block buy__now-m" data-now href="#">Buy now &mdash; straight to checkout</a>
+      <a class="btn btn--ghost btn--block buy__now-m" data-now href="#">${t('product.buy_now_m')}</a>
 
       <ul class="assure">
-        <li>${ICON.truck}<div><b>Door-to-door delivery.</b> <span>Yangon in 3–5 days, Mandalay and Naypyitaw 3–6, other cities 5–12.</span></div></li>
-        <li>${ICON.cash}<div><b>Cash on delivery</b> <span>or prepaid banking (KBZPay and bank transfer).</span></div></li>
-        <li>${ICON.shield}<div><b>100% quality guarantee.</b> <span>Damaged or wrong? Request a return within 14 days.</span></div></li>
-        <li>${ICON.phone}<div><b>Free support.</b> <span>Order or ask by phone on</span> <a href="tel:${CONTACT.phone}">${CONTACT.phoneLabel}</a></div></li>
+        <li>${ICON.truck}<div>${t('product.assure.delivery')}</div></li>
+        <li>${ICON.cash}<div>${t('product.assure.cod')}</div></li>
+        <li>${ICON.shield}<div>${t('product.assure.guarantee')}</div></li>
+        <li>${ICON.phone}<div>${t('product.assure.support', { tel: CONTACT.phone, phone: CONTACT.phoneLabel })}</div></li>
       </ul>
 
       <div class="details">
-        ${p.body ? `<details open><summary>Description ${ICON.chev}</summary><div class="rich">${p.body}</div></details>` : ''}
-        <details ${p.body ? '' : 'open'}><summary>Details ${ICON.chev}</summary>
+        ${p.body ? `<details open><summary>${t('product.desc')} ${ICON.chev}</summary><div class="rich">${p.body}</div></details>` : ''}
+        <details ${p.body ? '' : 'open'}><summary>${t('product.details')} ${ICON.chev}</summary>
           <dl class="spec">
-            <dt>Brand</dt><dd>${esc(/^apolo/i.test(p.vendor) ? 'APOLO' : p.vendor)}</dd>
-            ${col ? `<dt>Category</dt><dd><a href="/collections/${col.handle}">${esc(col.title)}</a></dd>` : ''}
-            ${p.type ? `<dt>Type</dt><dd>${esc(p.type)}</dd>` : ''}
-            ${p.options.map(o => `<dt>${esc(o.name)}</dt><dd>${o.values.map(esc).join(', ')}</dd>`).join('')}
+            <dt>${t('product.spec.brand')}</dt><dd>${esc(/^apolo/i.test(p.vendor) ? 'APOLO' : p.vendor)}</dd>
+            ${col ? `<dt>${t('product.spec.category')}</dt><dd><a href="/collections/${col.handle}">${esc(colTitle(col))}</a></dd>` : ''}
+            ${p.type ? `<dt>${t('product.spec.type')}</dt><dd>${esc(p.type)}</dd>` : ''}
+            ${p.options.map(o => `<dt>${esc(optName(o.name))}</dt><dd>${o.values.map(val => esc(optVal(val))).join(', ')}</dd>`).join('')}
           </dl>
         </details>
-        <details><summary>Delivery &amp; returns ${ICON.chev}</summary>
-          <div class="rich"><p>Damaged, defective, incorrect or incomplete at delivery? Request a return within 14 days. Returned
-            items must be unused and in their original packaging. <a href="/pages/terms-conditions">Full delivery and returns terms</a>.</p></div>
+        <details><summary>${esc(t('product.returns'))} ${ICON.chev}</summary>
+          <div class="rich"><p>${t('product.returns.text')}</p></div>
         </details>
       </div>
     </div>
@@ -164,14 +164,14 @@ catalog().then(c => {
           x.o.every((val, j) => j === oi || val === v.o[j]));
         inp.closest('.pill').classList.toggle('is-na', !ok);
       });
-      $('[data-sel]', fs).textContent = v.o[oi] || '';
+      $('[data-sel]', fs).textContent = optVal(v.o[oi] || '');
     });
     $('#price').innerHTML = `${money(v.price)}${v.compare > v.price ? ` <s>${money(v.compare)}</s>` : ''}`;
     const stock = $('#stock');
-    stock.textContent = v ? (v.available ? 'In stock — ready to deliver' : 'Sold out') : 'Unavailable';
+    stock.textContent = v ? (v.available ? t('product.stock.in') : t('product.sold_out')) : t('product.stock.unavailable');
     stock.classList.toggle('is-out', !v.available);
     $('#add').disabled = !v.available;
-    $('#add').innerHTML = v.available ? `${ICON.bag} Add to cart` : 'Sold out';
+    $('#add').innerHTML = v.available ? `${ICON.bag} ${t('product.add')}` : t('product.sold_out');
     setNow();
     const vi = v.image >= 0 ? v.image : 0;
     show(vi, shown === -1);
@@ -209,34 +209,34 @@ catalog().then(c => {
     sec.hidden = false;
     sec.innerHTML = `
       <div class="wrap"><div class="sec-head sec-head--row">
-        <div><p class="kicker">${col ? `More in ${esc(col.title)}` : 'You may also need'}</p>
-             <h2>On the same desk</h2></div>
+        <div><p class="kicker">${col ? t('product.more_in', { category: esc(colTitle(col)) }) : t('product.also_need')}</p>
+             <h2>${t('product.same_desk')}</h2></div>
         <div class="sec-head__end">
-          ${col ? `<a class="link-arrow" href="/collections/${col.handle}">See all ${col.items.length} ${ICON.arrow}</a>` : ''}
+          ${col ? `<a class="link-arrow" href="/collections/${col.handle}">${t('product.see_all', { n: col.items.length })} ${ICON.arrow}</a>` : ''}
           <div class="rail-ctl" data-for="relRail">
-            <button type="button" class="tool tool--line" data-dir="-1" aria-label="Scroll back"></button>
-            <button type="button" class="tool tool--line" data-dir="1" aria-label="Scroll forward"></button>
+            <button type="button" class="tool tool--line" data-dir="-1" aria-label="${esc(t('product.rail.back'))}"></button>
+            <button type="button" class="tool tool--line" data-dir="1" aria-label="${esc(t('product.rail.forward'))}"></button>
           </div>
         </div>
       </div></div>
-      <div class="rail" id="relRail" tabindex="0" aria-label="Related products, scroll sideways">${rel.map(x => card(x)).join('')}</div>`;
+      <div class="rail" id="relRail" tabindex="0" aria-label="${esc(t('product.rail.label'))}">${rel.map(x => card(x)).join('')}</div>`;
     wireRails(sec);
   }
 }).catch(err => {
   console.error('[apolo] catalogue failed', err);
-  $('#product').innerHTML = '<p class="err">This product didn’t load. Please refresh, or call <a href="tel:+959777271999">09 777 271 999</a> to order.</p>';
+  $('#product').innerHTML = `<p class="err">${t('product.err')}</p>`;
 });
 
 function missing(c) {
-  document.title = 'Product not found — APOLO Stationery Myanmar';
+  document.title = t('product.title.missing');
   $('#product').innerHTML = `
     <div class="lost">
       <div class="blank__page" aria-hidden="true"></div>
-      <h1>This product isn’t in the catalogue</h1>
-      <p>It may have sold out for good or been renamed. Search for it, or browse its category.</p>
+      <h1>${t('product.missing.title')}</h1>
+      <p>${t('product.missing.text')}</p>
       <div class="visit__cta">
-        <button type="button" class="btn btn--ink" data-open="search">${ICON.search} Search</button>
-        <a class="btn btn--ghost" href="/shop">Browse the shop</a>
+        <button type="button" class="btn btn--ink" data-open="search">${ICON.search} ${t('product.missing.search')}</button>
+        <a class="btn btn--ghost" href="/shop">${t('product.missing.browse')}</a>
       </div>
     </div>`;
 }

@@ -167,6 +167,28 @@ svg.i .fill,svg.i.fill{fill:currentColor;stroke:none}
 }
 .mega__all:hover{color:var(--magenta)}
 
+/* --- the language switch: shows the language you would switch to --- */
+.lang{
+  display:inline-flex; align-items:center; gap:.45em; height:38px; padding:0 .9rem 0 .75rem;
+  border:1px solid rgba(22,21,26,.22); border-radius:100px; background:transparent; color:var(--ink);
+  font-size:.78rem; font-weight:600; line-height:1; white-space:nowrap; cursor:pointer;
+  transition:border-color .25s, background .25s, color .25s;
+}
+.lang svg.i{width:16px;height:16px;stroke-width:1.5}
+.lang:hover{border-color:var(--ink);background:rgba(255,255,255,.55)}
+.lang[lang="en"]{font-family:Poppins,system-ui,sans-serif}
+.lang[lang="my"]{font-family:Padauk,Poppins,sans-serif;font-size:.9rem}
+html[lang="my"] .hdr__call small{font-size:.7rem}
+html[lang="my"] .page-h1{font-size:clamp(2rem,4.2vw,3.4rem)}
+html[lang="my"] .doc .page-h1{font-size:clamp(1.8rem,3.3vw,2.7rem)}
+html[lang="my"] .shop__head .page-h1{font-size:clamp(2.1rem,4.6vw,3.6rem)}
+html[lang="my"] .sec-head h2,html[lang="my"] .service__head h2,html[lang="my"] .list__intro h2{font-size:clamp(1.8rem,3.8vw,3rem)}
+html[lang="my"] .flood__h{font-size:clamp(2.6rem,6.4vw,6rem)}
+.lang--block{display:flex;width:100%;justify-content:center;height:48px;font-size:.9rem}
+.ftr .lang{color:#fff;border-color:rgba(255,255,255,.3)}
+.ftr .lang:hover{background:rgba(255,255,255,.12);border-color:#fff}
+@media (max-width:420px){ .hdr__tools .lang{padding:0 .65rem 0 .55rem} .hdr__tools .lang svg.i{display:none} }
+
 /* --- over the film: no bar, just the mark and the links on the paper --- */
 .hdr--film{position:fixed;left:0;right:0;background:transparent;border-color:transparent;
   -webkit-backdrop-filter:none;backdrop-filter:none;
@@ -243,7 +265,7 @@ svg.i .fill,svg.i.fill{fill:currentColor;stroke:none}
 .ci__v{font-size:.76rem;color:var(--ink-soft)}
 .ci__out{font-size:.72rem;color:var(--magenta-deep);font-weight:600}
 .ci__row{display:flex;align-items:center;gap:1rem;margin-top:.55rem}
-.ci__rm{background:none;border:0;padding:0;font-size:.72rem;color:var(--ink-soft);text-decoration:underline;cursor:pointer}
+.ci__rm{white-space:nowrap;background:none;border:0;padding:0;font-size:.72rem;color:var(--ink-soft);text-decoration:underline;cursor:pointer}
 .ci__rm:hover{color:var(--magenta)}
 .ci__p{font-size:.9rem;font-weight:700;text-align:right;white-space:nowrap}
 .ci__p small{display:block;font-size:.68rem;font-weight:400;color:var(--ink-faint)}
@@ -551,7 +573,7 @@ img.ph.ph--c{
 .book__row{display:flex;align-items:baseline;gap:.5rem;padding:.12rem 0;border-bottom:1px solid color-mix(in srgb,var(--cink) 22%,transparent)}
 .book__row:last-child{border-bottom:0}
 .book__row em{font-style:normal;font-size:.54rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.75;flex:none;min-width:6.4em}
-.book__row b{font-family:Kalam,"Comic Sans MS",cursive;font-weight:700;font-size:clamp(1rem,1.35vw,1.2rem);line-height:1.2;color:var(--biro);
+.book__row b{font-family:Kalam,Padauk,"Comic Sans MS",cursive;font-weight:700;font-size:clamp(1rem,1.35vw,1.2rem);line-height:1.2;color:var(--biro);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .book:hover,.book:focus-visible{transform:translateY(-18px) rotate(0deg);z-index:20}
@@ -573,7 +595,7 @@ img.ph.ph--c{
 .index__t{font-weight:700;font-size:1.02rem;letter-spacing:-.01em}
 .index__my{font-size:.9rem;color:var(--magenta)}
 .index__b{font-size:.8rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.index__n{font-family:Kalam,cursive;font-weight:700;font-size:1.05rem;color:var(--biro)}
+.index__n{font-family:Kalam,Padauk,cursive;font-weight:700;font-size:1.05rem;color:var(--biro)}
 .index a svg{width:16px;height:16px;align-self:center;transition:transform .4s var(--ease-out)}
 .index a:hover .index__t{color:var(--magenta)}
 .index a:hover svg{transform:translateX(4px);color:var(--magenta)}
@@ -606,7 +628,7 @@ img.ph.ph--c{
 .days div{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;
   padding:.38rem 0;border-bottom:1px solid var(--rule)}
 .days dt{font-size:.84rem;white-space:nowrap}
-.days dd{margin:0;font-family:Kalam,"Comic Sans MS",cursive;font-weight:700;font-size:1rem;color:var(--biro);white-space:nowrap}
+.days dd{margin:0;font-family:Kalam,Padauk,"Comic Sans MS",cursive;font-weight:700;font-size:1rem;color:var(--biro);white-space:nowrap}
 .days div:last-child{grid-column:1/-1}
 .svc__tel{
   font-size:clamp(1.25rem,1.9vw,1.6rem); font-weight:800; letter-spacing:-.02em; text-decoration:none;
@@ -675,10 +697,10 @@ img.ph.ph--c{
 .row__t:hover{color:var(--magenta)}
 .row.is-ticked .row__t{font-weight:600}
 .row__p{font-weight:700;font-size:.95rem;white-space:nowrap}
-.row__p small{font-family:Kalam,cursive;color:var(--biro);font-size:1rem}
+.row__p small{font-family:Kalam,Padauk,cursive;color:var(--biro);font-size:1rem}
 .list__foot{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem 1.2rem;padding:1.6rem 0 0 calc(var(--m) + 1rem)}
 .list__note{font-size:.82rem;color:var(--ink-soft)}
-.list__done{font-family:Kalam,cursive;font-weight:700;font-size:1.15rem;color:var(--biro)}
+.list__done{font-family:Kalam,Padauk,cursive;font-weight:700;font-size:1.15rem;color:var(--biro)}
 
 /* ---- the one shelf ---- */
 .shelf{padding:clamp(4rem,8vw,6.5rem) 0 clamp(1.5rem,3vw,2.5rem)}

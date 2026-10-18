@@ -1,0 +1,99 @@
+/* ==========================================================================
+   APOLO — language (English / Burmese)
+   --------------------------------------------------------------------------
+   One table per language (js/i18n/en.js, js/i18n/my.js), one function to read
+   it, one switch. A visitor's choice is remembered in localStorage; with no
+   choice yet, a browser set to Burmese gets Burmese. `?lang=my` / `?lang=en`
+   on any URL forces a language (and remembers it) — handy for sharing a link.
+
+   Switching reloads the page. Pages are built in the browser from the
+   catalogue, the cart and the film, and re-rendering every one of those in
+   place would be far more code than a reload costs: scroll position, the
+   cart and filters in the URL all survive it.
+
+     t('key')                 text, falls back to English, then to the key
+     t('key', { n: 3 })       "{n} products" → "3 products"
+     tr('opt.color', 'Color') text if translated, else the fallback you give
+     data-i18n="key"          on an element in static HTML: sets its text
+     data-i18n-html="key"     same, for text with links/markup in it
+     data-i18n-attr="aria-label:key; content:key2"   sets attributes
+
+   See docs/TRANSLATING.md for how to edit the tables.
+   ========================================================================== */
+
+import EN from './i18n/en.js';
+import MY from './i18n/my.js';
+
+export const LANGS = { en: 'English', my: 'မြန်မာ' };
+const STORE = 'apolo.lang';
+
+function read(k) { try { return localStorage.getItem(k); } catch { return null; } }
+function write(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } }
+
+/* The language the page is in. Same rules as js/i18n-boot.js, which runs in
+   <head> so the first paint is already right. */
+function detect() {
+  const asked = new URLSearchParams(location.search).get('lang');
+  if (asked in LANGS) { if (write(STORE, asked)) stripParam(); return asked; }
+  const saved = read(STORE);
+  if (saved in LANGS) return saved;
+  const prefs = navigator.languages?.length ? navigator.languages : [navigator.language || ''];
+  return /^(my|mya|bur)\b/i.test(prefs[0] || '') ? 'my' : 'en';
+}
+function stripParam() {
+  const u = new URL(location.href);
+  u.searchParams.delete('lang');
+  history.replaceState(null, '', u.pathname + u.search + u.hash);
+}
+
+export const lang = detect();
+export const isMy = lang === 'my';
+document.documentElement.lang = lang;
+
+const table = isMy ? MY : EN;
+const warned = new Set();
+
+export function t(key, vars) {
+  let s = table[key];
+  if (s == null) {
+    s = EN[key];
+    if (s == null) {
+      if (!warned.has(key)) { warned.add(key); console.warn('[i18n] missing key', key); }
+      return key;
+    }
+  }
+  return vars ? s.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m)) : s;
+}
+
+/** Translated text if this language has it, otherwise `fallback` (used for
+    catalogue words like option names that are English in the data). */
+export function tr(key, fallback) { return table[key] ?? fallback; }
+
+/** Is there a translation for this key in the current language? */
+export const has = key => table[key] != null;
+
+/** Change language and reload. If the browser won't store the choice, carry
+    it in the URL instead so the switch still works. */
+export function setLang(next) {
+  if (!(next in LANGS) || next === lang) return;
+  const u = new URL(location.href);
+  if (write(STORE, next)) u.searchParams.delete('lang');
+  else u.searchParams.set('lang', next);
+  location.href = u.pathname + u.search + u.hash;
+  if (location.href === u.href) location.reload();
+}
+
+/** Translate everything marked up in static HTML. */
+export function applyStatic(root = document) {
+  for (const el of root.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
+  for (const el of root.querySelectorAll('[data-i18n-html]')) el.innerHTML = t(el.dataset.i18nHtml);
+  for (const el of root.querySelectorAll('[data-i18n-attr]'))
+    for (const pair of el.dataset.i18nAttr.split(';')) {
+      const [attr, key] = pair.split(':').map(x => x.trim());
+      if (attr && key) el.setAttribute(attr, t(key));
+    }
+  document.documentElement.classList.remove('i18n-wait');
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => applyStatic());
+else applyStatic();

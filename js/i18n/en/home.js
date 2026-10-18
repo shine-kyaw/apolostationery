@@ -1,0 +1,132 @@
+/* home — English. See docs/TRANSLATING.md. */
+export default {
+  /* ---- page head ---- */
+  'home.title': 'APOLO Stationery Myanmar — What will you make?',
+  'home.desc': 'Every idea starts on a blank page. APOLO stationery for everyday creativity — books, writing instruments, desk accessories and paper.',
+  'home.skip': 'Skip the intro — go to products',
+
+  /* ---- the film: opening title card ---- */
+  'film.aria': 'APOLO introduction',
+  'home.h1': 'Everything for <em>school &amp; office.</em>',
+  'home.sub': 'Exercise books, pens, pencils, files and copy&nbsp;paper&nbsp;&mdash; delivered to your door, paid for when it arrives.',
+  'home.cta.shop': 'Shop all products',
+  'home.cta.browse': 'Browse categories',
+  'home.trust.aria': 'Why order from APOLO',
+  'home.trust.door': 'Door-to-door delivery',
+  'home.trust.cod': 'Cash on delivery',
+  'home.trust.guarantee': '100% quality guarantee',
+
+  /* ---- the film: slate, cue, sound, brand ---- */
+  'film.slate.first': '<span>01</span> The blank page &mdash; <i>APOLO A-221C, 2B</i>',
+  'film.slate.1.title': 'The blank page',
+  'film.slate.1.sub': 'APOLO A-221C, 2B',
+  'film.slate.2.title': 'The first mark',
+  'film.slate.2.sub': 'One continuous line',
+  'film.slate.3.title': 'The page',
+  'film.slate.3.sub': 'Exercise ruling, 100 GSM',
+  'film.slate.4.title': 'The desk',
+  'film.slate.4.sub': '14 APOLO products',
+  'film.slate.5.title': 'APOLO',
+  'film.slate.5.sub': 'Yangon, Myanmar',
+  'film.cue': 'Scroll',
+  'film.sound.on': 'Sound on',
+  'film.sound.off': 'Sound off',
+  'film.line': 'Stationery isn&rsquo;t the finished thing. <br>It&rsquo;s what lets you make one.',
+  'film.cta': 'Explore APOLO',
+
+  /* ---- the magenta flood ---- */
+  'home.flood.h': 'Fill the page.',
+  'home.flood.sub': 'Exercise books, pens, pencils and paper from APOLO — delivered to your door, paid for when it arrives.',
+  'home.flood.f1': '<b data-count-products>154</b> products',
+  'home.flood.f2': '<b>Door-to-door</b> delivery',
+  'home.flood.f3': '<b>Cash</b> on delivery',
+  'home.flood.shop': 'Shop everything',
+  'home.call': 'Call 09 777 271 999',
+
+  /* ---- categories ---- */
+  'home.books.h': 'Shop by category',
+  'home.index.aria': 'More categories',
+  'home.book.subject': 'Subject',
+  'home.book.items': 'Items',
+  'home.book.sr': '{title}, {n} products',
+
+  /* ---- ordering from APOLO ---- */
+  'home.svc.kicker': 'Delivery, payment &amp; support',
+  'home.svc.h': 'Ordering from APOLO',
+  'home.svc.sub': 'Delivered to your door, paid for the way that suits you, and a number to call if anything goes wrong.',
+  'home.svc.ship.h': 'Door-to-door delivery',
+  'home.svc.ship.p': 'Your order is brought to your door. Standard delivery times:',
+  'home.city.yangon': 'Yangon',
+  'home.city.mandalay': 'Mandalay',
+  'home.city.naypyitaw': 'Naypyitaw',
+  'home.city.taunggyi': 'Taunggyi',
+  'home.city.mawlamyine': 'Mawlamyine',
+  'home.city.pathein': 'Pathein',
+  'home.city.bago': 'Bago',
+  'home.city.pyinoolwin': 'Pyin Oo Lwin',
+  'home.city.other': 'Other cities',
+  'home.days.3-5': '3–5 days',
+  'home.days.3-6': '3–6 days',
+  'home.days.4-7': '4–7 days',
+  'home.days.5-12': '5–12 days',
+  'home.svc.ship.link': 'Delivery terms',
+  'home.svc.cod.h': 'Cash on delivery',
+  'home.svc.cod.p': 'Pay the delivery person when your package arrives — or pay ahead through your bank.',
+  'home.svc.cod.link': 'Payment',
+  'home.svc.guar.h': '100% quality guarantee',
+  'home.svc.guar.p': 'Money-back guarantee. If something arrives damaged, defective, wrong or incomplete, request a return within 14 days of delivery.',
+  'home.svc.guar.link': 'Returns',
+  'home.svc.help.h': 'Help &amp; support',
+  'home.svc.help.p': 'Free support. Call us, or message APOLO on Facebook between 9 AM and 5 PM for the quickest reply.',
+  'home.svc.help.link': 'All contact details',
+
+  /* ---- the school list ---- */
+  'home.list.kicker': 'စာရင်း',
+  'home.list.h': 'The school list',
+  'home.list.p': 'The things a classroom runs on. Tick a line and it goes straight into your cart — or add the whole list at once.',
+  'home.list.add.aria': 'Add {title} to cart',
+  'home.list.remove.aria': 'Remove {title} from cart',
+  'home.list.addall': 'Add the whole list — {price}',
+  'home.list.count': '{n} items',
+  'home.list.todo': '{n} not in your cart yet',
+  'home.list.done': 'Everything on the list is in your cart.',
+  'home.list.viewcart': 'View cart',
+  'home.toast.added': '<span><b>Added</b> {title}</span>',
+  'home.toast.view': 'View cart ({n})',
+
+  /* ---- shelf ---- */
+  'home.shelf.writing-instruments.title': 'Pens, pencils &amp; colour',
+  'home.shelf.all': 'See all {n}',
+  'home.shelf.back': 'Scroll back',
+  'home.shelf.forward': 'Scroll forward',
+  'home.shelf.aria': '{title}, scroll sideways',
+  'home.shelf.more': 'All {n}<br>{name}',
+
+  /* ---- posters ---- */
+  'home.camp.kicker': 'From APOLO',
+  'home.camp.h': 'This season’s posters',
+  'home.camp.prev': 'Previous poster',
+  'home.camp.next': 'Next poster',
+  'home.camp.aria': 'Posters, scroll sideways',
+  'home.camp.1.alt': 'School Season Sale — APOLO pens, highlighters, rulers and correction pens',
+  'home.camp.2.alt': 'New APOLO exercise book covers with the APOLO rabbit',
+  'home.camp.3.alt': 'APOLO — let’s draw: sketch books, crayons, colour pens and oil pastels',
+  'home.camp.4.alt': 'The best quality APOLO note books in pink, blue and orange',
+  'home.camp.5.alt': 'APOLO sticky notes in pastel colours, five sizes',
+
+  /* ---- showroom ---- */
+  'home.visit.kicker': 'Hlaing Thar Yar, Yangon',
+  'home.visit.h': 'Visit the showroom, <em>or just call.</em>',
+  'home.visit.p': 'The APOLO showroom is at the same address as the factory in Hlaing Thar Yar. Order online, by phone, or come and see the range in person.',
+  'home.visit.contact': 'All contact details',
+  'home.note.aria': 'Showroom details',
+  'home.note.h': 'Showroom &amp; factory',
+  'home.note.addr': 'No. 3-C, Ward (9), U Tun Nyo Street,<br>Hlaing Thar Yar Industrial Zone (6),<br>Hlaing Thar Yar Township, Yangon',
+  'home.note.phone': 'Phone',
+  'home.note.cs': 'Customer service',
+  'home.note.hours': 'Facebook messages: 9 AM – 5 PM',
+  'home.note.map': 'Open in Google Maps →',
+
+  /* ---- errors ---- */
+  'home.err': 'The catalogue didn’t load. <a href="/shop">Try the shop page</a> or call 09 777 271 999.'
+};

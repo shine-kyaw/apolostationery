@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Shop — APOLO Stationery Myanmar</title>
-<meta name="description" content="Every APOLO product: exercise books, pens, pencils, desk accessories, files, envelopes, ledgers and copy paper. Door-to-door delivery and cash on delivery.">
+<script src="/js/i18n-boot.js"></script>
+<title data-i18n="shop.title.all">Shop — APOLO Stationery Myanmar</title>
+<meta name="description" data-i18n-attr="content:shop.meta.all" content="Every APOLO product: exercise books, pens, pencils, desk accessories, files, envelopes, ledgers and copy paper. Door-to-door delivery and cash on delivery.">
 <meta name="theme-color" content="#EC008C">
 <link rel="icon" href="/img/apolo-logo.png">
 <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
@@ -16,28 +17,28 @@
 <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
-<a class="skip" href="#grid">Skip to products</a>
+<a class="skip" href="#grid" data-i18n="shop.skip">Skip to products</a>
 <header id="hdr"></header>
 
 <main class="page" id="main">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><ol id="crumbs"><li><a href="/">Home</a></li></ol></nav>
+    <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:shop.crumb.label"><ol id="crumbs"><li><a href="/" data-i18n="shop.crumb.home">Home</a></li></ol></nav>
 
     <header class="shop__head" id="shopHead">
-      <p class="kicker">The catalogue</p>
-      <h1 class="page-h1">Shop</h1>
+      <p class="kicker" data-i18n="shop.kicker.catalogue">The catalogue</p>
+      <h1 class="page-h1" data-i18n="shop.heading.default">Shop</h1>
     </header>
 
-    <nav class="tabs" id="tabs" aria-label="Categories"></nav>
+    <nav class="tabs" id="tabs" aria-label="Categories" data-i18n-attr="aria-label:shop.tabs.label"></nav>
 
     <div class="bar">
       <div class="bar__start">
         <span class="bar__count" id="count" aria-live="polite"></span>
       </div>
       <div class="bar__end">
-        <button type="button" class="btn btn--ghost filter-btn" id="filterBtn" aria-expanded="false" aria-controls="filters">Filter</button>
+        <button type="button" class="btn btn--ghost filter-btn" id="filterBtn" aria-expanded="false" aria-controls="filters" data-i18n="shop.filter.btn">Filter</button>
         <label class="select">
-          <span class="sr-only">Sort by</span>
+          <span class="sr-only" data-i18n="shop.sort.label">Sort by</span>
           <select id="sort"></select>
           <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
         </label>
@@ -45,7 +46,7 @@
     </div>
 
     <div class="shop__layout">
-      <form class="filters" id="filters" aria-label="Filter products"></form>
+      <form class="filters" id="filters" aria-label="Filter products" data-i18n-attr="aria-label:shop.filters.label"></form>
       <div>
         <div class="grid" id="grid" tabindex="-1"></div>
         <div class="more" id="more" hidden><button type="button" class="btn btn--ghost" id="moreBtn">Show more</button></div>
