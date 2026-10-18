@@ -58,6 +58,7 @@ const ruling  = $('#ruling');
 const lay     = $('#lay');
 const settleEl= $('#settle');
 const ask     = $('#ask');
+const askHand = $('#askHand');
 const brand   = $('#brand');
 const cue     = $('#cue');
 const slateEl = $('#slate');
@@ -165,11 +166,13 @@ const pencilImg = pencil.querySelector("img");
    off the part of the page that has not been drawn yet. */
 const TILT = -28;
 
-/* Where the pencil lies before anyone scrolls: point up-left, body running
-   down to the right, on the empty side of the page. Fractions of the stage;
-   rot is the artwork's rotation (it is drawn tip-up). On a phone the
-   headline fills the bottom of the screen, so it lies across the top. */
-const REST = mobile ? { x: 0.24, y: 0.27, rot: -62 } : { x: 0.575, y: 0.33, rot: -58 };
+/* Where the pencil lies before anyone scrolls: directly under the word it has
+   just written, like an underline — point to the left, body running right,
+   tilted with the handwriting. measure() places it from the word's own box;
+   these fractions are only the fallback if that word is missing. rot is the
+   artwork's rotation (it is drawn tip-up). */
+const REST = { x: 0.36, y: 0.58, rot: -92.5 };
+const PEN_ASPECT = (PENCIL.crop[2] - PENCIL.crop[0]) / (PENCIL.crop[3] - PENCIL.crop[1]);
 
 /* --------------------------------------------------------------------------
    5 · the flat-lay
@@ -296,10 +299,24 @@ function measure() {
   sheet.style.top    = tl.y + 'px';
   sheet.style.width  = (320 * M.s) + 'px';
   sheet.style.height = (440 * M.s) + 'px';
+
+  /* the pencil's resting place: centred under "make?", just below its
+     baseline. Read with the headline's scroll offset taken back out, so a
+     resize mid-film still finds the word where it sits at rest. */
+  if (askHand) {
+    const st = stage.getBoundingClientRect(), r = askHand.getBoundingClientRect();
+    const ty = new DOMMatrixReadOnly(getComputedStyle(ask).transform).m42 || 0;
+    const L = PENCIL.len * M.vmin, T = L * PEN_ASPECT;
+    REST.x = (r.left + r.width / 2 - st.left - L / 2) / M.w;
+    REST.y = (r.bottom - st.top - ty + T * 0.15) / M.h;
+    ask.style.setProperty('--pen-gap', (T * 1.4).toFixed(1) + 'px');
+  }
 }
 const toStage = (ux, uy) => ({ x: (ux - M.x0) * M.s, y: (uy - M.y0) * M.s });
 measure();
 addEventListener('resize', measure, { passive: true });
+/* the handwriting face changes the word's box when it arrives */
+document.fonts?.ready.then(() => dispatchEvent(new Event('resize')));
 
 /* --------------------------------------------------------------------------
    8 · the frame
@@ -355,6 +372,8 @@ function frame(p) {
   ask.style.setProperty('--ask-y', (askOut * -7 + py * 0.45).toFixed(2) + 'vmin');
   ask.style.setProperty('--ask-b', '0px');
   cue.style.setProperty('--cue', (1 - range(p, 0.015, 0.055)).toFixed(3));
+  /* the title card stands alone: scene labels start once the drawing does */
+  slateEl.style.setProperty('--slate-on', range(p, 0.10, 0.14).toFixed(3));
   setSlate(p);
 
   /* ---- 03–04 · the line -------------------------------------------------- */
@@ -440,9 +459,10 @@ function frame(p) {
     tip.y +=  Math.cos(rad) * wob;
 
     /* Where it lies at rest, in stage pixels, nudged a little by the pointer. */
+    /* it rides up with the headline for the moment before it is lifted */
     const rest = {
       x: M.w * REST.x + px * M.vmin * 0.8,
-      y: M.h * REST.y + py * M.vmin * 0.5
+      y: M.h * REST.y + py * M.vmin * 0.5 - askOut * 7 * M.vmin
     };
     const away = { x: M.w * 1.10, y: -M.h * 0.30 };
 

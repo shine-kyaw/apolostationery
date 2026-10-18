@@ -56,6 +56,14 @@
           <feComposite in="SourceGraphic" in2="mask" operator="in" result="grain"/>
           <feDisplacementMap in="grain" in2="tooth" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
         </filter>
+        <!-- the same graphite for the handwritten word, much gentler: at
+             headline size the line filter above reads as glitter -->
+        <filter id="graphite-type" x="-2%" y="-2%" width="104%" height="104%" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="3" result="tooth"/>
+          <feColorMatrix in="tooth" type="matrix" result="mask"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.9 1.32"/>
+          <feComposite in="SourceGraphic" in2="mask" operator="in"/>
+        </filter>
       </defs>
       <g id="ruling"></g>
       <path id="door"   class="stroke" pathLength="100"></path>
@@ -80,11 +88,11 @@
 
       <div class="ask" id="ask">
         <p class="eyebrow">
-          <span class="my" lang="my">ဆွဲမယ်</span>
+          <span class="my" lang="my">ဆွဲမယ်</span><i aria-hidden="true"></i>
           <span>Start with a blank page</span>
         </p>
-        <h1>What will<br>you <em>make</em>?</h1>
-        <p class="sub">Every idea in a Myanmar classroom or office begins the same way &mdash;
+        <h1><span class="ask__print">What will you</span> <span class="ask__hand" id="askHand">make<span class="ask__q">?</span></span></h1>
+        <p class="sub">Every idea in a Myanmar classroom or office begins the same&nbsp;way&nbsp;&mdash;
            one mark on an empty page.</p>
       </div>
 

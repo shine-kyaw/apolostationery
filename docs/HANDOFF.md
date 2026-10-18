@@ -11,6 +11,13 @@
 > before it lands (no blur). The line has a graphite filter on screens over
 > 820px. The timings in the scene map below are superseded by the comments in
 > `frame()`.
+>
+> **Update 2026-10-18 — the first frame is a title card.** Centred: "What will
+> you" printed, "make?" handwritten in graphite (Kalam, `#graphite-type`
+> filter on desktop), and the pencil lying under that word like an underline.
+> `measure()` places the pencil from `#askHand`'s box, so it follows the word on
+> every screen size and after the font loads. The scene slate stays hidden
+> until the drawing begins.
 
 Last updated: **2026-09-05** (session 2, "creative-dev + QA pass").
 Written so this project can be resumed on a different machine with zero prior

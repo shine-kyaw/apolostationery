@@ -216,7 +216,7 @@
   position:absolute; inset:-10%; pointer-events:none;
   background:
     radial-gradient(120% 90% at 22% 6%, rgba(255,252,244,.72), rgba(255,252,244,0) 55%),
-    radial-gradient(130% 120% at 80% 106%, rgba(96,70,54,.26), rgba(96,70,54,0) 60%);
+    radial-gradient(130% 120% at 80% 106%, rgba(96,70,54,.12), rgba(96,70,54,0) 60%);
   mix-blend-mode:soft-light;
 }
 /* ---- 1.6b the fibre --------------------------------------------------------
@@ -250,9 +250,10 @@
 
 /* ==========================================================================
    2 · TYPE
-   The opening is laid out on the page, not centred in the viewport: an
-   eyebrow, a headline set to a real measure on the left, a caption under it,
-   and a slate in the top-right the way a shot is labelled on set.
+   The opening is a title card, centred on the page: the question printed up
+   to its last word, "make?" written by hand in graphite, and the pencil that
+   wrote it lying underneath like an underline. The slate in the top-right
+   labels each scene once the drawing has begun.
    ========================================================================== */
 
 .type{
@@ -264,37 +265,48 @@
 }
 .type > *{grid-area:1/1}
 
-/* --- the opening --- */
+/* --- the opening: a title card --- */
 .ask{
-  align-self:end; justify-self:start; max-width:min(52ch,58vw);
+  align-self:center; justify-self:center; text-align:center;
+  display:grid; justify-items:center; width:min(100%,1100px);
+  padding-top:calc(var(--hdr,68px) * .5);
   opacity:var(--ask,1);
   transform:translate3d(0,var(--ask-y,0),0);
-  filter:blur(var(--ask-b,0px));
-  padding-bottom:clamp(1rem,7vmin,5rem);
 }
 .ask .eyebrow{
-  font-size:clamp(.66rem,1.3vmin,.8rem); letter-spacing:.3em; text-transform:uppercase;
-  color:var(--ink-soft); margin:0 0 clamp(1rem,2.6vmin,2rem);
-  display:flex; gap:1.2em; align-items:baseline;
+  font-size:clamp(.66rem,1.2vmin,.78rem); letter-spacing:.3em; text-transform:uppercase;
+  color:var(--ink-soft); margin:0 0 clamp(1.2rem,3vmin,2.2rem);
+  display:flex; gap:1em; align-items:center; justify-content:center;
 }
-.ask .eyebrow .my{letter-spacing:0;text-transform:none;color:var(--magenta);font-size:1.7em}
+.ask .eyebrow .my{letter-spacing:0;text-transform:none;color:var(--magenta);font-size:1.75em}
+.ask .eyebrow i{width:1.6em;height:1px;background:currentColor;opacity:.5}
 .ask h1{
-  margin:0; font-weight:800;
-  font-size:clamp(2.6rem,10.4vmin,8.4rem); line-height:.86;
-  letter-spacing:-.045em;
+  margin:0; display:grid; justify-items:center;
+  font-weight:800; letter-spacing:-.045em; line-height:.92;
+  font-size:clamp(2.6rem,7.2vw,7.4rem);
 }
-.ask h1 em{font-style:normal;color:var(--magenta)}
+.ask__print{display:block}
+/* the last word is written, not printed — by the pencil lying under it */
+.ask__hand{
+  display:block; margin-top:.3em;
+  font-family:Kalam,"Comic Sans MS",cursive; font-weight:400; letter-spacing:-.03em;
+  font-size:1.5em; line-height:.9; color:#38373F;
+  transform:rotate(-2.5deg) translateX(.04em);
+}
+.ask__q{margin-left:-.1em}   /* the face sets "?" a word-space away */
+@media (min-width:821px){ .ask__hand{filter:url(#graphite-type)} }
 .ask .sub{
-  margin:clamp(1.1rem,2.8vmin,2.2rem) 0 0;
-  font-size:clamp(.8rem,1.6vmin,1.02rem); line-height:1.6;
-  color:var(--ink-soft); max-width:34ch;
+  /* clears the pencil that lies between the headline and this line */
+  margin:calc(var(--pen-gap,4.4vmin) + clamp(1rem,2.4vmin,1.8rem)) auto 0;
+  font-size:clamp(.86rem,1.5vmin,1.04rem); line-height:1.6;
+  color:var(--ink-soft); max-width:40ch; text-wrap:balance;
 }
 
 /* --- the slate: a shot label, not a headline --- */
 .slate{
   align-self:start; justify-self:end; margin:0; text-align:right;
   font-size:clamp(.62rem,1.1vmin,.72rem); letter-spacing:.22em; text-transform:uppercase;
-  color:var(--ink-soft); opacity:var(--slate,0);
+  color:var(--ink-soft); opacity:calc(var(--slate,0) * var(--slate-on,1));
   transition:opacity .32s linear;
 }
 .slate span{color:var(--magenta);font-weight:600;margin-right:.5em}
@@ -394,20 +406,21 @@
    4 · RESPONSIVE — a different composition, not a smaller one
    ========================================================================== */
 
-/* Tablet: the headline still sits low-left, but the measure tightens. */
+/* Tablet: the title card scales with the width; nothing else changes. */
 @media (max-width:1080px){
-  .ask{max-width:min(46ch,74vw)}
-  .ask .sub{max-width:30ch}
+  .ask h1{font-size:clamp(2.6rem,8.4vw,6rem)}
 }
 
 @media (max-width:820px){
   /* Shorter track: a thumb covers a phone screen in far fewer pixels, and the
      desktop length turns the film into work. */
   .film{height:420svh}
-  .ask{max-width:none;padding-bottom:clamp(3rem,14vmin,7rem)}
-  .ask h1{font-size:clamp(2.5rem,13vmin,4.6rem);line-height:.9}
-  .ask .eyebrow{letter-spacing:.22em;gap:.9em}
-  .ask .sub{font-size:.86rem;max-width:26ch}
+  .ask{padding-top:calc(var(--hdr,68px) * .3)}
+  .ask h1{font-size:clamp(2.2rem,12.4vw,4.6rem)}
+  .ask__hand{font-size:1.72em}
+  .ask .eyebrow{margin-bottom:1.6rem}
+  .ask .eyebrow{letter-spacing:.22em;gap:.8em}
+  .ask .sub{font-size:.95rem;max-width:28ch}
   .ask .sub br{display:none}
   .slate{display:none}                 /* a shot slate needs room to be quiet */
   .brand{width:min(72vw,320px);gap:.9rem}
@@ -426,15 +439,16 @@
 /* Small phones: the notebook is the composition; keep the type off it. */
 @media (max-width:400px){
   .film{height:400svh}
-  .ask h1{font-size:clamp(2.2rem,12.5vmin,3.4rem)}
-  .ask .sub{font-size:.8rem}
+  .ask h1{font-size:clamp(2rem,11vw,3rem)}
+  .ask .sub{font-size:.84rem}
   .brand{gap:.8rem}
 }
 
 /* Short landscape phones — the film has nowhere to breathe vertically. */
 @media (max-height:520px) and (orientation:landscape){
-  .ask{align-self:center}
-  .ask h1{font-size:clamp(2rem,9vh,3rem)}
+  .ask{padding-top:calc(var(--hdr,68px) * .6)}
+  .ask h1{font-size:clamp(1.8rem,8vh,2.8rem)}
+  .ask .eyebrow{margin-bottom:.6rem}
   .ask .sub{display:none}
   .scrollcue{display:none}
 }
@@ -474,8 +488,12 @@
 .is-still .type > *{grid-area:auto}
 .is-still .ask{
   opacity:1!important; transform:none!important; filter:none!important;
-  max-width:none; padding-bottom:0; align-self:end;
+  max-width:none; padding:0; align-self:end;
+  justify-self:start; justify-items:start; text-align:left; width:auto;
 }
+.is-still .ask .eyebrow{justify-content:flex-start}
+.is-still .ask h1{justify-items:start}
+.is-still .ask .sub{margin:1.4rem 0 0}
 .is-still .slate{display:none}
 .is-still .brand{
   opacity:1!important; transform:none!important; pointer-events:auto;
