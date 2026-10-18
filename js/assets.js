@@ -175,3 +175,39 @@ export const MOBILE_LAYOUT = {
 
 /* Categories are no longer declared here: the store reads them, with their
    Burmese names, from data/catalog.json (see tools/sync-catalog.mjs). */
+
+/* --------------------------------------------------------------------------
+   THE OPENING DESK
+   What you see before scrolling: real APOLO products lying round the edge of
+   the page, the brand and the offer in the clear middle. Scrolling sweeps
+   them off the page — all but the pencil, which stays to draw — and they
+   come back as the flat-lay at the end. Same objects, same crops; only the
+   pose differs. x / y in world vmin from the centre (the camera is at 1 here),
+   r in degrees, s a scale on the object's film size.
+   -------------------------------------------------------------------------- */
+export const OPEN = {
+  'drawing-book'  : { x:  58, y:  10, r:  9, s: .44 },
+  'colour-pencils': { x: -61, y:  -6, r:-12, s: .46 },
+  'oil-pastel'    : { x: -50, y:  30, r: 16, s: .48 },
+  'sharpener'     : { x: -43, y: -31, r:-10, s: .52 },
+  'stapler'       : { x:  46, y: -30, r:-14, s: .50 },
+  'glue'          : { x:  73, y: -16, r: 18, s: .52 },
+  'cruizer-blue'  : { x: -26, y:  43, r:-96, s: .50 },
+  'gel-red'       : { x:  22, y:  45, r: 84, s: .50 },
+  'eraser'        : { x: -69, y:  38, r:-18, s: .62 },
+  'correction'    : { x:  29, y: -40, r:-72, s: .52 }
+};
+/* A phone is tall: the products take a band above the copy and one below. */
+export const MOBILE_OPEN = {
+  'colour-pencils': { x: -28, y: -70, r:-14, s: .50 },
+  'eraser'        : { x: -32, y:  78, r:-20, s: .80 },
+  'drawing-book'  : { x:  23, y:  74, r:  8, s: .46 },
+  'gel-red'       : { x: -20, y:  64, r:-70, s: .56 },
+  'high-pink'     : { x: -27, y:  95, r:100, s: .54 }
+};
+/* Where the pencil lies among them (stage fractions; artwork is tip-up; s is
+   its size while it rests — it grows to drawing size as it is picked up). */
+export const PENCIL_OPEN = {
+  desktop: { x: 0.695, y: 0.715, rot: -62,  s: .70 },
+  mobile : { x: 0.47,  y: 0.275, rot: -118, s: .74 }
+};

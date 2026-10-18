@@ -27,7 +27,7 @@ import {
   createClock, createPointer
 } from './engine.js';
 import {
-  OBJECTS, MOBILE_KEEP, MOBILE_LAYOUT, PENCIL, LOGO, url
+  OBJECTS, MOBILE_KEEP, MOBILE_LAYOUT, OPEN, MOBILE_OPEN, PENCIL_OPEN, PENCIL, LOGO, url
 } from './assets.js';
 import { createAudio } from './audio.js';
 
@@ -58,7 +58,6 @@ const ruling  = $('#ruling');
 const lay     = $('#lay');
 const settleEl= $('#settle');
 const ask     = $('#ask');
-const askHand = $('#askHand');
 const brand   = $('#brand');
 const cue     = $('#cue');
 const slateEl = $('#slate');
@@ -166,13 +165,9 @@ const pencilImg = pencil.querySelector("img");
    off the part of the page that has not been drawn yet. */
 const TILT = -28;
 
-/* Where the pencil lies before anyone scrolls: directly under the word it has
-   just written, like an underline — point to the left, body running right,
-   tilted with the handwriting. measure() places it from the word's own box;
-   these fractions are only the fallback if that word is missing. rot is the
-   artwork's rotation (it is drawn tip-up). */
-const REST = { x: 0.36, y: 0.58, rot: -92.5 };
-const PEN_ASPECT = (PENCIL.crop[2] - PENCIL.crop[0]) / (PENCIL.crop[3] - PENCIL.crop[1]);
+/* Where the pencil lies before anyone scrolls: on the opening desk with the
+   other products. It is the one thing left behind when the desk is cleared. */
+const REST = mobile ? PENCIL_OPEN.mobile : PENCIL_OPEN.desktop;
 
 /* --------------------------------------------------------------------------
    5 · the flat-lay
@@ -201,17 +196,20 @@ const items = (mobile ? OBJECTS.filter(o => MOBILE_KEEP.has(o.id)) : OBJECTS)
     lay.appendChild(el);
 
     o.el = el; o.img = img; o.lit = false;
+    o.open = (mobile ? MOBILE_OPEN : OPEN)[o.id] || null;
+    if (o.open) img.fetchPriority = 'high';
     return o;
   });
 
-/* Product photography waits for the pencil: it is the only image on screen for
-   the first third of the film, and fourteen product JPEGs queued in front of it
-   is the difference between the pencil arriving on cue and arriving late. */
+/* The products are the first thing on screen, so they load straight away —
+   the ones on the opening desk first, the rest of the flat-lay after. */
 function loadProducts() {
   if (loadProducts.done) return;
   loadProducts.done = true;
-  for (const o of items) o.img.src = url(o.src);
+  for (const o of items) if (o.open) o.img.src = url(o.src);
+  for (const o of items) if (!o.open) o.img.src = url(o.src);
 }
+loadProducts();
 if (pencilImg.complete) queueLoad(); else {
   pencilImg.addEventListener('load', queueLoad, { once: true });
   pencilImg.addEventListener('error', queueLoad, { once: true });
@@ -299,24 +297,11 @@ function measure() {
   sheet.style.top    = tl.y + 'px';
   sheet.style.width  = (320 * M.s) + 'px';
   sheet.style.height = (440 * M.s) + 'px';
-
-  /* the pencil's resting place: centred under "make?", just below its
-     baseline. Read with the headline's scroll offset taken back out, so a
-     resize mid-film still finds the word where it sits at rest. */
-  if (askHand) {
-    const st = stage.getBoundingClientRect(), r = askHand.getBoundingClientRect();
-    const ty = new DOMMatrixReadOnly(getComputedStyle(ask).transform).m42 || 0;
-    const L = PENCIL.len * M.vmin, T = L * PEN_ASPECT;
-    REST.x = (r.left + r.width / 2 - st.left - L / 2) / M.w;
-    REST.y = (r.bottom - st.top - ty + T * 0.15) / M.h;
-    ask.style.setProperty('--pen-gap', (T * 1.4).toFixed(1) + 'px');
-  }
 }
 const toStage = (ux, uy) => ({ x: (ux - M.x0) * M.s, y: (uy - M.y0) * M.s });
 measure();
 addEventListener('resize', measure, { passive: true });
-/* the handwriting face changes the word's box when it arrives */
-document.fonts?.ready.then(() => dispatchEvent(new Event('resize')));
+
 
 /* --------------------------------------------------------------------------
    8 · the frame
@@ -371,6 +356,9 @@ function frame(p) {
   ask.style.setProperty('--ask', (1 - askOut).toFixed(3));
   ask.style.setProperty('--ask-y', (askOut * -7 + py * 0.45).toFixed(2) + 'vmin');
   ask.style.setProperty('--ask-b', '0px');
+  /* its buttons are real; once it has gone they leave the tab order too */
+  const askGone = askOut > 0.5;
+  if (askGone !== ask.inert) ask.inert = askGone;
   cue.style.setProperty('--cue', (1 - range(p, 0.015, 0.055)).toFixed(3));
   /* the title card stands alone: scene labels start once the drawing does */
   slateEl.style.setProperty('--slate-on', range(p, 0.10, 0.14).toFixed(3));
@@ -459,10 +447,9 @@ function frame(p) {
     tip.y +=  Math.cos(rad) * wob;
 
     /* Where it lies at rest, in stage pixels, nudged a little by the pointer. */
-    /* it rides up with the headline for the moment before it is lifted */
     const rest = {
       x: M.w * REST.x + px * M.vmin * 0.8,
-      y: M.h * REST.y + py * M.vmin * 0.5 - askOut * 7 * M.vmin
+      y: M.h * REST.y + py * M.vmin * 0.5
     };
     const away = { x: M.w * 1.10, y: -M.h * 0.30 };
 
@@ -478,8 +465,10 @@ function frame(p) {
     const grip = TILT + lean + px * 1.4;
     const rot  = lerp(lerp(REST.rot, grip, pick), grip + 26, leave);
 
+    /* smaller while it lies among the products; full size to draw */
+    const psc = lerp(REST.s || 1, 1, pick);
     pencil.style.transform =
-      `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg)` +
+      `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${psc.toFixed(4)})` +
       ` translate(calc(-1 * var(--tx)), calc(-1 * var(--ty)))`;
     pencil.style.setProperty('--pen-o', penOn.toFixed(3));
     /* Shadow reads the height off the page: tight while it lies flat and
@@ -501,6 +490,25 @@ function frame(p) {
      Each object has its own vector onto the page, its own moment, and one
      small damped wobble after it lands. Nothing simply fades up. */
   for (const o of items) {
+    /* the opening desk: everything lies still until the scroll starts, then
+       each object is swept off its own edge of the page, nearest the middle
+       last, lifting (its shadow softens) as it goes */
+    if (o.open && p < 0.12) {
+      const op = o.open;
+      const k = clamp(1 - Math.hypot(op.x / 80, op.y / 50) * 0.6);     // 0 edge … 1 centre
+      const t = ease.in2(range(p, 0.006 + k * 0.03, 0.05 + k * 0.05));
+      const len = Math.hypot(op.x, op.y) || 1;
+      const ox = op.x + (op.x / len) * 95 * t + px * 1.2 * (1 - t);
+      const oy = op.y + (op.y / len) * 95 * t + py * 0.9 * (1 - t);
+      const rot = op.r + 24 * t * Math.sign(op.x || 1);
+      o.el.style.transform =
+        `translate3d(calc(-50% + ${ox.toFixed(2)}vmin), calc(-50% + ${oy.toFixed(2)}vmin), 0)` +
+        ` rotate(${rot.toFixed(2)}deg) scale(${(op.s * (1 + t * 0.06)).toFixed(4)})`;
+      o.el.style.opacity = (1 - range(t, 0.85, 1)).toFixed(3);
+      o.el.style.setProperty('--lift', (t * 0.8).toFixed(3));
+      o.lit = true;
+      continue;
+    }
     const a = 0.545 + o.delay * 0.28;
     const q = range(p, a, a + 0.140);
     if (q === 0) {                                   // not yet — write nothing

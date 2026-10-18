@@ -12,12 +12,14 @@
 > 820px. The timings in the scene map below are superseded by the comments in
 > `frame()`.
 >
-> **Update 2026-10-18 — the first frame is a title card.** Centred: "What will
-> you" printed, "make?" handwritten in graphite (Kalam, `#graphite-type`
-> filter on desktop), and the pencil lying under that word like an underline.
-> `measure()` places the pencil from `#askHand`'s box, so it follows the word on
-> every screen size and after the font loads. The scene slate stays hidden
-> until the drawing begins.
+> **Update 2026-10-18 — the first frame is an APOLO desk.** Before any scroll
+> the page shows real APOLO products lying round its edges (`OPEN` /
+> `MOBILE_OPEN` in assets.js) with the brand, the offer and two buttons in the
+> middle. Scrolling sweeps each product off its own edge, leaving the pencil
+> (`PENCIL_OPEN`, shown at 70% while it rests) to be picked up and draw. The
+> products return as the flat-lay at the end. They now load immediately,
+> opening-desk ones first. The scene slate stays hidden until the drawing
+> begins.
 
 Last updated: **2026-09-05** (session 2, "creative-dev + QA pass").
 Written so this project can be resumed on a different machine with zero prior
