@@ -2,14 +2,14 @@
 export default {
   /* static page (shop.html) */
   'shop.title.all': 'Shop — APOLO Stationery Myanmar',
-  'shop.meta.all': 'Every APOLO product: exercise books, pens, pencils, desk accessories, files, envelopes, ledgers and copy paper. Door-to-door delivery and cash on delivery.',
+  'shop.meta.all': 'All APOLO products: exercise books, pens, pencils, desk accessories, files, envelopes, ledgers and copy paper. Door-to-door delivery. Pay on arrival.',
   'shop.skip': 'Skip to products',
   'shop.crumb.label': 'Breadcrumb',
   'shop.crumb.home': 'Home',
   'shop.crumb.shop': 'Shop',
   'shop.crumb.all': 'Shop all',
   'shop.crumb.search': 'Search',
-  'shop.kicker.catalogue': 'The catalogue',
+  'shop.kicker.catalogue': 'Products',
   'shop.heading.default': 'Shop',
   'shop.tabs.label': 'Categories',
   'shop.tab.all': 'All',
@@ -19,7 +19,7 @@ export default {
 
   /* page titles and meta */
   'shop.title.collection': '{title} — APOLO Stationery Myanmar',
-  'shop.meta.collection': '{blurb}. {n} APOLO products with door-to-door delivery and cash on delivery across Myanmar.',
+  'shop.meta.collection': '{blurb}. {n} APOLO products. Door-to-door delivery. Pay on arrival.',
   'shop.title.search': 'Search — APOLO Stationery Myanmar',
   'shop.title.search_q': '“{q}” — Search — APOLO Stationery Myanmar',
   'shop.title.notfound': 'Category not found — APOLO Stationery Myanmar',
@@ -33,7 +33,7 @@ export default {
   'shop.search.placeholder': 'Pens, exercise books, A4 paper…',
   'shop.search.btn': 'Search',
   'shop.all.heading': 'Every APOLO <em>product</em>',
-  'shop.all.sub': '{n} products across {c} categories &mdash; exercise books and pens to files, ledgers and copy paper by the ream.',
+  'shop.all.sub': '{n} products in {c} categories: exercise books, pens, files, ledgers, copy paper and more.',
 
   /* filters */
   'shop.filter.brand': 'Brand',

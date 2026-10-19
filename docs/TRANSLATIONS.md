@@ -59,7 +59,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `chrome.search.placeholder` | Search pens, exercise books, A4 paper… | ဘောပင်၊ ကျောင်းသုံးစာအုပ်၊ A4 စက္ကူ ရှာဖွေရန်… |
 | `chrome.search.close` | Close search | ရှာဖွေရန် ပိတ်ရန် |
 | `chrome.search.browse` | Browse a category | အမျိုးအစားအလိုက် ကြည့်ရန် |
-| `chrome.search.none` | Nothing matches “{term}”. Try a product type — &lt;em>pen&lt;/em>, &lt;em>A4&lt;/em>, &lt;em>exercise book&lt;/em> — or call &lt;a href="tel:{tel}">{phone}&lt;/a>. | “{term}” နှင့် ကိုက်ညီသည့် ရလဒ် မတွေ့ပါ။ &lt;em>ဘောပင်&lt;/em>၊ &lt;em>A4&lt;/em>၊ &lt;em>ကျောင်းသုံးစာအုပ်&lt;/em> ကဲ့သို့ ကုန်ပစ္စည်းအမျိုးအစားဖြင့် ရှာကြည့်ပါ၊ သို့မဟုတ် &lt;a href="tel:{tel}">{phone}&lt;/a> သို့ ဖုန်းခေါ်ပါ။ |
+| `chrome.search.none` | No results for “{term}”. Try a word like &lt;em>pen&lt;/em>, &lt;em>A4&lt;/em> or &lt;em>exercise book&lt;/em>, or call &lt;a href="tel:{tel}">{phone}&lt;/a>. | “{term}” နှင့် ကိုက်ညီသော ရလဒ် မတွေ့ပါ။ &lt;em>pen&lt;/em>၊ &lt;em>A4&lt;/em> သို့မဟုတ် &lt;em>exercise book&lt;/em> ကဲ့သို့ စကားလုံးဖြင့် ရှာကြည့်ပါ၊ သို့မဟုတ် &lt;a href="tel:{tel}">{phone}&lt;/a> သို့ ဖုန်းခေါ်ပါ။ |
 | `chrome.search.all_one` | See all {n} result | ရလဒ် {n} ခုလုံး ကြည့်ရန် |
 | `chrome.search.all_many` | See all {n} results | ရလဒ် {n} ခုလုံး ကြည့်ရန် |
 | `chrome.cart.title` | Your cart | သင့်ဈေးခြင်း |
@@ -67,18 +67,18 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `chrome.cart.aria_one` | Cart, {n} item | ဈေးခြင်း၊ ပစ္စည်း {n} ခု |
 | `chrome.cart.aria_many` | Cart, {n} items | ဈေးခြင်း၊ ပစ္စည်း {n} ခု |
 | `chrome.cart.error` | The catalogue could not be loaded. Please refresh the page. | ကုန်ပစ္စည်းစာရင်းကို ဖွင့်၍ မရပါ။ စာမျက်နှာကို ပြန်လည် ဖွင့်ပေးပါ။ |
-| `chrome.cart.empty.title` | Your page is still blank. | သင့်စာမျက်နှာ ဗလာဖြစ်နေပါသေးသည်။ |
-| `chrome.cart.empty.sub` | Every idea starts that way. Find something to fill it with. | စိတ်ကူးတိုင်း ဤသို့ပင် စတင်ရသည်။ ဖြည့်ရန် တစ်ခုခု ရှာကြည့်ပါ။ |
+| `chrome.cart.empty.title` | Your cart is empty. | သင့်ဈေးခြင်း ဗလာဖြစ်နေပါသည်။ |
+| `chrome.cart.empty.sub` | Find what you need in the shop. | ဆိုင်တွင် လိုအပ်သောပစ္စည်း ရှာကြည့်ပါ။ |
 | `chrome.cart.empty.cta` | Browse the shop | ဆိုင်ကို ကြည့်ရန် |
 | `chrome.cart.soldout` | Sold out — not included at checkout | ကုန်သွားပါပြီ — ငွေရှင်းရာတွင် မပါဝင်ပါ |
 | `chrome.cart.remove` | Remove | ဖယ်ရှားရန် |
 | `chrome.cart.each` | {price} each | တစ်ခုလျှင် {price} |
 | `chrome.cart.qty_of` | Quantity of {title} | {title} အရေအတွက် |
 | `chrome.cart.subtotal` | Subtotal | စုစုပေါင်း |
-| `chrome.cart.note` | Delivery is calculated at checkout. Pay cash on delivery or by bank transfer. | ပို့ဆောင်ခကို ငွေရှင်းချိန်တွင် တွက်ချက်ပါမည်။ ပစ္စည်းရောက်မှ ငွေချေနိုင်ပါသည်၊ သို့မဟုတ် ဘဏ်မှ ငွေလွှဲနိုင်ပါသည်။ |
+| `chrome.cart.note` | Delivery cost is shown at checkout. You can pay on arrival or by bank transfer. | ပို့ဆောင်ခကို ငွေရှင်းသည့်အချိန်တွင် ပြပါမည်။ ပစ္စည်းရောက်မှ သို့မဟုတ် ဘဏ်မှ ငွေလွှဲ၍ ပေးချေနိုင်ပါသည်။ |
 | `chrome.cart.checkout` | Checkout | ငွေရှင်းရန် |
 | `chrome.cart.phone` | Or order by phone | သို့မဟုတ် ဖုန်းဖြင့် မှာယူရန် |
-| `chrome.cart.fine` | Checkout is completed on APOLO’s secure store, apolostationey.com. | ငွေရှင်းခြင်းကို APOLO ၏ လုံခြုံသော ဆိုင် apolostationey.com တွင် ဆောင်ရွက်ပါသည်။ |
+| `chrome.cart.fine` | You will finish your order on APOLO’s store, apolostationey.com. | မှာယူမှုကို APOLO ၏ ဆိုင် apolostationey.com တွင် အပြီးသတ်ရပါမည်။ |
 | `chrome.step.dec` | Decrease | လျှော့ရန် |
 | `chrome.step.qty` | Quantity | အရေအတွက် |
 | `chrome.step.inc` | Increase | တိုးရန် |
@@ -100,7 +100,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `chrome.ftr.p3.sub` | Money back: return within 14 days | ငွေပြန်အမ်း အာမခံ - 14 ရက်အတွင်း ပြန်ပို့နိုင်ပါသည် |
 | `chrome.ftr.p4.title` | Free support | အခမဲ့ အကူအညီ |
 | `chrome.ftr.logo_alt` | APOLO Stationery Myanmar | APOLO Stationery Myanmar |
-| `chrome.ftr.blurb` | Exercise books, pens, pencils and paper for Myanmar classrooms, desks and offices. | မြန်မာနိုင်ငံရှိ စာသင်ခန်း၊ စားပွဲနှင့် ရုံးများအတွက် ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံနှင့် စက္ကူများ။ |
+| `chrome.ftr.blurb` | Exercise books, pens, pencils and paper for schools and offices in Myanmar. | မြန်မာနိုင်ငံရှိ ကျောင်းနှင့် ရုံးများအတွက် ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံနှင့် စက္ကူများ။ |
 | `chrome.ftr.facebook` | APOLO on Facebook | Facebook ရှိ APOLO |
 | `chrome.ftr.instagram` | APOLO on Instagram | Instagram ရှိ APOLO |
 | `chrome.ftr.shop` | Shop | ဈေးဝယ်ရန် |
@@ -123,40 +123,40 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `card.choose_aria` | Choose options for {title} | {title} အတွက် ရွေးချယ်စရာများ ရွေးရန် |
 | `card.added` | &lt;b>Added&lt;/b> {title} | {title} ကို &lt;b>ထည့်ပြီးပါပြီ&lt;/b> |
 | `card.view_cart` | View cart ({n}) | ဈေးခြင်း ကြည့်ရန် ({n}) |
-| `home.title` | APOLO Stationery Myanmar — What will you make? | APOLO စာရေးကိရိယာ မြန်မာ — သင် ဘာကို ဖန်တီးမည်နည်း။ |
-| `home.desc` | Every idea starts on a blank page. APOLO stationery for everyday creativity — books, writing instruments, desk accessories and paper. | စိတ်ကူးတိုင်း ဗလာစာမျက်နှာတစ်ခုမှ စတင်ပါသည်။ နေ့စဉ် ဖန်တီးမှုအတွက် APOLO စာရေးကိရိယာများ — စာအုပ်များ၊ ရေးသားကိရိယာများ၊ စားပွဲသုံးပစ္စည်းများနှင့် စက္ကူ။ |
-| `home.skip` | Skip the intro — go to products | အစပိုင်းကို ကျော်၍ ကုန်ပစ္စည်းများသို့ သွားရန် |
+| `home.title` | APOLO Stationery Myanmar — Books, pens and paper for school and office | APOLO စာရေးကိရိယာ မြန်မာ — ကျောင်းနှင့် ရုံးသုံး စာအုပ်၊ ဘောပင်နှင့် စက္ကူ |
+| `home.desc` | APOLO exercise books, pens, pencils, files and copy paper for school and office. Door-to-door delivery. Pay on arrival. | APOLO ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ ဖိုင်နှင့် ကော်ပီစက္ကူများ။ အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
+| `home.skip` | Skip intro and go to products | နိဒါန်းကျော်ပြီး ကုန်ပစ္စည်းများသို့ သွားရန် |
 | `film.aria` | APOLO introduction | APOLO မိတ်ဆက် |
 | `home.h1` | Everything for &lt;em>school &amp; office.&lt;/em> | ကျောင်းနှင့် ရုံးအတွက် &lt;em>လိုအပ်သမျှ အားလုံး။&lt;/em> |
-| `home.sub` | Exercise books, pens, pencils, files and copy&nbsp;paper&nbsp;&mdash; delivered to your door, paid for when it arrives. | ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ ဖိုင်နှင့် ကော်ပီစက္ကူများကို အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးပြီး ပစ္စည်းရောက်မှ ငွေချေနိုင်ပါသည်။ |
+| `home.sub` | Exercise books, pens, pencils, files and copy&nbsp;paper. We deliver to your door. Pay on arrival. | ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ ဖိုင်နှင့် ကော်ပီစက္ကူများ။ အိမ်တိုင်ရာရောက် ပို့ပေးပါသည်။ ပစ္စည်းရောက်မှ ငွေပေးချေပါ။ |
 | `home.cta.shop` | Shop all products | ကုန်ပစ္စည်းအားလုံး |
 | `home.cta.browse` | Browse categories | အမျိုးအစားများ ကြည့်ရန် |
 | `home.trust.aria` | Why order from APOLO | APOLO တွင် မှာယူသင့်သည့် အကြောင်းရင်းများ |
 | `home.trust.door` | Door-to-door delivery | အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးခြင်း |
 | `home.trust.cod` | Cash on delivery | ပစ္စည်းရောက်မှ ငွေချေခြင်း |
 | `home.trust.guarantee` | 100% quality guarantee | အရည်အသွေး 100% အာမခံ |
-| `film.slate.first` | &lt;span>01&lt;/span> The blank page &mdash; &lt;i>APOLO A-221C, 2B&lt;/i> | &lt;span>01&lt;/span> ဗလာစာမျက်နှာ &mdash; &lt;i>APOLO A-221C, 2B&lt;/i> |
-| `film.slate.1.title` | The blank page | ဗလာစာမျက်နှာ |
+| `film.slate.first` | &lt;span>01&lt;/span> Start &mdash; &lt;i>APOLO A-221C, 2B&lt;/i> | &lt;span>01&lt;/span> စတင်ခြင်း &mdash; &lt;i>APOLO A-221C, 2B&lt;/i> |
+| `film.slate.1.title` | Start | စတင်ခြင်း |
 | `film.slate.1.sub` | APOLO A-221C, 2B | APOLO A-221C, 2B |
-| `film.slate.2.title` | The first mark | ပထမဆုံး မျဉ်း |
-| `film.slate.2.sub` | One continuous line | ဆက်တိုက် မျဉ်းတစ်ကြောင်း |
-| `film.slate.3.title` | The page | စာမျက်နှာ |
-| `film.slate.3.sub` | Exercise ruling, 100 GSM | ကျောင်းသုံးစာအုပ် မျဉ်းကြောင်း၊ 100 GSM |
-| `film.slate.4.title` | The desk | စားပွဲ |
+| `film.slate.2.title` | Drawing | ရေးဆွဲခြင်း |
+| `film.slate.2.sub` | One line | မျဉ်းတစ်ကြောင်း |
+| `film.slate.3.title` | Notebook | မှတ်စုစာအုပ် |
+| `film.slate.3.sub` | Exercise book lines | ကျောင်းသုံးစာအုပ် မျဉ်းကြောင်းများ |
+| `film.slate.4.title` | Products | ကုန်ပစ္စည်းများ |
 | `film.slate.4.sub` | 14 APOLO products | APOLO ကုန်ပစ္စည်း 14 မျိုး |
 | `film.slate.5.title` | APOLO | APOLO |
 | `film.slate.5.sub` | Yangon, Myanmar | ရန်ကုန်၊ မြန်မာ |
 | `film.cue` | Scroll | အောက်သို့ ဆင်းရန် |
 | `film.sound.on` | Sound on | အသံ ဖွင့် |
 | `film.sound.off` | Sound off | အသံ ပိတ် |
-| `film.line` | Stationery isn&rsquo;t the finished thing. &lt;br>It&rsquo;s what lets you make one. | စာရေးကိရိယာသည် ပြီးစီးသော လက်ရာ မဟုတ်ပါ။ &lt;br>လက်ရာတစ်ခု ဖန်တီးနိုင်စေသော အရာဖြစ်ပါသည်။ |
+| `film.line` | Stationery for school&lt;br>and office. | ကျောင်းနှင့် ရုံးသုံး&lt;br>စာရေးကိရိယာများ |
 | `film.cta` | Explore APOLO | APOLO ကို ကြည့်ရှုရန် |
-| `home.flood.h` | Fill the page. | စာမျက်နှာကို ဖြည့်ပါ။ |
-| `home.flood.sub` | Exercise books, pens, pencils and paper from APOLO — delivered to your door, paid for when it arrives. | APOLO ၏ ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံနှင့် စက္ကူများကို အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးပြီး ပစ္စည်းရောက်မှ ငွေချေနိုင်ပါသည်။ |
+| `home.flood.h` | Start shopping | ဈေးဝယ်ရန် စတင်ပါ |
+| `home.flood.sub` | Exercise books, pens, pencils and paper from APOLO. We deliver to your door. Pay on arrival. | APOLO ၏ ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံနှင့် စက္ကူများ။ အိမ်တိုင်ရာရောက် ပို့ပေးပါသည်။ ပစ္စည်းရောက်မှ ငွေပေးချေပါ။ |
 | `home.flood.f1` | &lt;b data-count-products>154&lt;/b> products | ကုန်ပစ္စည်း &lt;b data-count-products>154&lt;/b> မျိုး |
 | `home.flood.f2` | &lt;b>Door-to-door&lt;/b> delivery | &lt;b>အိမ်တိုင်ရာရောက်&lt;/b> ပို့ဆောင်ပေးခြင်း |
 | `home.flood.f3` | &lt;b>Cash&lt;/b> on delivery | &lt;b>ပစ္စည်းရောက်မှ&lt;/b> ငွေချေခြင်း |
-| `home.flood.shop` | Shop everything | ကုန်ပစ္စည်းအားလုံး |
+| `home.flood.shop` | Shop all products | ကုန်ပစ္စည်းအားလုံး |
 | `home.call` | Call 09 777 271 999 | ဖုန်းခေါ်ရန် 09 777 271 999 |
 | `home.books.h` | Shop by category | အမျိုးအစားအလိုက် ဝယ်ယူရန် |
 | `home.index.aria` | More categories | အခြား အမျိုးအစားများ |
@@ -165,9 +165,9 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `home.book.sr` | {title}, {n} products | {title}၊ ကုန်ပစ္စည်း {n} မျိုး |
 | `home.svc.kicker` | Delivery, payment &amp; support | ပို့ဆောင်ရေး၊ ငွေပေးချေမှုနှင့် အကူအညီ |
 | `home.svc.h` | Ordering from APOLO | APOLO တွင် မှာယူခြင်း |
-| `home.svc.sub` | Delivered to your door, paid for the way that suits you, and a number to call if anything goes wrong. | အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးပြီး သင့်အတွက် အဆင်ပြေသည့် နည်းလမ်းဖြင့် ငွေပေးချေနိုင်ပါသည်။ ပြဿနာတစ်စုံတစ်ရာ ရှိပါက ခေါ်ဆိုရန် ဖုန်းနံပါတ်လည်း ရှိပါသည်။ |
+| `home.svc.sub` | We deliver to your door. You can pay when it arrives. Call us if you need help. | အိမ်တိုင်ရာရောက် ပို့ပေးပါသည်။ ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ အကူအညီလိုလျှင် ဖုန်းခေါ်ပါ။ |
 | `home.svc.ship.h` | Door-to-door delivery | အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးခြင်း |
-| `home.svc.ship.p` | Your order is brought to your door. Standard delivery times: | သင်မှာယူသော ပစ္စည်းကို အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးပါသည်။ ပုံမှန် ပို့ဆောင်ချိန်များမှာ အောက်ပါအတိုင်း ဖြစ်ပါသည်။ |
+| `home.svc.ship.p` | We deliver to your door. Usual delivery time: | အိမ်တိုင်ရာရောက် ပို့ပေးပါသည်။ ပုံမှန်ပို့ဆောင်ချိန် - |
 | `home.city.yangon` | Yangon | ရန်ကုန် |
 | `home.city.mandalay` | Mandalay | မန္တလေး |
 | `home.city.naypyitaw` | Naypyitaw | နေပြည်တော် |
@@ -183,23 +183,23 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `home.days.5-12` | 5–12 days | 5–12 ရက် |
 | `home.svc.ship.link` | Delivery terms | ပို့ဆောင်ရေး စည်းကမ်းချက်များ |
 | `home.svc.cod.h` | Cash on delivery | ပစ္စည်းရောက်မှ ငွေချေခြင်း |
-| `home.svc.cod.p` | Pay the delivery person when your package arrives — or pay ahead through your bank. | ပစ္စည်းရောက်ရှိသည့်အခါ ပို့ဆောင်သူကို ငွေချေနိုင်ပါသည်။ သို့မဟုတ် သင့်ဘဏ်မှတစ်ဆင့် ကြိုတင်ငွေလွှဲနိုင်ပါသည်။ |
+| `home.svc.cod.p` | Pay the delivery person when your order arrives. Or pay first through your bank. | ပစ္စည်းရောက်လျှင် ပို့ဆောင်သူကို ငွေပေးချေပါ။ သို့မဟုတ် ဘဏ်မှတစ်ဆင့် ကြိုတင်ပေးချေနိုင်ပါသည်။ |
 | `home.svc.cod.link` | Payment | ငွေပေးချေမှု |
 | `home.svc.guar.h` | 100% quality guarantee | အရည်အသွေး 100% အာမခံ |
-| `home.svc.guar.p` | Money-back guarantee. If something arrives damaged, defective, wrong or incomplete, request a return within 14 days of delivery. | ငွေပြန်အမ်း အာမခံပါသည်။ ပစ္စည်း ပျက်စီးခြင်း၊ ချို့ယွင်းခြင်း၊ မှားယွင်းခြင်း သို့မဟုတ် မပြည့်စုံခြင်း ရှိပါက ပစ္စည်းရောက်ရှိပြီး 14 ရက်အတွင်း ပြန်ပို့ရန် တောင်းဆိုနိုင်ပါသည်။ |
+| `home.svc.guar.p` | Money-back guarantee. If your order is damaged, faulty, wrong or has missing items, ask for a return within 14 days. | ငွေပြန်အမ်း အာမခံ။ ပစ္စည်း ပျက်စီးခြင်း၊ အမှားပါခြင်း သို့မဟုတ် မပြည့်စုံခြင်း ရှိလျှင် 14 ရက်အတွင်း ပြန်ပို့ရန် တောင်းဆိုနိုင်ပါသည်။ |
 | `home.svc.guar.link` | Returns | ပြန်ပို့ခြင်း |
 | `home.svc.help.h` | Help &amp; support | အကူအညီနှင့် ဝန်ဆောင်မှု |
-| `home.svc.help.p` | Free support. Call us, or message APOLO on Facebook between 9 AM and 5 PM for the quickest reply. | အခမဲ့ အကူအညီ။ ဖုန်းခေါ်ဆိုနိုင်ပါသည်။ အမြန်ဆုံး အဖြေရရန် မနက် 9 နာရီမှ ညနေ 5 နာရီအတွင်း APOLO ၏ Facebook သို့ မက်ဆေ့ချ် ပို့နိုင်ပါသည်။ |
+| `home.svc.help.p` | Free support. Call us, or message us on Facebook (9 AM – 5 PM). | အခမဲ့ အကူအညီ။ ဖုန်းခေါ်ပါ၊ သို့မဟုတ် Facebook တွင် မက်ဆေ့ချ်ပို့ပါ (နံနက် 9 နာရီမှ ညနေ 5 နာရီအထိ)။ |
 | `home.svc.help.link` | All contact details | ဆက်သွယ်ရန် အချက်အလက်များ အားလုံး |
-| `home.list.kicker` | စာရင်း | School list |
-| `home.list.h` | The school list | ကျောင်းသုံးစာရင်း |
-| `home.list.p` | The things a classroom runs on. Tick a line and it goes straight into your cart — or add the whole list at once. | စာသင်ခန်းတစ်ခု လည်ပတ်ရန် လိုအပ်သော ပစ္စည်းများ။ တစ်ကြောင်းကို အမှန်ခြစ်လိုက်လျှင် ဈေးခြင်းထဲသို့ တန်းရောက်သွားမည်ဖြစ်ပြီး စာရင်းတစ်ခုလုံးကိုလည်း တစ်ပြိုင်နက် ထည့်နိုင်ပါသည်။ |
+| `home.list.kicker` | စာရင်း | Checklist |
+| `home.list.h` | Back-to-school checklist | ကျောင်းပြန်ဖွင့် စစ်ဆေးစာရင်း |
+| `home.list.p` | Things students need. Tick an item to add it to your cart, or add everything at once. | ကျောင်းသားများ လိုအပ်သောပစ္စည်းများ။ ထည့်လိုသည့်အရာကို အမှန်ခြစ်ပါ၊ သို့မဟုတ် အားလုံးကို တစ်ခါတည်း ထည့်ပါ။ |
 | `home.list.add.aria` | Add {title} to cart | {title} ကို ဈေးခြင်းထဲ ထည့်ရန် |
 | `home.list.remove.aria` | Remove {title} from cart | {title} ကို ဈေးခြင်းထဲမှ ဖယ်ရှားရန် |
-| `home.list.addall` | Add the whole list — {price} | စာရင်းတစ်ခုလုံး ထည့်မည် — {price} |
+| `home.list.addall` | Add all items — {price} | အားလုံး ထည့်မည် — {price} |
 | `home.list.count` | {n} items | ပစ္စည်း {n} ခု |
-| `home.list.todo` | {n} not in your cart yet | ဈေးခြင်းထဲ မထည့်ရသေးသည်မှာ {n} ခု |
-| `home.list.done` | Everything on the list is in your cart. | စာရင်းထဲရှိ အားလုံးကို ဈေးခြင်းထဲ ထည့်ပြီးပါပြီ။ |
+| `home.list.todo` | {n} not in cart yet | {n} ခု ဈေးခြင်းထဲ မရောက်သေးပါ |
+| `home.list.done` | All items are in your cart. | ပစ္စည်းအားလုံး ဈေးခြင်းထဲ ရောက်ပါပြီ။ |
 | `home.list.viewcart` | View cart | ဈေးခြင်းကြည့်ရန် |
 | `home.toast.added` | &lt;span>&lt;b>Added&lt;/b> {title}&lt;/span> | &lt;span>{title} &lt;b>ထည့်ပြီးပါပြီ&lt;/b>&lt;/span> |
 | `home.toast.view` | View cart ({n}) | ဈေးခြင်းကြည့်ရန် ({n}) |
@@ -210,7 +210,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `home.shelf.aria` | {title}, scroll sideways | {title}၊ ဘေးတိုက် ရွှေ့ကြည့်ရန် |
 | `home.shelf.more` | All {n}&lt;br>{name} | {name}&lt;br>အားလုံး {n} မျိုး |
 | `home.camp.kicker` | From APOLO | APOLO မှ |
-| `home.camp.h` | This season’s posters | ယခုရာသီ ပိုစတာများ |
+| `home.camp.h` | APOLO posters | APOLO ပိုစတာများ |
 | `home.camp.prev` | Previous poster | ယခင် ပိုစတာ |
 | `home.camp.next` | Next poster | နောက် ပိုစတာ |
 | `home.camp.aria` | Posters, scroll sideways | ပိုစတာများ၊ ဘေးတိုက် ရွှေ့ကြည့်ရန် |
@@ -220,8 +220,8 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `home.camp.4.alt` | The best quality APOLO note books in pink, blue and orange | ပန်းရောင်၊ အပြာနှင့် လိမ္မော်ရောင်ရှိ အရည်အသွေးအကောင်းဆုံး APOLO မှတ်စုစာအုပ်များ |
 | `home.camp.5.alt` | APOLO sticky notes in pastel colours, five sizes | ပါစတယ်အရောင် APOLO စတစ်ကီးနုတ်များ (အရွယ်အစား ငါးမျိုး) |
 | `home.visit.kicker` | Hlaing Thar Yar, Yangon | လှိုင်သာယာ၊ ရန်ကုန် |
-| `home.visit.h` | Visit the showroom, &lt;em>or just call.&lt;/em> | ရှိုးခန်းသို့ လာရောက်လည်ပတ်ပါ၊ &lt;em>သို့မဟုတ် ဖုန်းခေါ်ပါ။&lt;/em> |
-| `home.visit.p` | The APOLO showroom is at the same address as the factory in Hlaing Thar Yar. Order online, by phone, or come and see the range in person. | APOLO ရှိုးခန်းသည် လှိုင်သာယာရှိ စက်ရုံနှင့် လိပ်စာတူညီပါသည်။ အွန်လိုင်းမှ ဖြစ်စေ၊ ဖုန်းဖြင့် ဖြစ်စေ မှာယူနိုင်ပြီး ကုန်ပစ္စည်းများကို ကိုယ်တိုင်လာရောက် ကြည့်ရှုနိုင်ပါသည်။ |
+| `home.visit.h` | Visit our showroom &lt;em>or call us.&lt;/em> | ကျွန်ုပ်တို့၏ ရှိုးခန်းသို့ လာရောက်ကြည့်ရှုပါ &lt;em>သို့မဟုတ် ဖုန်းခေါ်ပါ။&lt;/em> |
+| `home.visit.p` | Our showroom is at the same address as the factory in Hlaing Thar Yar. You can order online, call us, or visit to see our products. | ကျွန်ုပ်တို့၏ ရှိုးခန်းသည် လှိုင်သာယာရှိ စက်ရုံနှင့် လိပ်စာတူညီပါသည်။ အွန်လိုင်းမှ မှာယူနိုင်သည်၊ ဖုန်းခေါ်နိုင်သည်၊ သို့မဟုတ် လာရောက်ကြည့်ရှုနိုင်ပါသည်။ |
 | `home.visit.contact` | All contact details | ဆက်သွယ်ရန် အချက်အလက်များ အားလုံး |
 | `home.note.aria` | Showroom details | ရှိုးခန်း အသေးစိတ် |
 | `home.note.h` | Showroom &amp; factory | ရှိုးခန်းနှင့် စက်ရုံ |
@@ -232,14 +232,14 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `home.note.map` | Open in Google Maps → | Google Maps တွင်ကြည့်ရန် → |
 | `home.err` | The catalogue didn’t load. &lt;a href="/shop">Try the shop page&lt;/a> or call 09 777 271 999. | ကက်တလော့ဂ် မဖွင့်ရပါ။ &lt;a href="/shop">ဆိုင်စာမျက်နှာသို့ သွားကြည့်ပါ&lt;/a> သို့မဟုတ် 09 777 271 999 သို့ ဖုန်းခေါ်ပါ။ |
 | `shop.title.all` | Shop — APOLO Stationery Myanmar | ကုန်ပစ္စည်းများ — APOLO စာရေးကိရိယာ မြန်မာ |
-| `shop.meta.all` | Every APOLO product: exercise books, pens, pencils, desk accessories, files, envelopes, ledgers and copy paper. Door-to-door delivery and cash on delivery. | APOLO ကုန်ပစ္စည်းအားလုံး - ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ စားပွဲသုံးပစ္စည်း၊ ဖိုင်၊ စာအိတ်၊ စာရင်းစာအုပ်နှင့် ကော်ပီစက္ကူ။ အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးပြီး ပစ္စည်းရောက်မှ ငွေချေနိုင်ပါသည်။ |
+| `shop.meta.all` | All APOLO products: exercise books, pens, pencils, desk accessories, files, envelopes, ledgers and copy paper. Door-to-door delivery. Pay on arrival. | APOLO ကုန်ပစ္စည်းအားလုံး - ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ စားပွဲသုံးပစ္စည်း၊ ဖိုင်၊ စာအိတ်၊ စာရင်းစာအုပ်နှင့် ကော်ပီစက္ကူ။ အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
 | `shop.skip` | Skip to products | ကုန်ပစ္စည်းများသို့ ကျော်သွားရန် |
 | `shop.crumb.label` | Breadcrumb | လမ်းကြောင်း |
 | `shop.crumb.home` | Home | ပင်မစာမျက်နှာ |
 | `shop.crumb.shop` | Shop | ကုန်ပစ္စည်းများ |
 | `shop.crumb.all` | Shop all | ကုန်ပစ္စည်းအားလုံး |
 | `shop.crumb.search` | Search | ရှာဖွေရန် |
-| `shop.kicker.catalogue` | The catalogue | ကုန်ပစ္စည်းစာရင်း |
+| `shop.kicker.catalogue` | Products | ကုန်ပစ္စည်းများ |
 | `shop.heading.default` | Shop | ကုန်ပစ္စည်းများ |
 | `shop.tabs.label` | Categories | အမျိုးအစားများ |
 | `shop.tab.all` | All | အားလုံး |
@@ -247,7 +247,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `shop.sort.label` | Sort by | စီစဉ်ရန် |
 | `shop.filters.label` | Filter products | ကုန်ပစ္စည်းများ စစ်ထုတ်ရန် |
 | `shop.title.collection` | {title} — APOLO Stationery Myanmar | {title} — APOLO စာရေးကိရိယာ မြန်မာ |
-| `shop.meta.collection` | {blurb}. {n} APOLO products with door-to-door delivery and cash on delivery across Myanmar. | {blurb}။ မြန်မာနိုင်ငံတစ်ဝန်း အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးခြင်းနှင့် ပစ္စည်းရောက်မှ ငွေချေခြင်းဖြင့် APOLO ကုန်ပစ္စည်း {n} မျိုး။ |
+| `shop.meta.collection` | {blurb}. {n} APOLO products. Door-to-door delivery. Pay on arrival. | {blurb}။ APOLO ကုန်ပစ္စည်း {n} မျိုး။ အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
 | `shop.title.search` | Search — APOLO Stationery Myanmar | ရှာဖွေရန် — APOLO စာရေးကိရိယာ မြန်မာ |
 | `shop.title.search_q` | “{q}” — Search — APOLO Stationery Myanmar | “{q}” — ရှာဖွေရန် — APOLO စာရေးကိရိယာ မြန်မာ |
 | `shop.title.notfound` | Category not found — APOLO Stationery Myanmar | အမျိုးအစား ရှာမတွေ့ပါ — APOLO စာရေးကိရိယာ မြန်မာ |
@@ -259,7 +259,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `shop.search.placeholder` | Pens, exercise books, A4 paper… | ဘောပင်၊ ကျောင်းသုံးစာအုပ်၊ A4 စက္ကူ… |
 | `shop.search.btn` | Search | ရှာဖွေရန် |
 | `shop.all.heading` | Every APOLO &lt;em>product&lt;/em> | APOLO &lt;em>ကုန်ပစ္စည်း&lt;/em> အားလုံး |
-| `shop.all.sub` | {n} products across {c} categories &mdash; exercise books and pens to files, ledgers and copy paper by the ream. | အမျိုးအစား {c} မျိုးတွင် ကုန်ပစ္စည်း {n} မျိုး &mdash; ကျောင်းသုံးစာအုပ်နှင့် ဘောပင်မှ ဖိုင်၊ စာရင်းစာအုပ်နှင့် ကော်ပီစက္ကူ အထုပ်လိုက်အထိ။ |
+| `shop.all.sub` | {n} products in {c} categories: exercise books, pens, files, ledgers, copy paper and more. | အမျိုးအစား {c} ခုတွင် ကုန်ပစ္စည်း {n} မျိုး - ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ဖိုင်၊ စာရင်းစာအုပ်၊ ကော်ပီစက္ကူ စသည်တို့ ရှိပါသည်။ |
 | `shop.filter.brand` | Brand | ကုန်အမှတ်တံဆိပ် |
 | `shop.filter.price` | Price | ဈေးနှုန်း |
 | `shop.filter.any_price` | Any price | ဈေးနှုန်းမရွေး |
@@ -287,17 +287,17 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `product.title.default` | APOLO Stationery Myanmar | APOLO စာရေးကိရိယာ မြန်မာ |
 | `product.title` | {name} — APOLO Stationery Myanmar | {name} — APOLO စာရေးကိရိယာ မြန်မာ |
 | `product.title.missing` | Product not found — APOLO Stationery Myanmar | ကုန်ပစ္စည်း မတွေ့ပါ — APOLO စာရေးကိရိယာ မြန်မာ |
-| `product.meta.default` | APOLO stationery with door-to-door delivery and cash on delivery across Myanmar. | APOLO စာရေးကိရိယာများကို မြန်မာနိုင်ငံတစ်ဝန်း အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးပြီး ပစ္စည်းရောက်မှ ငွေချေနိုင်ပါသည်။ |
-| `product.meta.tail` | Door-to-door delivery and cash on delivery. | အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးပြီး ပစ္စည်းရောက်မှ ငွေချေနိုင်ပါသည်။ |
+| `product.meta.default` | APOLO stationery. Door-to-door delivery. Pay on arrival. | APOLO စာရေးကိရိယာ။ အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
+| `product.meta.tail` | Door-to-door delivery. Pay on arrival. | အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
 | `product.gallery.label` | Product images | ကုန်ပစ္စည်း ဓာတ်ပုံများ |
 | `product.gallery.show` | Show image {i} of {n} | ဓာတ်ပုံ {n} ပုံအနက် {i} ကို ကြည့်ရန် |
-| `product.stock.in` | In stock — ready to deliver | ကုန်ပစ္စည်းရှိသည် — ပို့ဆောင်ရန် အဆင်သင့် |
+| `product.stock.in` | In stock | ကုန်ပစ္စည်းရှိသည် |
 | `product.stock.unavailable` | Unavailable | မရနိုင်ပါ |
 | `product.sold_out` | Sold out | ကုန်သွားပါပြီ |
 | `product.qty` | Quantity | အရေအတွက် |
 | `product.add` | Add to cart | ဈေးခြင်းထဲ ထည့်မည် |
 | `product.buy_now` | Buy now | ယခုပဲ ဝယ်မည် |
-| `product.buy_now_m` | Buy now — straight to checkout | ယခုပဲ ဝယ်မည် — ငွေရှင်းရန်သို့ တိုက်ရိုက်သွားမည် |
+| `product.buy_now_m` | Buy now and go to checkout | ယခုပဲ ဝယ်မည် — ငွေရှင်းရန်သို့ သွားမည် |
 | `product.assure.delivery` | &lt;b>Door-to-door delivery.&lt;/b> &lt;span>Yangon in 3–5 days, Mandalay and Naypyitaw 3–6, other cities 5–12.&lt;/span> | &lt;b>အိမ်တိုင်ရာရောက် ပို့ဆောင်ပေးခြင်း။&lt;/b> &lt;span>ရန်ကုန် 3–5 ရက်၊ မန္တလေးနှင့် နေပြည်တော် 3–6 ရက်၊ အခြားမြို့များ 5–12 ရက်။&lt;/span> |
 | `product.assure.cod` | &lt;b>Cash on delivery&lt;/b> &lt;span>or prepaid banking (KBZPay and bank transfer).&lt;/span> | &lt;b>ပစ္စည်းရောက်မှ ငွေချေခြင်း&lt;/b> &lt;span>သို့မဟုတ် ကြိုတင်ငွေလွှဲခြင်း (KBZPay နှင့် ဘဏ်လွှဲ)။&lt;/span> |
 | `product.assure.guarantee` | &lt;b>100% quality guarantee.&lt;/b> &lt;span>Damaged or wrong? Request a return within 14 days.&lt;/span> | &lt;b>အရည်အသွေး 100% အာမခံ။&lt;/b> &lt;span>ပျက်စီးနေလျှင် သို့မဟုတ် မှားယွင်းနေလျှင် 14 ရက်အတွင်း ပြန်ပို့ရန် တောင်းဆိုနိုင်ပါသည်။&lt;/span> |
@@ -311,13 +311,13 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `product.returns.text` | Damaged, defective, incorrect or incomplete at delivery? Request a return within 14 days. Returned items must be unused and in their original packaging. &lt;a href="/pages/terms-conditions">Full delivery and returns terms&lt;/a>. | ပို့ဆောင်ချိန်တွင် ပျက်စီးနေခြင်း၊ ချို့ယွင်းနေခြင်း၊ မှားယွင်းနေခြင်း သို့မဟုတ် မပြည့်စုံခြင်းရှိပါက 14 ရက်အတွင်း ပြန်ပို့ရန် တောင်းဆိုနိုင်ပါသည်။ ပြန်ပို့မည့်ပစ္စည်းများသည် မသုံးရသေးဘဲ မူလထုပ်ပိုးမှုအတိုင်း ရှိရပါမည်။ &lt;a href="/pages/terms-conditions">ပို့ဆောင်ရေးနှင့် ပြန်ပို့ရေး စည်းကမ်းချက်အပြည့်အစုံ&lt;/a>။ |
 | `product.more_in` | More in {category} | {category} မှ အခြားပစ္စည်းများ |
 | `product.also_need` | You may also need | လိုအပ်နိုင်သည့် အခြားပစ္စည်းများ |
-| `product.same_desk` | On the same desk | စားပွဲတစ်လုံးတည်းအတွက် |
+| `product.same_desk` | More products | ထပ်မံကြည့်ရှုရန် ကုန်ပစ္စည်းများ |
 | `product.see_all` | See all {n} | အားလုံးကြည့်ရန် ({n}) |
 | `product.rail.back` | Scroll back | နောက်သို့ ရွှေ့ရန် |
 | `product.rail.forward` | Scroll forward | ရှေ့သို့ ရွှေ့ရန် |
 | `product.rail.label` | Related products, scroll sideways | ဆက်စပ်ကုန်ပစ္စည်းများ၊ ဘေးသို့ ရွှေ့ကြည့်နိုင်သည် |
-| `product.missing.title` | This product isn’t in the catalogue | ဤကုန်ပစ္စည်းကို ကတ်တလောက်တွင် မတွေ့ပါ |
-| `product.missing.text` | It may have sold out for good or been renamed. Search for it, or browse its category. | အပြီးအပိုင် ကုန်သွားခြင်း သို့မဟုတ် အမည်ပြောင်းထားခြင်း ဖြစ်နိုင်ပါသည်။ ရှာဖွေကြည့်ပါ၊ သို့မဟုတ် ၎င်း၏ အမျိုးအစားကို ကြည့်ရှုပါ။ |
+| `product.missing.title` | We could not find this product | ဤကုန်ပစ္စည်းကို မတွေ့ပါ |
+| `product.missing.text` | This product may have been removed or renamed. Try searching, or browse the category. | ဤကုန်ပစ္စည်းကို ဖယ်ရှားထားခြင်း သို့မဟုတ် အမည်ပြောင်းထားခြင်း ဖြစ်နိုင်ပါသည်။ ရှာဖွေကြည့်ပါ၊ သို့မဟုတ် အမျိုးအစားကို ကြည့်ပါ။ |
 | `product.missing.search` | Search | ရှာဖွေရန် |
 | `product.missing.browse` | Browse the shop | ဆိုင်ကို ကြည့်ရှုရန် |
 | `product.err` | This product didn’t load. Please refresh, or call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> to order. | ဤကုန်ပစ္စည်း မပေါ်လာပါ။ စာမျက်နှာကို ပြန်လည်ဖွင့်ကြည့်ပါ၊ သို့မဟုတ် မှာယူရန် &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့ ဖုန်းခေါ်ပါ။ |
@@ -327,8 +327,8 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `info.contact.title` | Contact & showroom — APOLO Stationery Myanmar | ဆက်သွယ်ရန်နှင့် ရှိုးခန်း — အပိုလို စာရေးကိရိယာ |
 | `info.contact.desc` | Call APOLO on 09 777 271 999, message us on Facebook, or visit the showroom and factory in Hlaing Thar Yar, Yangon. | APOLO ကို 09 777 271 999 သို့ ဖုန်းခေါ်ပါ၊ Facebook တွင် မက်ဆေ့ချ်ပို့ပါ၊ သို့မဟုတ် ရန်ကုန်မြို့ လှိုင်သာယာရှိ ရှိုးခန်းနှင့် စက်ရုံသို့ လာရောက်လည်ပတ်ပါ။ |
 | `info.contact.kicker` | Contact | ဆက်သွယ်ရန် |
-| `info.contact.h1` | Talk to &lt;em>APOLO&lt;/em> | &lt;em>APOLO&lt;/em> နှင့် ဆက်သွယ်ပါ |
-| `info.contact.lead` | Questions about a product, a bulk order for a school or office, or an order that hasn’t arrived — the quickest way is to call, or to message APOLO on Facebook between 9 AM and 5 PM. | ကုန်ပစ္စည်းတစ်ခုအကြောင်း မေးစရာရှိလျှင်၊ ကျောင်း သို့မဟုတ် ရုံးအတွက် အများအပြား မှာယူလိုလျှင်၊ သို့မဟုတ် မှာယူထားသော ပစ္စည်း မရောက်သေးလျှင် ဖုန်းခေါ်ခြင်း သို့မဟုတ် နံနက် 9 နာရီမှ ညနေ 5 နာရီအထိ Facebook တွင် APOLO ကို မက်ဆေ့ချ်ပို့ခြင်းက အမြန်ဆုံးနည်းလမ်း ဖြစ်ပါသည်။ |
+| `info.contact.h1` | Contact &lt;em>APOLO&lt;/em> | &lt;em>APOLO&lt;/em> ကို ဆက်သွယ်ပါ |
+| `info.contact.lead` | Questions about a product, a bulk order for a school or office, or an order that has not arrived? Call us, or message us on Facebook between 9 AM and 5 PM. | ကုန်ပစ္စည်းအကြောင်း မေးစရာရှိလျှင်၊ ကျောင်း သို့မဟုတ် ရုံးအတွက် အများအပြား မှာယူလိုလျှင်၊ သို့မဟုတ် မှာထားသောပစ္စည်း မရောက်သေးလျှင် ဖုန်းခေါ်ပါ၊ သို့မဟုတ် နံနက် 9 နာရီမှ ညနေ 5 နာရီအတွင်း Facebook တွင် မက်ဆေ့ချ်ပို့ပါ။ |
 | `info.contact.call.h` | Call us | ဖုန်းခေါ်ရန် |
 | `info.contact.call.sub` | Orders, stock and delivery questions | မှာယူမှု၊ ကုန်ပစ္စည်းလက်ကျန်နှင့် ပို့ဆောင်ရေး မေးမြန်းရန် |
 | `info.contact.line2.h` | Second line | ဒုတိယလိုင်း |
@@ -351,7 +351,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `info.terms.crumb` | Delivery & returns | ပို့ဆောင်ရေးနှင့် ပြန်ပို့ရေး |
 | `info.terms.kicker` | Terms & conditions | စည်းကမ်းချက်များ |
 | `info.terms.h1` | Delivery, payment &lt;em>&amp; returns&lt;/em> | ပို့ဆောင်ရေး၊ ငွေပေးချေမှု &lt;em>နှင့် ပြန်ပို့ရေး&lt;/em> |
-| `info.terms.lead` | How long an order takes to reach you, how to pay for it, and what to do if something arrives wrong. | မှာယူထားသော ပစ္စည်း သင့်ထံ ရောက်ရှိရန် ကြာချိန်၊ ငွေပေးချေပုံနှင့် ပစ္စည်း မှားယွင်းလာပါက လုပ်ဆောင်ရမည့် အချက်များ။ |
+| `info.terms.lead` | Delivery times, how to pay, and what to do if there is a problem with your order. | ပို့ဆောင်ချိန်၊ ငွေပေးချေပုံနှင့် မှာယူထားသောပစ္စည်းတွင် ပြဿနာရှိလျှင် ဆောင်ရွက်ရမည့်အရာများ။ |
 | `info.terms.toc.label` | On this page | ဤစာမျက်နှာတွင် |
 | `info.terms.delivery.h` | Delivery times | ပို့ဆောင်ချိန် |
 | `info.terms.payment.h` | Payment | ငွေပေးချေမှု |
@@ -373,7 +373,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `info.terms.days.3-6` | 3–6 days | 3–6 ရက် |
 | `info.terms.days.4-7` | 4–7 days | 4–7 ရက် |
 | `info.terms.days.5-12` | 5–12 days | 5–12 ရက် |
-| `info.terms.late` | Order running late? Call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> or message &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">APOLO on Facebook&lt;/a> between 9 AM and 5 PM for the quickest answer. | မှာယူထားသော ပစ္စည်း နောက်ကျနေပါသလား။ အမြန်ဆုံး အဖြေရရန် နံနက် 9 နာရီမှ ညနေ 5 နာရီအထိ &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့ ဖုန်းခေါ်ပါ၊ သို့မဟုတ် &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">Facebook ရှိ APOLO&lt;/a> သို့ မက်ဆေ့ချ်ပို့ပါ။ |
+| `info.terms.late` | Is your order late? Call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> or message &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">APOLO on Facebook&lt;/a> between 9 AM and 5 PM. | မှာထားသောပစ္စည်း နောက်ကျနေပါသလား။ &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့ ဖုန်းခေါ်ပါ၊ သို့မဟုတ် နံနက် 9 နာရီမှ ညနေ 5 နာရီအတွင်း &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">APOLO Facebook&lt;/a> တွင် မက်ဆေ့ချ်ပို့ပါ။ |
 | `info.terms.cod` | &lt;strong>Cash on delivery.&lt;/strong> Pay the delivery person when your package arrives at your door. | &lt;strong>ပစ္စည်းရောက်မှ ငွေချေခြင်း။&lt;/strong> သင့်ပစ္စည်းထုပ် အိမ်တံခါးဝသို့ ရောက်ရှိလာသောအခါ ပို့ဆောင်သူထံ ငွေပေးချေပါ။ |
 | `info.terms.prepaid` | &lt;strong>Prepaid banking.&lt;/strong> You can also pay in advance through your bank. APOLO accepts KBZPay and payments through KBZ Bank, CB Bank, AYA Bank, UAB and Yoma Bank. | &lt;strong>ကြိုတင်ငွေလွှဲခြင်း။&lt;/strong> သင့်ဘဏ်မှတစ်ဆင့် ကြိုတင်ငွေပေးချေနိုင်ပါသည်။ APOLO သည် KBZPay နှင့် KBZ Bank၊ CB Bank၊ AYA Bank၊ UAB နှင့် Yoma Bank တို့မှတစ်ဆင့် ငွေပေးချေမှုများကို လက်ခံပါသည်။ |
 | `info.terms.returns.p1` | If your product is damaged, defective, incorrect or incomplete when it is delivered, file a return request within &lt;strong>14 days&lt;/strong> of the delivery date. For selected categories we also accept a change of mind. | ပစ္စည်း ပို့ဆောင်ရောက်ရှိချိန်တွင် ပျက်စီးခြင်း၊ ချို့ယွင်းခြင်း၊ မှားယွင်းခြင်း သို့မဟုတ် မပြည့်စုံခြင်း ရှိပါက ပို့ဆောင်သည့်ရက်မှ &lt;strong>14 ရက်&lt;/strong် အတွင်း ပြန်ပို့ရန် တောင်းဆိုပါ။ ရွေးချယ်ထားသော အမျိုးအစားအချို့တွင် စိတ်ပြောင်းလဲမှုကြောင့် ပြန်ပို့ခြင်းကိုလည်း လက်ခံပါသည်။ |
@@ -383,12 +383,12 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `info.terms.returns.li3` | be returned in the original, undamaged manufacturer packaging or box. | ထုတ်လုပ်သူ၏ မူလထုပ်ပိုးမှု သို့မဟုတ် သေတ္တာ မပျက်စီးဘဲ ပြန်ပို့ရမည်။ |
 | `info.terms.returns.start` | To start a return, call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> or see &lt;a href="/pages/contact">all contact details&lt;/a>. | ပြန်ပို့ခြင်း စတင်ရန် &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့ ဖုန်းခေါ်ပါ၊ သို့မဟုတ် &lt;a href="/pages/contact">ဆက်သွယ်ရန် အချက်အလက်အားလုံး&lt;/a>ကို ကြည့်ပါ။ |
 | `info.terms.support.h` | Help & support | အကူအညီနှင့် ဝန်ဆောင်မှု |
-| `info.terms.support.p` | Support is free. Call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> or &lt;a href="tel:+959777271888">09 777 271 888&lt;/a>, or message &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">APOLO on Facebook&lt;/a> between 9 AM and 5 PM for the quickest response. | ဝန်ဆောင်မှုသည် အခမဲ့ ဖြစ်ပါသည်။ အမြန်ဆုံး ပြန်လည်ဖြေကြားမှုရရန် နံနက် 9 နာရီမှ ညနေ 5 နာရီအထိ &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့မဟုတ် &lt;a href="tel:+959777271888">09 777 271 888&lt;/a> သို့ ဖုန်းခေါ်ပါ၊ သို့မဟုတ် &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">Facebook ရှိ APOLO&lt;/a> သို့ မက်ဆေ့ချ်ပို့ပါ။ |
+| `info.terms.support.p` | Support is free. Call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> or &lt;a href="tel:+959777271888">09 777 271 888&lt;/a>, or message &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">APOLO on Facebook&lt;/a> between 9 AM and 5 PM. | အကူအညီသည် အခမဲ့ဖြစ်ပါသည်။ &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့မဟုတ် &lt;a href="tel:+959777271888">09 777 271 888&lt;/a> သို့ ဖုန်းခေါ်ပါ၊ သို့မဟုတ် နံနက် 9 နာရီမှ ညနေ 5 နာရီအတွင်း &lt;a href="https://www.facebook.com/apolostio" target="_blank" rel="noopener">APOLO Facebook&lt;/a> တွင် မက်ဆေ့ချ်ပို့ပါ။ |
 | `info.404.title` | Page not found — APOLO Stationery Myanmar | စာမျက်နှာ ရှာမတွေ့ပါ — အပိုလို စာရေးကိရိယာ |
-| `info.404.h1` | This page is still blank | ဤစာမျက်နှာသည် ဗလာဖြစ်နေသေးသည် |
-| `info.404.p` | There’s nothing at this address. Every idea starts on a blank page — but this one is probably a broken link. | ဤလိပ်စာတွင် ဘာမျှ မရှိပါ။ စိတ်ကူးတိုင်း ဗလာစာမျက်နှာတစ်ခုမှ စတင်သော်လည်း ဤစာမျက်နှာမှာမူ ပျက်နေသော လင့်ခ်ဖြစ်နိုင်ခြေ များပါသည်။ |
+| `info.404.h1` | Page not found | စာမျက်နှာ မတွေ့ပါ |
+| `info.404.p` | We could not find this page. The link may be broken, or the page may have moved. | ဤစာမျက်နှာကို မတွေ့ပါ။ လင့်ခ်မှားနေခြင်း သို့မဟုတ် စာမျက်နှာ ရွှေ့ထားခြင်း ဖြစ်နိုင်ပါသည်။ |
 | `info.404.shop` | Browse the shop | ဆိုင်ကို ကြည့်ရန် |
-| `info.404.home` | Back to the start | အစသို့ ပြန်သွားရန် |
+| `info.404.home` | Back to home | ပင်မစာမျက်နှာသို့ ပြန်သွားရန် |
 | `opt.color` |  | အရောင် |
 | `opt.size` |  | အရွယ်အစား |
 | `opt.pages` |  | စာမျက်နှာ |
