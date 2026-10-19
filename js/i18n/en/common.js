@@ -40,5 +40,8 @@ export default {
   'cat.ledgers.blurb': 'Daily, cash and account books',
   'cat.vouchers.title': 'Vouchers',
   'cat.vouchers.short': 'Vouchers',
-  'cat.vouchers.blurb': 'Invoice, cash and receipt vouchers'
+  'cat.vouchers.blurb': 'Invoice, cash and receipt vouchers',
+  'cat.package-sets.title': 'Package Sets',
+  'cat.package-sets.short': 'Packages',
+  'cat.package-sets.blurb': 'Ready-made stationery sets'
 };

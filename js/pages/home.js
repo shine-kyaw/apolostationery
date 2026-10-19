@@ -164,7 +164,7 @@ catalog().then(c => {
             <h2 id="${id}-t">${el.dataset.titleKey ? t(el.dataset.titleKey) : esc(colTitle(col))}</h2>
           </div>
           <div class="sec-head__end">
-            <a class="link-arrow" href="/collections/${col.handle}">${t('home.shelf.all', { n: col.items.length })} ${ICON.arrow}</a>
+            ${col.items.length > 6 ? `<a class="link-arrow" href="/collections/${col.handle}">${t('home.shelf.all', { n: col.items.length })} ${ICON.arrow}</a>` : ''}
             <div class="rail-ctl" data-for="${id}">
               <button type="button" class="tool tool--line" data-dir="-1" aria-label="${t('home.shelf.back')}"></button>
               <button type="button" class="tool tool--line" data-dir="1" aria-label="${t('home.shelf.forward')}"></button>
@@ -174,9 +174,9 @@ catalog().then(c => {
       </div>
       <div class="rail" id="${id}" tabindex="0" aria-label="${esc(t('home.shelf.aria', { title: colTitle(col) }))}">
         ${col.items.slice(0, 12).map(p => card(p)).join('')}
-        <a class="rail__more" href="/collections/${col.handle}">
+        ${col.items.length > 12 ? `<a class="rail__more" href="/collections/${col.handle}">
           <span>${t('home.shelf.more', { n: col.items.length, name: esc(colTitle(col).toLowerCase()) })}</span>${ICON.arrow}
-        </a>
+        </a>` : ''}
       </div>`;
   }
   wireRails();

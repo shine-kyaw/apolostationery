@@ -68,5 +68,8 @@ export default {
 
   /* units that appear inside option values, e.g. "10 sheets" */
   'unit.sheet': 'ရွက်', 'unit.page': 'စာမျက်နှာ', 'unit.pocket': 'အိတ်ကပ်',
-  'unit.layer': 'လွှာ', 'unit.divider': 'ခြားစာရွက်'
+  'unit.layer': 'လွှာ', 'unit.divider': 'ခြားစာရွက်',
+  'cat.package-sets.title': 'ပက်ကေ့ချ် ဆက်များ',
+  'cat.package-sets.short': 'ပက်ကေ့ချ်',
+  'cat.package-sets.blurb': 'အဆင်သင့် စီစဉ်ထားသော စာရေးကိရိယာ ဆက်များ'
 };

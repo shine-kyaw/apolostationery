@@ -95,7 +95,8 @@ function headerHTML() {
     <div class="hdr__tools">
       <a class="hdr__call" href="tel:${CONTACT.phone}">${ICON.phone}<span><small>${t('chrome.hdr.support')}</small>${CONTACT.phoneLabel}</span></a>
       ${langSwitch()}
-      <button type="button" class="tool" data-open="search" aria-label="${t('chrome.hdr.search')}">${ICON.search}</button>
+      <button type="button" class="searchbar" data-open="search" aria-label="${t('chrome.hdr.search')}">${ICON.search}<span>${t('chrome.hdr.search_ph')}</span></button>
+      <button type="button" class="tool tool--search" data-open="search" aria-label="${t('chrome.hdr.search')}">${ICON.search}</button>
       <button type="button" class="tool tool--cart" data-open="cart" aria-label="${t('chrome.hdr.cart')}">
         ${ICON.bag}<span class="badge" data-count hidden>0</span>
       </button>

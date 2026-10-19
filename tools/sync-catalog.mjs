@@ -96,6 +96,24 @@ function clean(html = '') {
   return s;
 }
 
+/* Product names are typed by hand in the store. Fix the slips people notice
+   (reviewers pointed at "Language Practic Book") and make spacing and "GSM"
+   consistent, here, so the fixes survive every refresh. */
+function cleanTitle(t) {
+  return t
+    .replace(/\s+/g, ' ')
+    .replace(/\bPractic\b/g, 'Practice')
+    .replace(/inculding/gi, 'including')
+    .replace(/(\d)""/g, '$1"')                       // 9""x12.75"" → 9"x12.75"
+    .replace(/"x\.(\d)/g, '" x $1')                  // 9"x.12.75" → 9" x 12.75"
+    .replace(/\(\s+/g, '(').replace(/\s+\)/g, ')')   // ( 6 Columns ) → (6 Columns)
+    .replace(/(\w)\(/g, '$1 (').replace(/\)(\w)/g, ') $1')   // Scissor(A) → Scissor (A)
+    .replace(/(\w)&\s*/g, '$1 & ')                   // Marker& Refill → Marker & Refill
+    .replace(/(\d)\s*gsm\b/gi, '$1 GSM')             // 70gsm, 60 Gsm → 70 GSM
+    .replace(/\((\d+%)\)\s*off/i, '($1 off)')        // (20%)off → (20% off)
+    .replace(/\s+/g, ' ').trim();
+}
+
 const kyat = s => Math.round(parseFloat(s || '0'));
 
 function slim(p) {
@@ -107,7 +125,7 @@ function slim(p) {
   return {
     id: p.id,
     handle: p.handle,
-    title: p.title.replace(/\s+/g, ' ').trim(),
+    title: cleanTitle(p.title),
     vendor: p.vendor,
     type: p.product_type,
     tags: p.tags,
@@ -127,7 +145,14 @@ function slim(p) {
   };
 }
 
-const products = (await all('/products.json')).map(slim);
+/* A listing with no price is not finished (the store has had a "Safety Combo
+   Set" at 0 Ks and an empty description): showing it would offer something for
+   nothing, so it stays off the site until it has a price. */
+const products = (await all('/products.json')).map(slim).filter(p => {
+  const priced = p.variants.some(v => v.price > 0);
+  if (!priced) console.warn(`! "${p.title}" has no price — left off the site`);
+  return priced;
+});
 const byHandle = new Map(products.map(p => [p.handle, p]));
 const { collections: shopCols } = await get('/collections.json?limit=250');
 
@@ -144,6 +169,18 @@ for (const meta of COLLECTIONS) {
     image: sc.image ? path(sc.image.src) : '',
     products: members
   });
+}
+
+/* Package sets ("Thadingyut Creative Package Set (20% off)") are not in a store
+   collection (the store's own "Stationery Package Sets" collection is empty),
+   so they are grouped here by name and get a category of their own. */
+const packages = products.filter(p => /\b(package|combo)\b/i.test(p.title));
+if (packages.length) {
+  collections.push({
+    handle: 'package-sets', title: 'Package Sets', short: 'Packages', my: 'ပက်ကေ့ချ်',
+    blurb: 'Ready-made stationery sets', image: '', products: packages.map(p => p.handle)
+  });
+  packages.forEach(p => placed.add(p.handle));
 }
 
 for (const p of products) {

@@ -44,6 +44,9 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `cat.vouchers.title` | Vouchers | ဘောက်ချာများ |
 | `cat.vouchers.short` | Vouchers | ဘောက်ချာ |
 | `cat.vouchers.blurb` | Invoice, cash and receipt vouchers | ငွေတောင်းခံလွှာ၊ ငွေသားနှင့် ပြေစာ ဘောက်ချာများ |
+| `cat.package-sets.title` | Package Sets | ပက်ကေ့ချ် ဆက်များ |
+| `cat.package-sets.short` | Packages | ပက်ကေ့ချ် |
+| `cat.package-sets.blurb` | Ready-made stationery sets | အဆင်သင့် စီစဉ်ထားသော စာရေးကိရိယာ ဆက်များ |
 | `chrome.logo.aria` | APOLO Stationery — home | APOLO စာရေးကိရိယာ — ပင်မစာမျက်နှာ |
 | `chrome.nav.aria` | Main | အဓိက မီနူး |
 | `chrome.nav.shop` | Shop all | ကုန်ပစ္စည်းအားလုံး |
@@ -123,6 +126,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `card.choose_aria` | Choose options for {title} | {title} အတွက် ရွေးချယ်စရာများ ရွေးရန် |
 | `card.added` | &lt;b>Added&lt;/b> {title} | {title} ကို &lt;b>ထည့်ပြီးပါပြီ&lt;/b> |
 | `card.view_cart` | View cart ({n}) | ဈေးခြင်း ကြည့်ရန် ({n}) |
+| `chrome.hdr.search_ph` | Search products… | ကုန်ပစ္စည်း ရှာရန်… |
 | `home.title` | APOLO Stationery Myanmar — Books, pens and paper for school and office | APOLO စာရေးကိရိယာ မြန်မာ — ကျောင်းနှင့် ရုံးသုံး စာအုပ်၊ ဘောပင်နှင့် စက္ကူ |
 | `home.desc` | APOLO exercise books, pens, pencils, files and copy paper for school and office. Door-to-door delivery. Pay on arrival. | APOLO ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ ဖိုင်နှင့် ကော်ပီစက္ကူများ။ အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
 | `home.skip` | Skip intro and go to products | နိဒါန်းကျော်ပြီး ကုန်ပစ္စည်းများသို့ သွားရန် |
@@ -231,6 +235,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `home.note.hours` | Facebook messages: 9 AM – 5 PM | Facebook မက်ဆေ့ချ် - မနက် 9 နာရီမှ ညနေ 5 နာရီအထိ |
 | `home.note.map` | Open in Google Maps → | Google Maps တွင်ကြည့်ရန် → |
 | `home.err` | The catalogue didn’t load. &lt;a href="/shop">Try the shop page&lt;/a> or call 09 777 271 999. | ကက်တလော့ဂ် မဖွင့်ရပါ။ &lt;a href="/shop">ဆိုင်စာမျက်နှာသို့ သွားကြည့်ပါ&lt;/a> သို့မဟုတ် 09 777 271 999 သို့ ဖုန်းခေါ်ပါ။ |
+| `home.shelf.package-sets.title` | Package sets | ပက်ကေ့ချ် ဆက်များ |
 | `shop.title.all` | Shop — APOLO Stationery Myanmar | ကုန်ပစ္စည်းများ — APOLO စာရေးကိရိယာ မြန်မာ |
 | `shop.meta.all` | All APOLO products: exercise books, pens, pencils, desk accessories, files, envelopes, ledgers and copy paper. Door-to-door delivery. Pay on arrival. | APOLO ကုန်ပစ္စည်းအားလုံး - ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ စားပွဲသုံးပစ္စည်း၊ ဖိုင်၊ စာအိတ်၊ စာရင်းစာအုပ်နှင့် ကော်ပီစက္ကူ။ အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
 | `shop.skip` | Skip to products | ကုန်ပစ္စည်းများသို့ ကျော်သွားရန် |
@@ -389,6 +394,13 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `info.404.p` | We could not find this page. The link may be broken, or the page may have moved. | ဤစာမျက်နှာကို မတွေ့ပါ။ လင့်ခ်မှားနေခြင်း သို့မဟုတ် စာမျက်နှာ ရွှေ့ထားခြင်း ဖြစ်နိုင်ပါသည်။ |
 | `info.404.shop` | Browse the shop | ဆိုင်ကို ကြည့်ရန် |
 | `info.404.home` | Back to home | ပင်မစာမျက်နှာသို့ ပြန်သွားရန် |
+| `info.contact.order.h` | How to order | မှာယူပုံ |
+| `info.contact.order.online` | Order online | အွန်လိုင်းမှ မှာယူရန် |
+| `info.contact.order.s1` | Choose your products and add them to your cart. | လိုအပ်သောကုန်ပစ္စည်းများကို ရွေး၍ ဈေးခြင်းထဲ ထည့်ပါ။ |
+| `info.contact.order.s2` | Press Checkout. You finish your order on APOLO’s store. | ငွေရှင်းရန် ကို နှိပ်ပါ။ မှာယူမှုကို APOLO ၏ ဆိုင်တွင် အပြီးသတ်ပါ။ |
+| `info.contact.order.s3` | Pay when your order arrives, or pay first through your bank. | ပစ္စည်းရောက်မှ ငွေပေးချေပါ၊ သို့မဟုတ် ဘဏ်မှတစ်ဆင့် ကြိုတင်ပေးချေပါ။ |
+| `info.contact.order.phone` | Order by phone | ဖုန်းဖြင့် မှာယူရန် |
+| `info.contact.order.phone.p` | Call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> or &lt;a href="tel:+959777271888">09 777 271 888&lt;/a> and tell us what you need. | &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့မဟုတ် &lt;a href="tel:+959777271888">09 777 271 888&lt;/a> သို့ ဖုန်းခေါ်၍ လိုအပ်သည်များကို ပြောပါ။ |
 | `opt.color` |  | အရောင် |
 | `opt.size` |  | အရွယ်အစား |
 | `opt.pages` |  | စာမျက်နှာ |

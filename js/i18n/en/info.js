@@ -75,4 +75,13 @@ export default {
   'info.404.p': 'We could not find this page. The link may be broken, or the page may have moved.',
   'info.404.shop': 'Browse the shop',
   'info.404.home': 'Back to home',
+
+  /* how to order */
+  'info.contact.order.h': 'How to order',
+  'info.contact.order.online': 'Order online',
+  'info.contact.order.s1': 'Choose your products and add them to your cart.',
+  'info.contact.order.s2': 'Press Checkout. You finish your order on APOLO’s store.',
+  'info.contact.order.s3': 'Pay when your order arrives, or pay first through your bank.',
+  'info.contact.order.phone': 'Order by phone',
+  'info.contact.order.phone.p': 'Call <a href="tel:+959777271999">09 777 271 999</a> or <a href="tel:+959777271888">09 777 271 888</a> and tell us what you need.'
 };

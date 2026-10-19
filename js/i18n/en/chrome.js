@@ -96,5 +96,6 @@ export default {
   'card.add_aria': 'Add {title} to cart',
   'card.choose_aria': 'Choose options for {title}',
   'card.added': '<b>Added</b> {title}',
-  'card.view_cart': 'View cart ({n})'
+  'card.view_cart': 'View cart ({n})',
+  'chrome.hdr.search_ph': 'Search products…'
 };

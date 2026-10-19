@@ -40,6 +40,13 @@ function index(c, ov = {}) {
     for (const p of col.items) p.collections.push(col);
   }
 
+  /* Someone looking for a deal types "package", "combo", "promotion", "discount"
+     or "sale" (or the Burmese for them). Those words are not in a product's
+     name, so package sets and anything marked down carry them for search. */
+  const pk = c.byCollection.get('package-sets');
+  for (const p of c.products)
+    if ((pk && pk.products.includes(p.handle)) || p.variants.some(v => v.compare > v.price)) p.search += ' ' + norm(PROMO_WORDS);
+
   /* "Featured" for the whole shop: APOLO's own strongest products first, then
      the rest dealt out one category at a time, so the grid never opens on a
      run of near-identical envelopes or reams of copy paper. */
@@ -53,7 +60,11 @@ function index(c, ov = {}) {
   return c;
 }
 
+const PROMO_WORDS = 'package packages combo bundle set sets promotion promo discount offer offers sale deal ' +
+  'ပက်ကေ့ချ် ပက်ကေ့ဂျ် ဆက် ပရိုမိုးရှင်း လျှော့စျေး လျှော့ဈေး အထူးလျှော့စျေး';
+
 const FEATURED = [
+  'thadingyut-creative-package-set-20-off',
   'apolo-color-pencil-36-colors', 'apolo-exercise-book-55-gsm-80-pages-single-line',
   'highlighter-bright-pen-a-187', 'apolo-oil-pastel-a-242-12-colors',
   'copy-of-apolo-drawing-book-55-gsm-80-pages-12-pcs', 'gel-pen-a-101-blue-black-red',

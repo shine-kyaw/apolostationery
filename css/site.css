@@ -136,6 +136,24 @@ svg.i .fill,svg.i.fill{fill:currentColor;stroke:none}
 .hdr__call small{font-size:.6rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
 .hdr__call:hover{color:var(--ink)}
 .tool--menu{display:none}
+/* On a wide screen search is a box you can see, not an icon you have to find */
+.searchbar{
+  display:none; align-items:center; gap:.55em; height:38px; padding:0 1rem 0 .85rem; margin-right:.3rem;
+  border:1px solid rgba(22,21,26,.22); border-radius:100px; background:rgba(255,255,255,.55);
+  color:var(--ink-soft); font-size:.8rem; cursor:pointer; white-space:nowrap; min-width:11.5rem;
+  transition:border-color .25s, background .25s, color .25s;
+}
+.searchbar svg.i{width:17px;height:17px;flex:none}
+.searchbar:hover{border-color:var(--ink);background:#fff;color:var(--ink)}
+@media (min-width:1180px){
+  .searchbar{display:inline-flex}
+  .tool--search{display:none}
+}
+@media (min-width:1180px) and (max-width:1360px){
+  .searchbar{min-width:0}
+  .searchbar span{display:none}
+  .searchbar{padding:0 .75rem}
+}
 
 /* --- categories dropdown --- */
 .hdr__cats{position:relative}
@@ -463,6 +481,10 @@ img.ph.ph--c{
 .rail__more:hover{border-color:var(--magenta);color:var(--magenta);background:var(--magenta-wash)}
 .rail__more:hover svg{transform:translateX(6px)}
 .rail-ctl{display:flex;gap:.5rem}
+/* a short offers shelf: the cards are big, because the offer is the point */
+.shelf--offers .rail{grid-auto-columns:minmax(250px,340px)}
+.shelf--offers .card__t{font-size:1.02rem}
+.shelf--offers .card__p{font-size:1.1rem;color:var(--magenta-deep)}
 @media (max-width:700px){.rail-ctl{display:none}}
 
 /* ==========================================================================
@@ -1035,6 +1057,18 @@ a.way:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift)}
 .way b{font-size:1.05rem;font-weight:700}
 .way span{font-size:.84rem;color:var(--ink-soft)}
 .way em{font-style:normal;font-weight:600;font-size:.9rem;margin-top:.4rem}
+
+/* how to order */
+.how{margin:0 0 3rem}
+.how h2{margin:0 0 1rem}
+.how__grid{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+.how__col{background:var(--page);border-radius:var(--r-lg);box-shadow:var(--shadow-rest);padding:1.4rem 1.5rem}
+.how__col h3{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
+.how ol{margin:.9rem 0 0;padding-left:1.3rem;display:grid;gap:.55rem}
+.how ol li::marker{color:var(--magenta);font-weight:700}
+.how p{margin:.9rem 0 0}
+.how a{color:var(--magenta);font-weight:600;text-decoration:none}
+@media (max-width:760px){.how__grid{grid-template-columns:1fr}}
 
 .lost{display:grid;justify-items:center;text-align:center;gap:1rem;padding:clamp(3rem,10vw,7rem) 0}
 .lost .blank__page{width:170px;height:220px}

@@ -93,5 +93,6 @@ export default {
   'card.add_aria': '{title} ကို ဈေးခြင်းထဲ ထည့်မည်',
   'card.choose_aria': '{title} အတွက် ရွေးချယ်စရာများ ရွေးရန်',
   'card.added': '{title} ကို <b>ထည့်ပြီးပါပြီ</b>',
-  'card.view_cart': 'ဈေးခြင်း ကြည့်ရန် ({n})'
+  'card.view_cart': 'ဈေးခြင်း ကြည့်ရန် ({n})',
+  'chrome.hdr.search_ph': 'ကုန်ပစ္စည်း ရှာရန်…'
 };

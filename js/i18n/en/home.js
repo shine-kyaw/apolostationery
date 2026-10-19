@@ -128,5 +128,6 @@ export default {
   'home.note.map': 'Open in Google Maps →',
 
   /* ---- errors ---- */
-  'home.err': 'The catalogue didn’t load. <a href="/shop">Try the shop page</a> or call 09 777 271 999.'
+  'home.err': 'The catalogue didn’t load. <a href="/shop">Try the shop page</a> or call 09 777 271 999.',
+  'home.shelf.package-sets.title': 'Package sets'
 };
