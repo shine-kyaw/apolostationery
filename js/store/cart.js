@@ -29,7 +29,7 @@ function write(detail = {}) {
 }
 
 /* another tab changed it */
-addEventListener('storage', e => { if (e.key === KEY) { lines = read(); dispatchEvent(new CustomEvent('cart:change')); } });
+globalThis.addEventListener?.('storage', e => { if (e.key === KEY) { lines = read(); dispatchEvent(new CustomEvent('cart:change')); } });
 
 export const cart = {
   get lines() { return lines.slice(); },

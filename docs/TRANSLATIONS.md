@@ -127,6 +127,7 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `card.added` | &lt;b>Added&lt;/b> {title} | {title} ကို &lt;b>ထည့်ပြီးပါပြီ&lt;/b> |
 | `card.view_cart` | View cart ({n}) | ဈေးခြင်း ကြည့်ရန် ({n}) |
 | `chrome.hdr.search_ph` | Search products… | ကုန်ပစ္စည်း ရှာရန်… |
+| `chrome.search.loose` | Nothing matches every word of “{term}”. These are the closest. | “{term}” နှင့် အတိအကျ ကိုက်ညီသည့် ကုန်ပစ္စည်း မရှိပါ။ အနီးစပ်ဆုံး ကုန်ပစ္စည်းများကို ပြထားပါသည်။ |
 | `home.title` | APOLO Stationery Myanmar — Books, pens and paper for school and office | APOLO စာရေးကိရိယာ မြန်မာ — ကျောင်းနှင့် ရုံးသုံး စာအုပ်၊ ဘောပင်နှင့် စက္ကူ |
 | `home.desc` | APOLO exercise books, pens, pencils, files and copy paper for school and office. Door-to-door delivery. Pay on arrival. | APOLO ကျောင်းသုံးစာအုပ်၊ ဘောပင်၊ ခဲတံ၊ ဖိုင်နှင့် ကော်ပီစက္ကူများ။ အိမ်တိုင်ရာရောက် ပို့ပေးပြီး ပစ္စည်းရောက်မှ ငွေပေးချေနိုင်ပါသည်။ |
 | `home.skip` | Skip intro and go to products | နိဒါန်းကျော်ပြီး ကုန်ပစ္စည်းများသို့ သွားရန် |
@@ -326,6 +327,20 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `product.missing.search` | Search | ရှာဖွေရန် |
 | `product.missing.browse` | Browse the shop | ဆိုင်ကို ကြည့်ရှုရန် |
 | `product.err` | This product didn’t load. Please refresh, or call &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> to order. | ဤကုန်ပစ္စည်း မပေါ်လာပါ။ စာမျက်နှာကို ပြန်လည်ဖွင့်ကြည့်ပါ၊ သို့မဟုတ် မှာယူရန် &lt;a href="tel:+959777271999">09 777 271 999&lt;/a> သို့ ဖုန်းခေါ်ပါ။ |
+| `product.spec.model` | Model | မော်ဒယ် |
+| `product.spec.gsm` | Paper weight | စက္ကူအထူ |
+| `product.spec.pages` | Pages | စာမျက်နှာ |
+| `product.spec.sheets` | Sheets | စာရွက် |
+| `product.spec.size` | Size | အရွယ်အစား |
+| `product.spec.ruling` | Ruling | မျဉ်း |
+| `product.spec.ruling.single` | Single line | မျဉ်းတစ်ကြောင်း |
+| `product.spec.ruling.double` | Double line | မျဉ်းနှစ်ကြောင်း |
+| `product.spec.columns` | Columns | ကော်လံ |
+| `product.spec.colours` | Colours | အရောင် |
+| `product.spec.grade` | Pencil grade | ခဲအမျိုးအစား |
+| `product.spec.ply` | Copies (ply) | အထပ် (ply) |
+| `product.spec.micron` | Thickness | အထူ |
+| `product.spec.pack` | Pieces per pack | တစ်ထုပ်ပါ အရေအတွက် |
 | `info.skip` | Skip to content | အကြောင်းအရာသို့ ကျော်သွားရန် |
 | `info.crumbs.label` | Breadcrumb | လမ်းကြောင်းပြ |
 | `info.crumbs.home` | Home | ပင်မစာမျက်နှာ |
@@ -438,3 +453,40 @@ Text in `&lt;tags&gt;` is a link or emphasis — keep the tags, translate the wo
 | `unit.pocket` |  | အိတ်ကပ် |
 | `unit.layer` |  | လွှာ |
 | `unit.divider` |  | ခြားစာရွက် |
+| `val.cyber pink` |  | Cyber ပန်းရောင် |
+| `val.cyber yellow` |  | Cyber အဝါ |
+| `val.cyber orange` |  | Cyber လိမ္မော်ရောင် |
+| `val.cyber red` |  | Cyber အနီ |
+| `val.cyber green` |  | Cyber အစိမ်း |
+| `val.sinar gold` |  | Sinar ရွှေရောင် |
+| `val.sinar lemon` |  | Sinar သံပုရာဝါ |
+| `val.sinar taro` |  | Sinar ပိန်းဥရောင် |
+| `val.lemon` |  | သံပုရာဝါ |
+| `val.parrot` |  | ကြက်တူရွေးစိမ်း |
+| `val.saffron` |  | ဝါကြင့်ရောင် |
+| `val.turquoise` |  | စိမ်းပြာရောင် |
+| `val.taro` |  | ပိန်းဥရောင် |
+| `val.rose` |  | နှင်းဆီရောင် |
+| `val.beaver` |  | ညိုဖျော့ရောင် |
+| `val.white (woodfree)` |  | အဖြူ (Woodfree) |
+| `val.muti` |  | အရောင်စုံ |
+| `val.white (soft ice color)` |  | အဖြူ (Soft Ice) |
+| `val.green (soft ice color)` |  | အစိမ်း (Soft Ice) |
+| `val.blue (soft ice color)` |  | အပြာ (Soft Ice) |
+| `val.pink (soft ice color)` |  | ပန်းရောင် (Soft Ice) |
+| `val.red (soft ice color)` |  | အနီ (Soft Ice) |
+| `val.yellow-green` |  | အဝါ-အစိမ်း |
+| `val.yellow-orange` |  | အဝါ-လိမ္မော် |
+| `val.yellow-purple` |  | အဝါ-ခရမ်း |
+| `val.yellow-blue` |  | အဝါ-အပြာ |
+| `val.yellow-pink` |  | အဝါ-ပန်းရောင် |
+| `val.frog & lotus` |  | ဖားနှင့် ကြာ |
+| `val.mushroom` |  | မှို |
+| `val.toys` |  | ကစားစရာ |
+| `val.circle` |  | စက်ဝိုင်း |
+| `val.abstract circle` |  | စက်ဝိုင်း (Abstract) |
+| `val.square` |  | စတုရန်း |
+| `val.button` |  | ကြယ်သီး |
+| `val.autumn leaves` |  | ဆောင်းဦး သစ်ရွက် |
+| `val.jelly jelly` |  | Jelly Jelly |
+| `val.a5 size` |  | A5 အရွယ် |

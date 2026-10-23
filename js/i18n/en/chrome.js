@@ -97,5 +97,6 @@ export default {
   'card.choose_aria': 'Choose options for {title}',
   'card.added': '<b>Added</b> {title}',
   'card.view_cart': 'View cart ({n})',
-  'chrome.hdr.search_ph': 'Search products…'
+  'chrome.hdr.search_ph': 'Search products…',
+  'chrome.search.loose': 'Nothing matches every word of “{term}”. These are the closest.'
 };

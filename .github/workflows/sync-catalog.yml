@@ -1,0 +1,72 @@
+# Keeps the site's catalogue in step with APOLO's Shopify store.
+#
+# Every morning (and whenever someone presses "Run workflow" on the Actions
+# tab) this pulls prices, stock and new products from apolostationey.com,
+# frames any new product photos, and commits data/ if anything changed. That
+# commit is what Vercel deploys, so the site is never more than a day behind
+# the store. Nothing is committed on a day nothing changed.
+#
+# Commits are authored as the repository owner: Vercel's Hobby plan only
+# deploys commits by a member of the Vercel account.
+name: Sync catalogue
+
+on:
+  schedule:
+    - cron: '30 22 * * *'   # 05:00 in Yangon
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-catalog
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: |
+          npm ci --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund puppeteer-core@23.11.1
+
+      - name: Pull the catalogue from the store
+        run: node tools/sync-catalog.mjs
+
+      - name: Frame new product photos
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: node tools/measure-images.mjs
+
+      - name: Re-sync with the new framing, and check the site still builds
+        run: |
+          node tools/sync-catalog.mjs
+          node tools/build.mjs
+
+      - name: Commit if anything changed
+        run: |
+          # the sync date alone is not a change worth a deploy
+          changed=$(node -e '
+            const { execSync } = require("child_process"), fs = require("fs");
+            const strip = s => { const j = JSON.parse(s); delete j.synced; return JSON.stringify(j); };
+            const before = execSync("git show HEAD:data/catalog.json").toString();
+            const other = execSync("git status --porcelain data/crops.json vercel.json").toString().trim();
+            console.log(strip(before) !== strip(fs.readFileSync("data/catalog.json", "utf8")) || other ? "yes" : "no");')
+          if [ "$changed" = "no" ]; then
+            echo "Catalogue unchanged."
+            exit 0
+          fi
+          git config user.name "shine-kyaw"
+          git config user.email "shine@astermade.com"
+          git add data/ vercel.json
+          git commit -m "Sync catalogue from apolostationey.com ($(date -u +%Y-%m-%d))"
+          git push

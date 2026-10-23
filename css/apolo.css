@@ -340,8 +340,8 @@
   margin-top:1.2vmin;
   display:inline-flex; align-items:center; gap:.85em;
   padding:1.05em 2em; border-radius:100px; border:0;
-  background:var(--magenta); color:#fff;
-  font:inherit; font-weight:600; font-size:clamp(.72rem,1.4vmin,.88rem);
+  background:var(--magenta-ui); color:#fff;
+  font:inherit; font-weight:600; font-size:clamp(.76rem,1.4vmin,.88rem);
   letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
   cursor:pointer; position:relative; overflow:hidden; isolation:isolate;
   box-shadow:0 .35vmin 1.6vmin rgba(176,0,105,.26);
@@ -514,4 +514,15 @@
 @media (max-width:820px){
   .is-still .world{aspect-ratio:4/5}
   .is-still .type{grid-template-columns:minmax(0,1fr)}
+}
+
+/* Burmese hero on a phone. Each half of the headline is sized to sit on one
+   line with room to spare in Padauk *and* in the wider fallback fonts that
+   show while Padauk downloads (measured at 360/390/414px wide). Sized to the
+   edge, a line fits in one font and wraps in the other, and the whole hero
+   jumps when the font arrives. Same for the line under it: three lines in
+   every font. */
+@media (max-width:600px){
+  html[lang="my"] .ask h1{font-size:clamp(1.75rem,9.4vw,2.4rem)}
+  html[lang="my"] .ask .sub{font-size:.85rem;max-width:48ch}
 }

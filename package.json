@@ -1,0 +1,17 @@
+{
+  "name": "apolostationery",
+  "private": true,
+  "type": "module",
+  "description": "APOLO Stationery Myanmar — static store, built ahead of time in English and Burmese",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "dev": "node tools/serve.mjs --src",
+    "preview": "node tools/build.mjs && node tools/serve.mjs",
+    "sync": "node tools/sync-catalog.mjs",
+    "check": "node tools/check-i18n.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0"
+  },
+  "engines": { "node": ">=18" }
+}

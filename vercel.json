@@ -1,35 +1,85 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "echo 'No dependencies'",
-  "buildCommand": "echo 'Static site, no build step'",
-  "outputDirectory": ".",
+  "installCommand": "npm ci --no-audit --no-fund",
+  "buildCommand": "node tools/build.mjs",
+  "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/search",
-      "destination": "/shop"
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "my"
+        }
+      ],
+      "destination": "/my/home"
     },
     {
-      "source": "/collections",
-      "destination": "/shop"
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "destination": "/en/home"
     },
     {
-      "source": "/collections/:handle",
-      "destination": "/shop"
+      "source": "/",
+      "has": [
+        {
+          "type": "cookie",
+          "key": "apolo_lang",
+          "value": "my"
+        }
+      ],
+      "destination": "/my/home"
     },
     {
-      "source": "/products/:handle",
-      "destination": "/product"
+      "source": "/",
+      "destination": "/en/home"
     },
     {
-      "source": "/pages/contact",
-      "destination": "/contact"
+      "source": "/:path((?!assets/|img/|data/|en/|my/|_vercel/|favicon\\.ico|robots\\.txt|sitemap\\.xml|site\\.webmanifest).+)",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "my"
+        }
+      ],
+      "destination": "/my/:path"
     },
     {
-      "source": "/pages/terms-conditions",
-      "destination": "/terms"
+      "source": "/:path((?!assets/|img/|data/|en/|my/|_vercel/|favicon\\.ico|robots\\.txt|sitemap\\.xml|site\\.webmanifest).+)",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "destination": "/en/:path"
+    },
+    {
+      "source": "/:path((?!assets/|img/|data/|en/|my/|_vercel/|favicon\\.ico|robots\\.txt|sitemap\\.xml|site\\.webmanifest).+)",
+      "has": [
+        {
+          "type": "cookie",
+          "key": "apolo_lang",
+          "value": "my"
+        }
+      ],
+      "destination": "/my/:path"
+    },
+    {
+      "source": "/:path((?!assets/|img/|data/|en/|my/|_vercel/|favicon\\.ico|robots\\.txt|sitemap\\.xml|site\\.webmanifest).+)",
+      "destination": "/en/:path"
     }
   ],
   "redirects": [
@@ -42,11 +92,205 @@
       "source": "/collections/vendors",
       "destination": "/shop",
       "permanent": false
+    },
+    {
+      "source": "/collections",
+      "destination": "/shop",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/pages/contact",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "/pages/terms-conditions",
+      "permanent": true
+    },
+    {
+      "source": "/product",
+      "destination": "/shop",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/:path*",
+      "destination": "/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/my/:path*",
+      "destination": "/:path*?lang=my",
+      "permanent": false
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-window-peel-seal-25-pcs-1",
+      "destination": "/products/envelope-85-gsm-pocket-kraft-liner-9x4-25-100-pcs-normal-100pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-salary-80gsm-size-9x4-5-kraft",
+      "destination": "/products/envelope-85-gsm-pocket-kraft-liner-9x4-25-100-pcs-with-glue-100pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-salary-70gsm-size-9x4-100pcs-woodfree",
+      "destination": "/products/apolo-envelope-salary-100-gsm-size-9x12-75-100pcs-woodfree-glue",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-a4-85gsm-size-9-6x13-50pcs-smooth-kraft",
+      "destination": "/products/apolo-envelope-a4-100-gsm-size-9-x-12-75-250-pcs-peel-seal-kraft",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-salary-80gsm-size-9x4-5-kraft-gum",
+      "destination": "/products/apolo-envelope-salary-70-gsm-size-9x4-100pcs-woodfree",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-pencil-a-221d-2b",
+      "destination": "/products/apolo-pencil-a-221e-2b",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-salary-100gsm-size-9x12-75-50pcs-woodfree-glue",
+      "destination": "/products/apolo-envelope-invitation-70-gsm-size-7-1x4-5-100pcs-woodfree",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-exercise-book-55-gsm-80-pages-10-columns-double-line-12-pcs",
+      "destination": "/products/apolo-exercise-book-55-gsm-80-pages-double-line-12-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-drawing-book-120-gsm-36-pages-a3-12-pc",
+      "destination": "/products/apolo-drawing-book-100-gsm-36-pages-a3-12-pc",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-lecture-book-60-gsm-100-pages-a4-size-1-pc",
+      "destination": "/products/apolo-lecture-book-70-gsm-80-pages-a4-size-12-pc",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-drawing-book-55-gsm-80-pages-12-pcs",
+      "destination": "/products/apolo-drawing-book-60-gsm-80-pages-12-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-copy-of-apolo-drawing-book-60-gsm-80-pages-12-pcs",
+      "destination": "/products/apolo-drawing-note-book-70-gsm-80-pages-12-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-exercise-book-60-gsm-120-pages-single-line-12-pcs",
+      "destination": "/products/apolo-exercise-book-55-gsm-120-pages-single-line-12-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-exercise-book-55-gsm-80-pages-single-line-12-pcs",
+      "destination": "/products/apolo-exercise-book-60-gsm-120-pages-single-line-12-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-correction-pen-03mm-a208-apolos-1b-x20pcs-52cy",
+      "destination": "/products/correction-pen-a-108-color",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-window-peel-seal-25-pcs",
+      "destination": "/products/apolo-envelope-100-gsm-pocket-woodfree-9x12-75-100-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-ruler-8-inches",
+      "destination": "/products/apolo-ruler-20-cm-8-inches",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-snap-off-blade-cutter-18mm-9mm",
+      "destination": "/products/apolo-spare-blade",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-office-stapler-a191b",
+      "destination": "/products/office-stapler-a191c",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-envelope-wallet-woodfree-white-100-pcs",
+      "destination": "/products/apolo-envelope-wallet-70-gsm-7-x-9-100-per-pack",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-exercise-book-70-gsm-80-pages-single-line",
+      "destination": "/products/apolo-exercise-book-60-gsm-80-pages-single-line-12-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-exercise-book-55-gsm-80-pages-double-line",
+      "destination": "/products/apolo-exercise-book-70-gsm-80-pages-single-line-12-pcs",
+      "permanent": true
+    },
+    {
+      "source": "/products/copy-of-apolo-color-paper-70-gsm-a4-500-sheets",
+      "destination": "/products/apolo-color-paper-80-gsm-a4-500-sheets",
+      "permanent": true
     }
   ],
   "headers": [
     {
-      "source": "/data/(.*)",
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/data/catalog(\\.my)?\\.([0-9a-f]{10})\\.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/data/catalog.json",
       "headers": [
         {
           "key": "Cache-Control",
@@ -55,11 +299,20 @@
       ]
     },
     {
-      "source": "/(css|js|img)/(.*)",
+      "source": "/data/catalog.my.json",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800"
+          "value": "public, max-age=0, s-maxage=300, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=2592000"
         }
       ]
     }

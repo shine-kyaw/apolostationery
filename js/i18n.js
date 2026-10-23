@@ -6,10 +6,11 @@
    choice yet, a browser set to Burmese gets Burmese. `?lang=my` / `?lang=en`
    on any URL forces a language (and remembers it) — handy for sharing a link.
 
-   Switching reloads the page. Pages are built in the browser from the
-   catalogue, the cart and the film, and re-rendering every one of those in
-   place would be far more code than a reload costs: scroll position, the
-   cart and filters in the URL all survive it.
+   Switching reloads the page. The live site is built ahead of time in both
+   languages (tools/build.mjs): the server picks the Burmese or English copy
+   of a page from the apolo_lang cookie or ?lang=, and the page says which one
+   it is (<html data-lang>). Scroll position, the cart and filters in the URL
+   all survive the reload.
 
      t('key')                 text, falls back to English, then to the key
      t('key', { n: 3 })       "{n} products" → "3 products"
@@ -26,13 +27,23 @@ import MY from './i18n/my.js';
 
 export const LANGS = { en: 'English', my: 'မြန်မာ' };
 const STORE = 'apolo.lang';
+const COOKIE = 'apolo_lang';
+const BROWSER = typeof document !== 'undefined';
 
 function read(k) { try { return localStorage.getItem(k); } catch { return null; } }
 function write(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } }
+/* the server reads the cookie to choose which built copy of a page to send */
+function cookie(v) {
+  try { document.cookie = `${COOKIE}=${v}; path=/; max-age=31536000; samesite=lax`; } catch { return false; }
+  return document.cookie.includes(`${COOKIE}=${v}`);
+}
 
-/* The language the page is in. Same rules as js/i18n-boot.js, which runs in
-   <head> so the first paint is already right. */
+/* The language the page is in. A built page states it; otherwise the same
+   rules as js/i18n-boot.js, which runs in <head> so the first paint is right. */
 function detect() {
+  if (!BROWSER) return 'en';
+  const built = document.documentElement.dataset.lang;
+  if (built in LANGS) return built;
   const asked = new URLSearchParams(location.search).get('lang');
   if (asked in LANGS) { if (write(STORE, asked)) stripParam(); return asked; }
   const saved = read(STORE);
@@ -46,11 +57,19 @@ function stripParam() {
   history.replaceState(null, '', u.pathname + u.search + u.hash);
 }
 
-export const lang = detect();
-export const isMy = lang === 'my';
-document.documentElement.lang = lang;
+export let lang = detect();
+export let isMy = lang === 'my';
+if (BROWSER) document.documentElement.lang = lang;
 
-const table = isMy ? MY : EN;
+let table = isMy ? MY : EN;
+
+/** The build renders both languages in one process. Exports are live
+    bindings, so every module reading `lang`/`isMy` follows this. */
+export function useLang(next) {
+  lang = next in LANGS ? next : 'en';
+  isMy = lang === 'my';
+  table = isMy ? MY : EN;
+}
 const warned = new Set();
 
 export function t(key, vars) {
@@ -77,10 +96,13 @@ export const has = key => table[key] != null;
 export function setLang(next) {
   if (!(next in LANGS) || next === lang) return;
   const u = new URL(location.href);
-  if (write(STORE, next)) u.searchParams.delete('lang');
+  const stored = write(STORE, next), sent = cookie(next);
+  if (stored && sent) u.searchParams.delete('lang');
   else u.searchParams.set('lang', next);
-  location.href = u.pathname + u.search + u.hash;
-  if (location.href === u.href) location.reload();
+  /* the same address (only the cookie changed) needs a reload; assigning it
+     would start one load and then a second, throwing the first away */
+  if (u.href === location.href) location.reload();
+  else location.href = u.pathname + u.search + u.hash;
 }
 
 /** Translate everything marked up in static HTML. */
@@ -95,5 +117,7 @@ export function applyStatic(root = document) {
   document.documentElement.classList.remove('i18n-wait');
 }
 
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => applyStatic());
-else applyStatic();
+if (BROWSER) {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => applyStatic());
+  else applyStatic();
+}

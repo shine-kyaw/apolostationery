@@ -23,10 +23,10 @@ export function card(p, { eager = false } = {}) {
 
   return `
   <article class="card${p.available ? '' : ' is-out'}">
-    <a class="card__link" href="/products/${p.handle}">
+    <a class="card__link" href="${p.url}">
       <span class="card__img">
-        ${photo(a, { w: 300, sizes: SIZES, alt: p.title, lazy: !eager })}
-        ${b ? photo(b, { w: 300, sizes: SIZES, cls: 'card__alt' }) : ''}
+        ${photo(a, { w: 300, sizes: SIZES, alt: p.name, lazy: !eager })}
+        ${b ? photo(b, { w: 300, sizes: SIZES, cls: 'card__alt', defer: true }) : ''}
         ${sale ? `<span class="tag tag--sale">${t('card.sale')}</span>` : ''}
         ${p.available ? '' : `<span class="tag">${t('card.soldout')}</span>`}
       </span>
@@ -38,12 +38,14 @@ export function card(p, { eager = false } = {}) {
     </a>
     ${p.available ? (one
       ? `<button type="button" class="card__add" data-add="${v.id}" aria-label="${esc(t('card.add_aria', { title: shortTitle(p) }))}">${ICON.plus}</button>`
-      : `<a class="card__add" href="/products/${p.handle}" aria-label="${esc(t('card.choose_aria', { title: shortTitle(p) }))}" tabindex="-1">${ICON.arrow}</a>`)
+      : `<a class="card__add" href="${p.url}" aria-label="${esc(t('card.choose_aria', { title: shortTitle(p) }))}" tabindex="-1">${ICON.arrow}</a>`)
       : ''}
   </article>`;
 }
 
-/* One delegated listener for every quick-add button on the page. */
+/* One delegated listener for every quick-add button on the page, and one for
+   the second photo: it is fetched the first time a mouse rests on the card
+   (a phone never hovers, so never downloads it) and fades in once it is in. */
 let wired = false;
 export function wireQuickAdd() {
   if (wired) return; wired = true;
@@ -57,6 +59,14 @@ export function wireQuickAdd() {
     const hit = c.byVariant.get(id);
     toast(`<span>${t('card.added', { title: esc(shortTitle(hit.product)) })}</span>
            <button type="button" class="toast__go" data-open="cart">${t('card.view_cart', { n: cart.count })}</button>`);
+  });
+  document.addEventListener('pointerover', e => {
+    if (e.pointerType !== 'mouse') return;
+    const alt = e.target.closest?.('.card')?.querySelector('img.card__alt[data-src]');
+    if (!alt) return;
+    alt.addEventListener('load', () => alt.parentElement.classList.add('has-alt'), { once: true });
+    alt.srcset = alt.dataset.srcset; alt.src = alt.dataset.src;
+    alt.removeAttribute('data-src');
   });
 }
 

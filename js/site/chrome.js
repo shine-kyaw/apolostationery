@@ -1,8 +1,10 @@
 /* ==========================================================================
    APOLO — site chrome
    The header, footer, search, cart drawer and mobile menu every page shares.
-   Pages carry two empty landmarks (<header id="hdr">, <footer id="ftr">) and
-   call mountChrome(); the markup lives here once instead of six times.
+   Pages carry two landmarks (<header id="hdr">, <footer id="ftr">) and call
+   mountChrome(); the markup lives here once instead of six times. A page built
+   ahead of time (tools/build.mjs) arrives with both already filled in, in its
+   language, and they are kept as they are.
    ========================================================================== */
 
 import { catalog, money, photo, esc, search, shortTitle, priceLabel, variantImage, colTitle, optVal } from '../store/catalog.js';
@@ -47,11 +49,10 @@ export const ICON = {
 
 export function mountChrome({ home = false } = {}) {
   const hdr = $('#hdr'), ftr = $('#ftr');
-  hdr.className = 'hdr' + (home ? ' hdr--film' : '');
-  hdr.innerHTML = headerHTML();
-  ftr.className = 'ftr';
-  ftr.innerHTML = footerHTML();
+  if (!hdr.firstElementChild) { hdr.className = 'hdr' + (home ? ' hdr--film' : ''); hdr.innerHTML = headerHTML(); }
+  if (!ftr.firstElementChild) { ftr.className = 'ftr'; ftr.innerHTML = footerHTML(); }
   document.body.insertAdjacentHTML('beforeend', dialogsHTML());
+  catalog().then(c => { $('[data-cats-menu]').innerHTML = catsMenu(c); }).catch(() => {});
 
   wireLang();
   wireDialogs();
@@ -61,11 +62,23 @@ export function mountChrome({ home = false } = {}) {
   if (home) wireFilmHeader(hdr);
 
   catalog().then(c => {
-    fillCategories(c);
-    /* -u-nu-latn: keep Arabic digits in Burmese, like the rest of the site */
-    $('#ftrSynced').textContent = new Date(c.synced + 'T00:00:00')
-      .toLocaleDateString(isMy ? 'my-MM-u-nu-latn' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    if (!$('[data-cats]').children.length) fillCategories(c);
+    $('#ftrSynced').textContent = syncedDate(c);
   }).catch(err => console.error('[apolo] catalogue failed to load', err));
+}
+
+/* -u-nu-latn: keep Arabic digits in Burmese, like the rest of the site */
+export const syncedDate = c => new Date(c.synced + 'T00:00:00')
+  .toLocaleDateString(isMy ? 'my-MM-u-nu-latn' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+/** Header and footer, filled in, for a page built ahead of time. */
+export function chromeHTML(c, { home = false, here = '' } = {}) {
+  return {
+    header: `<header id="hdr" class="hdr${home ? ' hdr--film' : ''}">${headerHTML().replace('<ul class="mega__list" data-cats></ul>', `<ul class="mega__list" data-cats>${catsMega(c, here)}</ul>`)}</header>`,
+    footer: `<footer id="ftr" class="ftr">${footerHTML()
+      .replace(/(<ul data-cats-ftr>[\s\S]*?)<\/ul>/, (m, a) => a + catsFooter(c) + '</ul>')
+      .replace('<span id="ftrSynced">—</span>', `<span id="ftrSynced">${syncedDate(c)}</span>`)}</footer>`
+  };
 }
 
 /* ---------- markup ---------- */
@@ -268,21 +281,23 @@ function wireMega() {
   addEventListener('keydown', e => { if (e.key === 'Escape' && !mega.hidden) { set(false); btn.focus(); } });
 }
 
-function fillCategories(c) {
-  const here = location.pathname.replace(/\/$/, '');
-  $('[data-cats]').innerHTML = c.collections.map((col, i) => `
+const catsMega = (c, here = '') => c.collections.map((col, i) => `
     <li><a href="/collections/${col.handle}" ${here === '/collections/' + col.handle ? 'aria-current="page"' : ''}>
       <span class="mega__n">${String(i + 1).padStart(2, '0')}</span>
       <span class="mega__t">${esc(colTitle(col))}</span>
       ${isMy ? '' : `<span class="mega__my my" lang="my">${col.my}</span>`}
       <span class="mega__c">${col.items.length}</span>
     </a></li>`).join('');
-  $('[data-cats-menu]').innerHTML = c.collections.map(col => `
+const catsMenu = c => c.collections.map(col => `
     <li><a href="/collections/${col.handle}">
       <span>${esc(colTitle(col))}</span>${isMy ? '' : `<span class="my" lang="my">${col.my}</span>`}<em>${col.items.length}</em>
     </a></li>`).join('');
-  $('[data-cats-ftr]').insertAdjacentHTML('beforeend', c.collections.map(col =>
-    `<li><a href="/collections/${col.handle}">${esc(colTitle(col))}</a></li>`).join(''));
+const catsFooter = c => c.collections.map(col =>
+  `<li><a href="/collections/${col.handle}">${esc(colTitle(col))}</a></li>`).join('');
+
+function fillCategories(c) {
+  $('[data-cats]').innerHTML = catsMega(c, location.pathname.replace(/\/$/, ''));
+  $('[data-cats-ftr]').insertAdjacentHTML('beforeend', catsFooter(c));
 }
 
 /* ---------- the header over the film ----------
@@ -329,11 +344,12 @@ function wireSearch() {
     body.innerHTML = `
       <ul class="srch__list">${hits.slice(0, 7).map(p => {
         const im = variantImage(p);
-        return `<li><a href="/products/${p.handle}">
+        return `<li><a href="${p.url}">
           <span class="srch__img">${photo(im, { w: 60 })}</span>
           <span class="srch__t">${esc(shortTitle(p))}<small>${esc(p.collections[0] ? colTitle(p.collections[0]) : p.vendor)}</small></span>
           <span class="srch__p">${priceLabel(p)}</span></a></li>`;
       }).join('')}</ul>
+      ${hits.loose ? `<p class="srch__loose">${t('chrome.search.loose', { term: esc(term) })}</p>` : ''}
       <a class="srch__all" href="/search?q=${encodeURIComponent(term)}">${hits.length === 1 ? t('chrome.search.all_one', { n: hits.length }) : t('chrome.search.all_many', { n: hits.length })} ${ICON.arrow}</a>`;
   };
   q.addEventListener('input', render);
@@ -370,10 +386,10 @@ function wireCart() {
     body.innerHTML = `<ul class="cart-lines">${lines.map(l => {
       const im = variantImage(l.product, l.variant);
       return `<li class="ci" data-id="${l.id}">
-        <a class="ci__img" href="/products/${l.product.handle}${l.product.variants.length > 1 ? '?variant=' + l.id : ''}" tabindex="-1">
+        <a class="ci__img" href="${l.product.url}${l.product.variants.length > 1 ? '?variant=' + l.id : ''}" tabindex="-1">
           ${photo(im, { w: 80 })}</a>
         <div class="ci__info">
-          <a class="ci__t" href="/products/${l.product.handle}${l.product.variants.length > 1 ? '?variant=' + l.id : ''}">${esc(shortTitle(l.product))}</a>
+          <a class="ci__t" href="${l.product.url}${l.product.variants.length > 1 ? '?variant=' + l.id : ''}">${esc(shortTitle(l.product))}</a>
           ${l.variant.title ? `<span class="ci__v">${esc(isMy && l.variant.o?.length ? l.variant.o.map(optVal).join(' / ') : l.variant.title)}</span>` : ''}
           ${l.variant.available ? '' : `<span class="ci__out">${t('chrome.cart.soldout')}</span>`}
           <div class="ci__row">

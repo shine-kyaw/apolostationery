@@ -27,9 +27,10 @@ Rules when editing a line:
 - Then `node tools/check-i18n.mjs --table` refreshes TRANSLATIONS.md.
 
 ### Product names and descriptions
-The ~150 product names and descriptions come from the store in English and stay
-English until someone supplies Burmese. To add them, fill in
-`data/catalog.my.json`, keyed by the product's handle (the last part of its URL):
+The 155 product names and descriptions come from the store in English. Their
+Burmese versions are in `data/catalog.my.json` — **machine-drafted, please
+proofread** (the names first: they show on every card). Each entry keeps the
+English (`_en`) beside it for reference, keyed by the product's Shopify handle:
 
 ```json
 {
@@ -40,6 +41,16 @@ English until someone supplies Burmese. To add them, fill in
 }
 ```
 Any product not listed keeps its English name. Search finds products by either name.
+Model codes, sizes and brand names stay in Latin (`A-221C`, `80 GSM`, `Paper One`).
+After editing, rebuild (`node tools/build.mjs`) — the Burmese pages are built
+with these names baked in.
+
+Names the drafts were least sure of: Highlighter (ဟိုင်းလိုက်တာ / ဟိုက်လိုက်တာ —
+pick one spelling), Correction Pen, Lecture Book, Lamination Pouch Film, Staples
+Pin, Exercise Signature Book, Push Pins, Envelope Wallet / Salary / Pocket.
+Note that the store's own English description of "Stock Ledger" describes a
+company share register (it looks copied from the web); the Burmese follows it,
+and the Shopify text should probably be rewritten.
 
 ## For developers
 

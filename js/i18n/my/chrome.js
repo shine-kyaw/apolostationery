@@ -94,5 +94,6 @@ export default {
   'card.choose_aria': '{title} အတွက် ရွေးချယ်စရာများ ရွေးရန်',
   'card.added': '{title} ကို <b>ထည့်ပြီးပါပြီ</b>',
   'card.view_cart': 'ဈေးခြင်း ကြည့်ရန် ({n})',
-  'chrome.hdr.search_ph': 'ကုန်ပစ္စည်း ရှာရန်…'
+  'chrome.hdr.search_ph': 'ကုန်ပစ္စည်း ရှာရန်…',
+  'chrome.search.loose': '“{term}” နှင့် အတိအကျ ကိုက်ညီသည့် ကုန်ပစ္စည်း မရှိပါ။ အနီးစပ်ဆုံး ကုန်ပစ္စည်းများကို ပြထားပါသည်။'
 };

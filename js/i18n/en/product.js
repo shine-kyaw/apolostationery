@@ -47,5 +47,21 @@ export default {
   'product.missing.text': 'This product may have been removed or renamed. Try searching, or browse the category.',
   'product.missing.search': 'Search',
   'product.missing.browse': 'Browse the shop',
-  'product.err': 'This product didn’t load. Please refresh, or call <a href="tel:+959777271999">09 777 271 999</a> to order.'
+  'product.err': 'This product didn’t load. Please refresh, or call <a href="tel:+959777271999">09 777 271 999</a> to order.',
+
+  /* specifications read from the product name */
+  'product.spec.model': 'Model',
+  'product.spec.gsm': 'Paper weight',
+  'product.spec.pages': 'Pages',
+  'product.spec.sheets': 'Sheets',
+  'product.spec.size': 'Size',
+  'product.spec.ruling': 'Ruling',
+  'product.spec.ruling.single': 'Single line',
+  'product.spec.ruling.double': 'Double line',
+  'product.spec.columns': 'Columns',
+  'product.spec.colours': 'Colours',
+  'product.spec.grade': 'Pencil grade',
+  'product.spec.ply': 'Copies (ply)',
+  'product.spec.micron': 'Thickness',
+  'product.spec.pack': 'Pieces per pack'
 };

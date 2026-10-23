@@ -9,6 +9,14 @@
   --magenta:#EC008C;          /* primary, 349 computed-style hits on apolostationey.com */
   --magenta-deep:#B00069;
   --magenta-wash:#FDE7F3;
+  /* The brand magenta is for colour; small words need a deeper cut of it to be
+     readable (WCAG AA, 4.5:1). Both are measured, not guessed:
+       --magenta-text  #C2007A  on the paper and desk tones  ≥ 4.7:1
+       --magenta-ui    #D6007F  behind white button lettering   5.0:1
+     #EC008C itself manages 3.7:1 on paper and 4.25:1 under white text, fine
+     for icons and large headings, short for labels and buttons. */
+  --magenta-text:#C2007A;
+  --magenta-ui:#D6007F;
   --yellow:#FFC72C;           /* sale-flash accent */
 
   /* --- the paper the film is shot on, and the store is printed on --- */
@@ -17,7 +25,8 @@
   --page:#FCFAF5;             /* the notebook page: the brightest thing on screen */
   --ink:#16151A;
   --ink-soft:#6C665F;
-  --ink-faint:#9A938A;
+  --ink-faint:#6A645E;          /* the quietest text that still reads (4.5:1 on the desk) */
+  --ink-mute:#A9A29A;           /* rules and separators only, never words */
   --graphite:#3B3A42;         /* what a 2B pencil actually looks like on paper */
   --print:#A9A49C;            /* the same line once it has become printed rule */
   --rule:#B7C4DC;             /* exercise-book ruling blue */
@@ -48,8 +57,18 @@ body{
   overflow-x:hidden;
 }
 /* Burmese. Latin letters (brand names, model codes) keep Poppins and Burmese
-   falls back, glyph by glyph, to Padauk — the face APOLO's own store uses. */
-:lang(my),.my{font-family:Poppins,Padauk,"Noto Sans Myanmar","Myanmar Text",sans-serif}
+   falls back, glyph by glyph, to Padauk — the face APOLO's own store uses.
+   Until Padauk has downloaded (seconds, on a Myanmar connection) the phone's
+   own Burmese font stands in, and those are wider: measured over the site's
+   own Burmese copy, Noto Sans Myanmar (Android) sets 14.6% wider at 400 and
+   9.7% at 700, Myanmar Text (Windows) 7.2% and 2.9%. Text set wider wraps
+   onto more lines, then jumps when Padauk arrives. These stand-ins are the
+   same system fonts scaled to Padauk's width, so the swap moves nothing. */
+@font-face{font-family:"Padauk Fallback";src:local("Noto Sans Myanmar"),local("NotoSansMyanmar-Regular");font-weight:400;size-adjust:87.2%}
+@font-face{font-family:"Padauk Fallback";src:local("Noto Sans Myanmar Bold"),local("NotoSansMyanmar-Bold");font-weight:700;size-adjust:91.2%}
+@font-face{font-family:"Padauk Fallback 2";src:local("Myanmar Text"),local("MyanmarText");font-weight:400;size-adjust:93.3%}
+@font-face{font-family:"Padauk Fallback 2";src:local("Myanmar Text Bold"),local("MyanmarText-Bold");font-weight:700;size-adjust:97.2%}
+:lang(my),.my{font-family:Poppins,Padauk,"Padauk Fallback","Padauk Fallback 2","Noto Sans Myanmar","Myanmar Text",sans-serif}
 img{max-width:100%;display:block}
 a{color:inherit}
 button{font:inherit;color:inherit}

@@ -5,6 +5,8 @@
    ========================================================================== */
 
 import { isMy, t, tr } from '../i18n.js';
+import { displayName, slugs } from './names.js';
+import { searchCatalog } from './search.js';
 
 let loading = null;
 
@@ -12,14 +14,18 @@ let loading = null;
     In Burmese, data/catalog.my.json (optional) supplies Burmese product names
     and descriptions by handle; anything it does not cover stays English. */
 export function catalog() {
+  /* a page built ahead of time carries the catalogue's URL with a version on it */
+  const ds = globalThis.document?.documentElement.dataset || {};
   return loading ||= Promise.all([
-    fetch('/data/catalog.json').then(r => { if (!r.ok) throw new Error('catalog ' + r.status); return r.json(); }),
-    isMy ? fetch('/data/catalog.my.json').then(r => (r.ok ? r.json() : {})).catch(() => ({})) : {}
+    fetch(ds.catalog || '/data/catalog.json').then(r => { if (!r.ok) throw new Error('catalog ' + r.status); return r.json(); }),
+    isMy ? fetch(ds.catalogMy || '/data/catalog.my.json').then(r => (r.ok ? r.json() : {})).catch(() => ({})) : {}
   ]).then(([c, ov]) => index(c, ov));
 }
 
-function index(c, ov = {}) {
+export function index(c, ov = {}) {
   c.byHandle = new Map(c.products.map(p => [p.handle, p]));
+  const slug = slugs(c.products);
+  c.bySlug = new Map();
   c.byVariant = new Map();
   for (const p of c.products) {
     p.min = Math.min(...p.variants.map(v => v.price));
@@ -27,11 +33,13 @@ function index(c, ov = {}) {
     p.available = p.variants.some(v => v.available);
     p.collections = [];
     const my = ov[p.handle] || {};
-    /* search matches the English name always, and the Burmese one too */
-    p.search = norm([p.title, my.title, p.vendor, p.type, ...p.tags,
-                     ...p.variants.map(v => v.title)].filter(Boolean).join(' '));
-    if (my.title) { p.titleEn = p.title; p.title = my.title; }
-    if (my.body) p.body = my.body;
+    p.slug = slug.get(p.handle);
+    p.url = '/products/' + p.slug;
+    c.bySlug.set(p.slug, p);
+    /* the name people read; the store's full title is kept for search */
+    p.name = displayName(p);
+    if (my.title) { p.titleEn = p.title; p.nameEn = p.name; p.title = p.name = my.title; }
+    if (my.body) { p.bodyEn = p.body; p.body = my.body; }
     for (const v of p.variants) c.byVariant.set(v.id, { product: p, variant: v });
   }
   c.byCollection = new Map(c.collections.map(col => [col.handle, col]));
@@ -45,7 +53,7 @@ function index(c, ov = {}) {
      name, so package sets and anything marked down carry them for search. */
   const pk = c.byCollection.get('package-sets');
   for (const p of c.products)
-    if ((pk && pk.products.includes(p.handle)) || p.variants.some(v => v.compare > v.price)) p.search += ' ' + norm(PROMO_WORDS);
+    if ((pk && pk.products.includes(p.handle)) || p.variants.some(v => v.compare > v.price)) p.promo = PROMO_WORDS;
 
   /* "Featured" for the whole shop: APOLO's own strongest products first, then
      the rest dealt out one category at a time, so the grid never opens on a
@@ -74,9 +82,6 @@ const FEATURED = [
   'apolo-calculator', 'apolo-correction-tape-disposable-a-158',
   'apolo-clear-file-a4-20-40-60-pockets', 'apolo-binder-clip'
 ];
-
-/* \p{M} keeps Burmese vowel signs and tone marks attached to their letters */
-const norm = s => s.toLowerCase().replace(/[^\p{L}\p{M}\p{N}]+/gu, ' ');
 
 /* ---------- formatting ---------- */
 
@@ -132,7 +137,7 @@ export function srcset(src, widths = [300, 450, 600, 900]) {
     instead of floating small in a supplier sheet. Because a crop zooms in, the
     file asked for is proportionally larger so it stays sharp.
     `air` loosens the crop (1 = as measured) for places that want context. */
-export function photo(im, { w = 450, sizes = '', alt = '', cls = '', lazy = true, air = 1, high = false } = {}) {
+export function photo(im, { w = 450, sizes = '', alt = '', cls = '', lazy = true, air = 1, high = false, defer = false } = {}) {
   if (!im) return '';
   let c = im.w === im.h && im.c ? im.c.slice() : null;
   if (c && air !== 1) {
@@ -145,8 +150,11 @@ export function photo(im, { w = 450, sizes = '', alt = '', cls = '', lazy = true
   const ws = [0.66, 1, 1.5, 2].map(k => Math.min(1500, Math.round(w * k * z / 50) * 50));
   const set = [...new Set(ws)].map(x => `${img(im.src, x)} ${x}w`).join(', ');
   const style = c ? ` style="--x:${c[0]};--y:${c[1]};--s:${c[2]}"` : '';
-  return `<img class="ph${c ? ' ph--c' : ''}${cls ? ' ' + cls : ''}"${style} src="${img(im.src, ws[1])}"
-    srcset="${set}"${sizes ? ` sizes="${sizes}"` : ''} alt="${esc(alt)}" width="${im.w || 450}" height="${im.h || 450}"
+  /* `defer`: the file is named but not fetched until something asks for it
+     (a card's second photo, shown only on hover) */
+  const at = defer ? 'data-' : '';
+  return `<img class="ph${c ? ' ph--c' : ''}${cls ? ' ' + cls : ''}"${style} ${at}src="${img(im.src, ws[1])}"
+    ${at}srcset="${set}"${sizes ? ` sizes="${sizes}"` : ''} alt="${esc(alt)}" width="${im.w || 450}" height="${im.h || 450}"
     ${lazy ? 'loading="lazy"' : ''} ${high ? 'fetchpriority="high"' : ''} decoding="async">` + (c ? chrome(im.src, c, cls) : '');
 }
 
@@ -174,28 +182,15 @@ export function variantImage(p, v) {
 /** Product names arrive shouty and padded ("APOLO PENCIL A-221R (2B)").
     Keep the model codes and sizes, drop the brand prefix the card already shows. */
 export function shortTitle(p) {
-  const t = p.title.replace(/^apolo\s+/i, '').replace(/\s+/g, ' ').trim();
-  /* a few titles were typed in capitals; set those in title case, keeping codes */
-  return /[a-z]/.test(t) ? t : t.replace(/\b([A-Z])([A-Z]{2,})\b/g, (w, a, b) =>
-    ACRONYMS.has(w) ? w : a + b.toLowerCase());
+  return (p.name || p.title).replace(/^apolo\s+/i, '').replace(/\s+/g, ' ').trim();
 }
-const ACRONYMS = new Set(['GSM', 'OHP', 'PCS', 'PVC', 'A4', 'A3', 'A5', 'CD']);
 
 /* ---------- queries ---------- */
 
-/** Every word must appear somewhere; title hits rank above tag hits. */
-export function search(c, q, limit = Infinity) {
-  const words = norm(q).split(' ').filter(Boolean);
-  if (!words.length) return [];
-  const out = [];
-  for (const p of c.products) {
-    if (!words.every(w => p.search.includes(w))) continue;
-    const t = norm(p.title);
-    let score = 0;
-    for (const w of words) score += t.includes(w) ? (t.startsWith(w) || t.includes(' ' + w) ? 3 : 2) : 1;
-    out.push([score, p]);
-  }
-  return out.sort((a, b) => b[0] - a[0]).slice(0, limit).map(x => x[1]);
+/** Products for a search box query, best first (see js/store/search.js).
+    The result carries `loose: true` when nothing matched every word. */
+export function search(c, q) {
+  return searchCatalog(c, q, { burmeseCat: col => tr(`cat.${col.handle}.title`, '') });
 }
 
 /* Labels come from the language tables (sort.<key>); `label` reads them when
@@ -209,12 +204,23 @@ export const SORTS = {
   'new':        sortOf('new', (a, b) => b.created.localeCompare(a.created))
 };
 
-/** Products that belong with this one: same collection first, nearest in price. */
+/** Products that belong with this one: same collection first, nearest in
+    price. Near-twins are left out — the store lists some products two or
+    three times under one photo ("White Board Marker", "… Refill", "… & Refill"),
+    and a shelf of the same picture helps nobody. */
 export function related(c, p, n = 8) {
   const pool = (p.collections[0]?.items || c.products).filter(x => x !== p);
-  return pool
+  const pic = x => (x.images[0]?.src || '').split('?')[0];
+  const seen = new Set([pic(p)]);
+  const out = [];
+  for (const [, x] of pool
     .map(x => [Math.abs(Math.log((x.min || 1) / (p.min || 1))) - (x.type === p.type ? 0.5 : 0), x])
-    .sort((a, b) => a[0] - b[0]).slice(0, n).map(x => x[1]);
+    .sort((a, b) => a[0] - b[0])) {
+    if (seen.has(pic(x))) continue;
+    seen.add(pic(x)); out.push(x);
+    if (out.length === n) break;
+  }
+  return out;
 }
 
 export const esc = s => String(s ?? '').replace(/[&<>"']/g,

@@ -47,5 +47,21 @@ export default {
   'product.missing.text': 'ဤကုန်ပစ္စည်းကို ဖယ်ရှားထားခြင်း သို့မဟုတ် အမည်ပြောင်းထားခြင်း ဖြစ်နိုင်ပါသည်။ ရှာဖွေကြည့်ပါ၊ သို့မဟုတ် အမျိုးအစားကို ကြည့်ပါ။',
   'product.missing.search': 'ရှာဖွေရန်',
   'product.missing.browse': 'ဆိုင်ကို ကြည့်ရှုရန်',
-  'product.err': 'ဤကုန်ပစ္စည်း မပေါ်လာပါ။ စာမျက်နှာကို ပြန်လည်ဖွင့်ကြည့်ပါ၊ သို့မဟုတ် မှာယူရန် <a href="tel:+959777271999">09 777 271 999</a> သို့ ဖုန်းခေါ်ပါ။'
+  'product.err': 'ဤကုန်ပစ္စည်း မပေါ်လာပါ။ စာမျက်နှာကို ပြန်လည်ဖွင့်ကြည့်ပါ၊ သို့မဟုတ် မှာယူရန် <a href="tel:+959777271999">09 777 271 999</a> သို့ ဖုန်းခေါ်ပါ။',
+
+  /* specifications read from the product name */
+  'product.spec.model': 'မော်ဒယ်',
+  'product.spec.gsm': 'စက္ကူအထူ',
+  'product.spec.pages': 'စာမျက်နှာ',
+  'product.spec.sheets': 'စာရွက်',
+  'product.spec.size': 'အရွယ်အစား',
+  'product.spec.ruling': 'မျဉ်း',
+  'product.spec.ruling.single': 'မျဉ်းတစ်ကြောင်း',
+  'product.spec.ruling.double': 'မျဉ်းနှစ်ကြောင်း',
+  'product.spec.columns': 'ကော်လံ',
+  'product.spec.colours': 'အရောင်',
+  'product.spec.grade': 'ခဲအမျိုးအစား',
+  'product.spec.ply': 'အထပ် (ply)',
+  'product.spec.micron': 'အထူ',
+  'product.spec.pack': 'တစ်ထုပ်ပါ အရေအတွက်'
 };
